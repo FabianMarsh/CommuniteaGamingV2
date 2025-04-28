@@ -1,0 +1,348 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    color: var(--pri-col);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.facebook:hover {
+    color: #4267B2;
+}
+
+.youtube:hover {
+    color: #CD201F;
+}
+
+.instagram:hover {
+    color: #C13584;
+}
+
+.tiktok:hover {
+    color: #00f2ea;
+}
+
+.email {
+    text-decoration: underline;
+}
+
+/* vars */
+:root {
+    --pri-bg-col: #78294c;
+    --sec-bg-col: #f0dada;
+    --ter-bg-col: #020202;
+
+    --pri-col: #fff;
+    --sec-col: #78294c;
+    --ter-col: #a29c9c;
+
+    --sec-font: Helvetica, sans-serif;
+
+    --breakpoint-sm-phone: 320px;
+    --breakpoint-phone: 480px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-sm-desktop: 992px;
+    --breakpoint-desktop: 1200px;
+}
+
+/* header **********************************/
+
+header {
+    background: var(--pri-bg-col);
+    padding: clamp(20px, 6vw, 50px) 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--pri-col);
+
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 99;
+    width: 100%;
+}
+
+.fade {
+    position: absolute;
+    inset: auto 0 -60px 0;
+    width: 100%;
+    height: 60px;
+    background-color: var(--pri-bg-col);
+    opacity: 0.9;
+}
+
+@media (min-width: 682px) {
+    header {
+        flex-direction: row;
+    }
+}
+
+/* logo */
+
+.logo_container {
+    color: var(--pri-col);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    text-align: center;
+    padding-left: clamp(5%, 10vw, 25%);
+
+    a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: fit-content;
+        flex-wrap: wrap;
+        gap: 25px;
+        text-decoration: none;
+        color: inherit;
+        font-size: clamp(20px, 3vw, 40px);
+    }
+}
+
+.logo_image {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.nav_mobile_icon {
+    font-size: 30px;
+    min-height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav_mobile_icon:active + nav{
+    right: 0;
+}
+
+/* nav */
+
+nav {
+    position: absolute;
+    inset: 0 -100vw 0 auto;
+    z-index: 99;
+    background-color: var(--sec-bg-col);
+    font-family: var(--sec-font);
+    min-width: 80%;
+    max-width: 500px;
+    padding: 100px clamp(5%, 10vw, 25%);
+
+    transition: all 0.3s ease;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        li {
+            padding: 10px 0;
+            border-bottom: #78294c 1px solid;
+
+            a:hover, .active{
+                color: #000;
+            }
+        }
+    }
+
+    a {
+        color: var(--sec-col);
+    }
+}
+
+nav:hover {
+    right: 0;
+}
+
+/* nav media queries */
+
+@media (min-width: 995px) {
+    .nav_mobile_icon {
+        display: none;
+    }
+    nav {
+        position: initial;
+        padding: 0;
+        margin-right: clamp(5%, 10vw, 25%);
+        width: initial;
+        min-width: initial;
+        max-width: initial;
+        border-radius: 50px;
+        ul {
+            flex-direction: row;
+            padding: 10px 25px;
+            gap: clamp(10px);
+            li {
+                border: none;
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    nav ul {
+        gap: 50px
+    }
+}
+
+/* social links **********************************/
+
+.social_links {
+    position: fixed;
+    inset: 45vh 0 auto auto;
+    background-color: #00000090;
+
+    padding: 20px 30px;
+
+    li {
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 44px;
+            min-width: 44px;
+            font-size: 22px;
+        }
+    }
+}
+
+/* welcome **********************************/
+
+.welcome {
+    height: 100vh;
+    max-height: 820px;
+    background-image: url(/assets/catan-background.png);
+    background-position: center;
+    background-size: cover;
+    margin-top: 17vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: clamp(10px, 6vw, 30px);
+
+    text-align: center;
+
+    h1 {
+        color: var(--pri-col);
+        font-size: clamp(40px, 6vw, 75px);
+    }
+}
+
+.welcome_links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    li a {
+        font-size: clamp(20px, 3vw, 30px);
+        background: var(--pri-bg-col);
+        border-radius: 15px;
+        padding: 10px 30px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    li a:hover {
+        background-color: var(--pri-col);
+        color: var(--pri-bg-col);
+        transition-duration: .6s;
+    }
+}
+
+/* find us **********************************/
+
+.find_us {
+    background: var(--pri-bg-col);
+    color: var(--pri-col);
+    padding: clamp(50px, 6vw, 150px) 10%;
+
+    strong {
+        font-weight: 700;
+    }
+
+    h1 {
+        font-size: clamp(30px, 6vw, 60px);
+        margin-bottom: 50px;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        font-size: clamp(15px, 3vw, 25px);
+    }
+}
+
+/* footer **********************************/
+
+footer {
+    background-color: var(--ter-bg-col);
+    color: var(--ter-col);
+    padding: clamp(50px, 6vw, 70px) 10%;
+    text-align: center;
+    opacity: 0.9;
+    a {
+        color: inherit;
+    }
+}
