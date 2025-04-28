@@ -3,11 +3,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CommiunTea Gaming</title>
-    <link rel="stylesheet" href="styles/main.css">
+    {% block meta %}
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock %}
+
+    {% block extra_meta %}
+    {% endblock %}
+
+    <title>CommiunTea Gaming {% block extra_title %}{% endblock %}</title>
+
+    {% block corecss %}
+        <link rel="stylesheet" href="styles/main.css">
+    {% endblock %}
+
+    {% block extra_css %}
+    {% endblock %}
+
+    {% block corejs %}
+    {% endblock %}
+
+    {% block extra_js %}
+    {% endblock %}
     
 </head>
 <body>
@@ -49,7 +67,18 @@
         </li>
     </ul>
     <main>
-        
+        {% if messages %}
+            <div class="message_container"></div>
+        {% endif %}
+
+        {% block page_header %}
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% block postloadjs %}
+        {% endblock %}
     </main>
     <footer>
         <a href="let me know if this is ok" disabled aria-disabled="true">Made by Semi Serious Games</a>
