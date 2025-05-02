@@ -1,0 +1,21 @@
+[
+    {"model": "bookings.timeslot", "pk": 1, "fields": {"time": "12:00"}},
+    {"model": "bookings.timeslot", "pk": 2, "fields": {"time": "12:30"}},
+    {"model": "bookings.timeslot", "pk": 3, "fields": {"time": "13:00"}},
+    {"model": "bookings.timeslot", "pk": 4, "fields": {"time": "13:30"}},
+    {"model": "bookings.timeslot", "pk": 5, "fields": {"time": "14:00"}},
+    {"model": "bookings.timeslot", "pk": 6, "fields": {"time": "14:30"}},
+    {"model": "bookings.timeslot", "pk": 7, "fields": {"time": "15:00"}},
+    {"model": "bookings.timeslot", "pk": 8, "fields": {"time": "15:30"}},
+    {"model": "bookings.timeslot", "pk": 9, "fields": {"time": "16:00"}},
+    {"model": "bookings.timeslot", "pk": 10, "fields": {"time": "16:30"}},
+    {"model": "bookings.timeslot", "pk": 11, "fields": {"time": "17:00"}},
+    {"model": "bookings.timeslot", "pk": 12, "fields": {"time": "17:30"}},
+    {"model": "bookings.timeslot", "pk": 13, "fields": {"time": "18:00"}},
+    {"model": "bookings.timeslot", "pk": 14, "fields": {"time": "18:30"}},
+    {"model": "bookings.timeslot", "pk": 15, "fields": {"time": "19:00"}},
+    {"model": "bookings.timeslot", "pk": 16, "fields": {"time": "19:30"}},
+    {"model": "bookings.timeslot", "pk": 17, "fields": {"time": "20:00"}},
+    {"model": "bookings.timeslot", "pk": 18, "fields": {"time": "20:30"}},
+    {"model": "bookings.timeslot", "pk": 19, "fields": {"time": "21:00"}}
+]

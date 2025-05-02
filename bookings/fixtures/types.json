@@ -1,0 +1,23 @@
+[
+    {
+        "model": "bookings.table",
+        "pk": 1,
+        "fields": {
+            "table_type": "table_4"
+        }
+    },
+    {
+        "model": "bookings.table",
+        "pk": 2,
+        "fields": {
+            "table_type": "table_8"
+        }
+    },
+    {
+        "model": "bookings.table",
+        "pk": 3,
+        "fields": {
+            "table_type": "private_room"
+        }
+    }
+]
