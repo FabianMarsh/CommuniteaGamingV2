@@ -20,6 +20,9 @@ class Table(models.Model):
 class TimeSlot(models.Model):
     time = models.TimeField(unique=True)  # Stores times like "12:00", "12:30", etc. up to 21:00
 
+    class Meta:
+        ordering = ['time'] # Orders times from earliest to latest
+
     def __str__(self):
         return self.time.strftime("%I:%M %p")  # Formats as "12:00 PM"
 
