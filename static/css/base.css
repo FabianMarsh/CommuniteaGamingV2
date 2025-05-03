@@ -94,6 +94,10 @@ a {
     --breakpoint-desktop: 1200px;
 }
 
+main {
+    margin-top: 18vh;
+}
+
 /* header **********************************/
 
 header {
@@ -269,7 +273,6 @@ nav:hover {
     background-image: url(/media/catan-background.png);
     background-position: center;
     background-size: cover;
-    margin-top: 17vh;
 
     display: flex;
     justify-content: center;
