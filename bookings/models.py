@@ -6,16 +6,19 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Table(models.Model):
-    TABLE_CHOICES = [
+    table_type = models.CharField(max_length=20, choices=[
         ('table_4', 'Table for up to 4'),
         ('table_8', 'Table for up to 8'),
         ('private_room', 'Private Hire Room (10 people)')
-    ]
-    
-    table_type = models.CharField(max_length=20, choices=TABLE_CHOICES, unique=True)
+    ], unique=True)
+
+    name = models.CharField(max_length=100, default="Unnamed Table")
+    amount_of_time_hours = models.IntegerField(default=1)
+
     
     def __str__(self):
-        return self.get_table_type_display()
+        return f"{self.name} ({self.get_table_type_display()}, amount_of_time: {self.amount_of_time})"
+
 
 class TimeSlot(models.Model):
     time = models.TimeField(unique=True)  # Stores times like "12:00", "12:30", etc. up to 21:00

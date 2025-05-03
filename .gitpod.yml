@@ -4,6 +4,7 @@ tasks:
   - init: |
         ${GITPOD_REPO_ROOT}/.vscode/init_tasks.sh
         pip install -r requirements.txt
+        python3 manage.py migrate
     command: /home/gitpod/.pg_ctl/bin/pg_start > /dev/null
   - command: . ${GITPOD_REPO_ROOT}/.vscode/uptime.sh &
 vscode:

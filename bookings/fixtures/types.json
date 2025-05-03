@@ -3,21 +3,27 @@
         "model": "bookings.table",
         "pk": 1,
         "fields": {
-            "table_type": "table_4"
+            "table_type": "table_4",
+            "name": "Table (4 people)",
+            "amount_of_time_hours": 1
         }
     },
     {
         "model": "bookings.table",
         "pk": 2,
         "fields": {
-            "table_type": "table_8"
+            "table_type": "table_8",
+            "name": "Table (8 people)",
+            "amount_of_time_hours": 1
         }
     },
     {
         "model": "bookings.table",
         "pk": 3,
         "fields": {
-            "table_type": "private_room"
+            "table_type": "private_room",
+            "name": "Private Hire Room (Up to 10 people)",
+            "amount_of_time_hours": 1
         }
     }
 ]
