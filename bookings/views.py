@@ -8,25 +8,25 @@ from .models import Table, TimeSlot
 from datetime import datetime
 
 def select_table(request):
-    tables = Table.objects.all()
-
     if request.method == "POST":
-        request.session["selected_table"] = request.POST["table"]
-        return redirect("bookings:select_date")
-    
+        selected_table = request.POST.get("table") 
+        request.session["selected_table"] = selected_table 
+        request.session.modified = True
+        return redirect("bookings:select_date") 
+
+    tables = Table.objects.all()
     return render(request, "bookings/select_table.html", {"tables": tables})
 
+
+
+
 def select_date(request):
-    if "selected_table" not in request.session:
-        return redirect("bookings:select_table")
+    selected_table = request.session.get("selected_table")  # Get stored value
 
-    if request.method == "POST":
-        request.session["selected_table"] = request.POST.get("table")
-        return redirect("bookings:select_time")
+    return render(request, "bookings/select_date.html", {"selected_table": selected_table})
 
-    return render(request, "bookings/select_date.html")
+
     
-    return render(request, "bookings/select_date.html")
 
 def select_time(request):
     if "selected_date" not in request.session:

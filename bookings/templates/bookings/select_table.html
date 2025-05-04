@@ -12,18 +12,19 @@
         <ul class="tables_list">
             {% for table in tables %}
                 <li class="tables_list_item">
+                    
                     <h2>{{ table.name }}</h2>
                     <hr>
                     <span>{{ table.amount_of_time_hours }} hr</span>
                     <form method="POST" action="{% url 'bookings:select_date' %}">
                         {% csrf_token %}
-                        <input type="hidden" name="table_id" value="{{ table.id }}">
+                        <input type="hidden" name="table" value="{{ table.id }}">
                         <button type="submit">Book Now</button>
                     </form>
-        
                 </li>
             {% endfor %}
         </ul>
+    
     {% else %}
         <p>No tables available.</p>
     {% endif %}

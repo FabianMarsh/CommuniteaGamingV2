@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-z_sf1r_t6xkt@_w%34sadt)6%do)r)sf=4g2fof_h&-!$)%4@(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-fabianmarsh-communiteag-f242fcyo0nm.ws-eu118.gitpod.io']
+ALLOWED_HOSTS = ['8000-fabianmarsh-communiteag-45sp7siuay0.ws-eu118.gitpod.io']
 
 
 # Application definition
@@ -57,6 +57,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_SECURE = False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = False
+SESSION_FILE_PATH = '/tmp/django_sessions'
+
 
 ROOT_URLCONF = 'communitea_gaming.urls'
 
