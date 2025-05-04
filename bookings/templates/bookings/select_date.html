@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bookings.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h2>Book a Date</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="date">Choose a date:</label>
+        <input type="date" name="date" id="date" required>
+        
+        <button type="submit">Next: Choose Time</button>
+    </form>
+    
+{% endblock %}

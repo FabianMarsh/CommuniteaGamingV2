@@ -12,16 +12,20 @@ class Table(models.Model):
         ('private_room', 'Private Hire Room (10 people)')
     ], unique=True)
 
+
     name = models.CharField(max_length=100, default="Unnamed Table")
     amount_of_time_hours = models.IntegerField(default=1)
 
     
     def __str__(self):
-        return f"{self.name} ({self.get_table_type_display()}, amount_of_time: {self.amount_of_time})"
+        return f"{self.name} ({self.get_table_type_display()}, amount_of_time: {self.amount_of_time_hours})"
 
 
 class TimeSlot(models.Model):
-    time = models.TimeField(unique=True)  # Stores times like "12:00", "12:30", etc. up to 21:00
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)  # Link each time slot to a table
+
+    time = models.TimeField(unique=True, blank=False, null=False)  # Stores times like "12:00", "12:30", etc. up to 21:00
+    date = models.DateField(blank=False, null=False)
 
     class Meta:
         ordering = ['time'] # Orders times from earliest to latest
@@ -32,7 +36,6 @@ class TimeSlot(models.Model):
 class Booking(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     timeslot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Assuming authentication
 
     class Meta:
         unique_together = ('table', 'timeslot')  # Ensures no duplicate bookings
@@ -48,6 +51,7 @@ class Booking(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.user} booked {self.table} at {self.timeslot}"
+        return f"Table {self.table.name} booked at {self.time} on {self.date}"
+
 
 
