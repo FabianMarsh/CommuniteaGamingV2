@@ -7,9 +7,8 @@
 
 {% block content %}
     <h2>Book a Date</h2>
-    <p>You selected table ID: {{ selected_table }}</p>
 
-    <form method="POST">
+    <form method="POST" action="{% url 'bookings:select_date' %}">
         {% csrf_token %}
         
         <label for="date">Choose a date:</label>

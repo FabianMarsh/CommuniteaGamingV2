@@ -16,7 +16,7 @@
                     <h2>{{ table.name }}</h2>
                     <hr>
                     <span>{{ table.amount_of_time_hours }} hr</span>
-                    <form method="POST" action="{% url 'bookings:select_date' %}">
+                    <form method="POST" action="{% url 'bookings:select_table' %}">
                         {% csrf_token %}
                         <input type="hidden" name="table" value="{{ table.id }}">
                         <button type="submit">Book Now</button>

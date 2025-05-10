@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bookings.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Booking Confirmed!</h2>
+
+<p><strong>Table:</strong> {{ table_name }}</p>
+<p><strong>Date:</strong> {{ booking_date }}</p>
+<p><strong>Time:</strong> {{ start_time }} - {{ end_time }}</p>
+
+<a href="{% url 'bookings:select_table' %}">Book Another Table</a>
+{% endblock %}
