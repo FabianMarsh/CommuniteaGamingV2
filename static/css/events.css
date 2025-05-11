@@ -1,0 +1,10 @@
+main {
+    background: var(--ter-bg-col);
+    color: var(--pri-col);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(20px, 6vw, 50px);
+    padding: 250px 10%;
+}

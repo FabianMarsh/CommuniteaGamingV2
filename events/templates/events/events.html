@@ -1,22 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/events.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fullcalendar.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
+    <script src="{% static 'js/events.js' %}"></script>    
+{% endblock %}
+
 {% block content %}
-    <h2>Upcoming Events</h2>
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Description</th>
-        </tr>
-        {% for event in events %}
-        <tr>
-            <td>{{ event.title }}</td>
-            <td>{{ event.date }}</td>
-            <td>{{ event.start_time }} - {{ event.end_time }}</td>
-            <td>{{ event.description }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h2>What's on in store</h2>
+    <div id="calendar"></div>
 {% endblock %}
