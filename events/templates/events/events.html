@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h2>Upcoming Events</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Description</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+            <td>{{ event.title }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.start_time }} - {{ event.end_time }}</td>
+            <td>{{ event.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
