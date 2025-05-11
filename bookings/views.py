@@ -15,8 +15,11 @@ def select_table(request):
 
         request.session["selected_table"] = {
             "id": selected_table.id,
-            "name": selected_table.name
+            "name": selected_table.name,
+            "price": float(selected_table.price) # convert decimal to float
         }
+
+        request.session["selected_table"]["price"] = "{:.2f}".format(request.session["selected_table"]["price"])
 
         request.session.modified = True
         return redirect("bookings:select_date") 

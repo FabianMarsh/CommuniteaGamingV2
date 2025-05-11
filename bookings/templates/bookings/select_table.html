@@ -13,7 +13,7 @@
             {% for table in tables %}
                 <li class="tables_list_item">
                     
-                    <h2>{{ table.name }}</h2>
+                    <h2>{{ table.name }} <span>(£{{ table.price }})</span></h2>
                     <hr>
                     <span>{{ table.amount_of_time_hours }} hr</span>
                     <form method="POST" action="{% url 'bookings:select_table' %}">

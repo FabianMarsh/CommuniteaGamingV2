@@ -5,7 +5,8 @@
         "fields": {
             "table_type": "table_4",
             "name": "Table (4 people)",
-            "amount_of_time_hours": 1
+            "amount_of_time_hours": 1,
+            "price": 5.00
         }
     },
     {
@@ -14,7 +15,8 @@
         "fields": {
             "table_type": "table_8",
             "name": "Table (8 people)",
-            "amount_of_time_hours": 1
+            "amount_of_time_hours": 1,
+            "price": 10.00
         }
     },
     {
@@ -23,7 +25,8 @@
         "fields": {
             "table_type": "private_room",
             "name": "Private Hire Room (Up to 10 people)",
-            "amount_of_time_hours": 1
+            "amount_of_time_hours": 1,
+            "price": 15.00
         }
     }
 ]
