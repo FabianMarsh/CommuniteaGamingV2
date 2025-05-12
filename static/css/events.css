@@ -8,3 +8,14 @@ main {
     gap: clamp(20px, 6vw, 50px);
     padding: 250px 10%;
 }
+
+.edit-event-btn {
+    width: 100px;
+    height: 100px;
+    background: green;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: block; /* Ensures the button is visible */
+}

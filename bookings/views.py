@@ -1,8 +1,5 @@
 from django.shortcuts import render
 from .models import Table, TimeSlot, Booking
-
-# Create your views here.
-
 from django.shortcuts import render, redirect
 from .models import Table, TimeSlot
 from datetime import datetime
