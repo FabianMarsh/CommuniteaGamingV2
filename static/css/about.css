@@ -1,0 +1,50 @@
+main {
+    color: white;
+    margin-top: 17vh;
+    padding: 50px clamp(5%, 10vw, 25%);
+    background-color: black;
+}
+
+.about {
+    color: white;
+    height: 60vh;
+    max-height: 820px;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: clamp(10px, 6vw, 30px);
+
+    h1 {
+        font-size: clamp(40px, 6vw, 75px);
+        margin-bottom: 50px;
+    }
+
+    p {
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .about_social_links {
+        display: flex;
+        gap: 15px; 
+        
+        a {
+            font-size: 20px;
+        }
+    }
+}
+
+.contact {
+    background-color: var(--pri-bg-col);
+    padding: 100px clamp(5%, 10vw, 25%);
+    h2 {
+        font-size: clamp(30px, 6vw, 50px);
+        margin-bottom: 30px;
+    }
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+}
