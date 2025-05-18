@@ -1437,3 +1437,44 @@ be a descendant of the grid when it is being dragged.
   .fc button {
     display: none;
     /* don't display any button-related controls */ } }
+
+      /* Custom Styles
+--------------------------------------------------------------------------------------------------*/
+
+@media screen and (max-width: 768px) {
+  #calendar {
+      width: 100%;
+      font-size: 12px; /* Reduce font size for better readability */
+  }
+
+  .fc-header-toolbar {
+      flex-direction: column; /* Stack header controls */
+  }
+
+  .fc-day-grid-event {
+      font-size: 10px; /* Smaller event font size */
+      padding: 4px; /* Reduce padding */
+  }
+}
+
+.fc-day-past {
+  background-color: rgba(173, 216, 230, 0.2);
+}
+
+.fc-day-other  {
+  background-color: rgba(173, 216, 230, 0.1);
+}
+
+
+.fc {
+  width: 100% ; /* Force full width */
+}
+.fc-view-container {
+  width: 100% ; /* Ensure view container also expands */
+}
+
+#calendar {
+  flex-grow: 1;
+  width: 100%;
+}
+
