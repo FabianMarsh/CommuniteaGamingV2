@@ -6,13 +6,13 @@
         <h1>CommuniTea Gaming</h1>
         <ul class="welcome_links">
             <li class="welcome_links_item">
-                <a href="">What's on</a>
+                <a href="{% url 'events' %}">What's on</a>
             </li>
             <li class="welcome_links_item">
-                <a href="">Book a table</a>
+                <a href="{% url 'bookings:select_table' %}">Book a table</a>
             </li>
             <li class="welcome_links_item">
-                <a href="">About us</a>
+                <a href="{% url 'about' %}">About us</a>
             </li>
         </ul>
     </div>

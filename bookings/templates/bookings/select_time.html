@@ -6,20 +6,20 @@
 {% endblock %}
 
 {% block content %}
-<h2>Select a Time</h2>
-<form method="POST" action="{% url 'bookings:select_time' %}">
-    {% csrf_token %}
-    
-    <input type="hidden" name="selected_table" value="{{ selected_table }}">
-    
-    <label for="time">Choose a time:</label>
-    <select name="time" id="time" required>
-        {% for slot in time_slots %}
-            <option value="{{ slot.pk }}">{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</option>
-        {% endfor %}
-    </select>
-    
-    <button type="submit">Confirm Time</button>
-</form>
+    <h1>Select a Time</h1>
+    <form method="POST" action="{% url 'bookings:select_time' %}">
+        {% csrf_token %}
+        
+        <input type="hidden" name="selected_table" value="{{ selected_table }}">
+        
+        <label for="time">Choose a time:</label>
+        <select name="time" id="time" required>
+            {% for slot in time_slots %}
+                <option value="{{ slot.pk }}">{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Confirm Time</button>
+    </form>
 {% endblock %}
 

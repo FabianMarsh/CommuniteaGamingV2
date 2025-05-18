@@ -6,18 +6,18 @@
 {% endblock %}
 
 {% block content %}
-<h2>Confirm Your Booking</h2>
+    <h1>Confirm Your Booking</h1>
 
-<form method="POST" action="{% url 'bookings:confirm_booking' %}">
-    {% csrf_token %}
+    <form method="POST" action="{% url 'bookings:confirm_booking' %}">
+        {% csrf_token %}
 
-    <p><strong>Table:</strong> {{ selected_table.name }}</p>
-    <p><strong>Time Slot:</strong> {{ selected_time_slot.start_time|time:"H:i" }} - {{ selected_time_slot.end_time|time:"H:i" }}</p>
-    <p><strong>Date:</strong> {{ selected_date }}</p>
-    <p><strong>Price:</strong> £{{ selected_table.price }}</p>
-    <input type="hidden" name="selected_table" value="{{ selected_table }}">
-    <input type="hidden" name="selected_time" value="{{ selected_time_slot.id }}">
+        <p><strong>Table:</strong> {{ selected_table.name }}</p>
+        <p><strong>Time Slot:</strong> {{ selected_time_slot.start_time|time:"H:i" }} - {{ selected_time_slot.end_time|time:"H:i" }}</p>
+        <p><strong>Date:</strong> {{ selected_date }}</p>
+        <p><strong>Price:</strong> £{{ selected_table.price }}</p>
+        <input type="hidden" name="selected_table" value="{{ selected_table }}">
+        <input type="hidden" name="selected_time" value="{{ selected_time_slot.id }}">
 
-    <button type="submit">Confirm Booking</button>
-</form>
+        <button type="submit">Confirm Booking</button>
+    </form>
 {% endblock %}

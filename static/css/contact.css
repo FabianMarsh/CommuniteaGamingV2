@@ -1,0 +1,11 @@
+main {
+    color: white;
+    margin-top: 17vh;
+    padding: 50px clamp(5%, 10vw, 25%);
+    background-color: black;
+    min-height: calc(100vh - 156px - 200px); /* minus footer and header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Book a Date</h2>
+    <h1>Book a Date</h1>
 
     <form method="POST" action="{% url 'bookings:select_date' %}">
         {% csrf_token %}
