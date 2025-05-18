@@ -6,16 +6,18 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Contact Us</h1>
+    <h1>Find Us</h1>
     
     {% if contact_info %}
         {% for contact in contact_info %}
-        <ul class="contact_list">
-            <li><a href="mailto:{{ contact.email }}"><strong>Email:</strong> {{ contact.email }}</a></li>
-            <li><a href="{{ contact.what_three_words_link }}" target="_blank"><strong>What3Words:</strong> {{ contact.what_three_words }}</a></li>
-            <li><a href="{{ contact.address_link }}" target="_blank"><strong>Address:</strong> {{ contact.address }}</a></li>
-            <li><a href="tel:{{ contact.phone_number }}"><strong>Phone:</strong> {{ contact.phone_number }}</a></li>
-        </ul>
+        <div class="contact">
+            <ul class="contact_list">
+                <li><a href="mailto:{{ contact.email }}"><strong>Email:</strong> {{ contact.email }}</a></li>
+                <li><a href="{{ contact.what_three_words_link }}" target="_blank"><strong>What3Words:</strong> {{ contact.what_three_words }}</a></li>
+                <li><a href="{{ contact.address_link }}" target="_blank"><strong>Address:</strong> {{ contact.address }}</a></li>
+                <li><a href="tel:{{ contact.phone_number }}"><strong>Phone:</strong> {{ contact.phone_number }}</a></li>
+            </ul>
+        </div>
         {% endfor %}
     {% else %}
         <p>Contact details are not available at the moment.</p>

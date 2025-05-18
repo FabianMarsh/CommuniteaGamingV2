@@ -9,3 +9,15 @@ main {
     align-items: center;
     flex-direction: column;
 }
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.contact_list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

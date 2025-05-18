@@ -60,6 +60,10 @@ h1 {
     margin-bottom: 50px;
 }
 
+strong {
+    font-weight: 600;
+}
+
 .facebook:hover {
     color: #4267B2;
 }
