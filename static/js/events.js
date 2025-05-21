@@ -1,3 +1,4 @@
+
 // READ functionality ----------------------------------
 
 // Retrieve
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             fetch(`/events/edit/${eventId}/`, {
                 method: "POST",
-                body: formData
+                body: formData,
             })
             .then(response => response.json())
             .then(data => {
@@ -77,36 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             calendar.render();
-
-            if (isAdmin) {
-                setTimeout(() => {
-                    document.querySelectorAll(".fc-event").forEach(eventElement => {
-                        var editButton = document.createElement("button");
-                        editButton.classList.add("edit-event-btn");
-                        editButton.textContent = "Edit";
-                        editButton.classList.add("edit-event-btn");
-
-                        editButton.onclick = function () {
-                            var eventId = eventElement.getAttribute("data-event-id");
-                            var event = calendar.getEventById(eventId);
-                            if (event) {
-                                openEditModal(
-                                    event.id,
-                                    event.title,
-                                    event.extendedProps.description,
-                                    event.start.toISOString().split("T")[0],
-                                    event.start.toISOString().split("T")[1].slice(0, 5),
-                                    event.end.toISOString().split("T")[1].slice(0, 5)
-                                );
-                            }
-                        };
-
-                        eventElement.appendChild(editButton);
-                    });
-                }, 500);  // Wait for FullCalendar to render events before modifying DOM
-            }
         })
-        .catch(error => console.error("Error checking admin status:", error));
 });
 
 // Delete
@@ -140,38 +112,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Modals ----------------------------------
 
+// Add
+
 document.addEventListener("DOMContentLoaded", function () {
     var modal = document.getElementById("add-modal");
     var openBtn = document.getElementById("add-event-btn");
     var closeBtn = document.querySelector(".close");
 
+    // Open modal function
     openBtn.addEventListener("click", function () {
-        modal.style.display = "block";
+        modal.classList.add("active");
     });
 
+    // Close modal function
     closeBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-    });
-
-    window.addEventListener("click", function (event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
+        modal.classList.remove("active");
     });
 });
 
-function openEditModal(id, title, description, date, start_time, end_time) {
-    document.getElementById("edit-event-id").value = id;  // **Set the event ID here**
-    document.getElementById("edit-title").value = title;
-    document.getElementById("edit-description").value = description;
-    document.getElementById("edit-date").value = date;
-    document.getElementById("edit-start-time").value = start_time;
-    document.getElementById("edit-end-time").value = end_time;
+// Edit
 
-    document.getElementById("edit-modal").style.display = "block";
-}
+document.addEventListener("DOMContentLoaded", function () {
+    var modal = document.getElementById("edit-modal");
+    var closeBtn = document.querySelector(".close");
+
+    // Close modal function
+    closeBtn.addEventListener("click", function () {
+        modal.classList.remove("active");
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var editModal = document.getElementById("edit-modal");
+    
+    var closeBtn = editModal.querySelector(".close");
+
+    // Function to open edit modal
+    function openEditModal(id, title, description, date, start_time, end_time) {
+        document.getElementById("edit-event-id").value = id;
+        document.getElementById("edit-title").value = title;
+        document.getElementById("edit-description").value = description;
+        document.getElementById("edit-date").value = date;
+        document.getElementById("edit-start-time").value = start_time;
+        document.getElementById("edit-end-time").value = end_time;
+
+        editModal.classList.add("active");
+    }
+
+    // Close modal when clicking close button
+    if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+            closeEditModal();
+        });
+    }
+
+    // Make `openEditModal` globally accessible
+    window.openEditModal = openEditModal;
+});
 
 
 function closeEditModal() {
-    document.getElementById("edit-modal").style.display = "none";
+    var editModal = document.getElementById("edit-modal");
+    if (editModal) {
+        editModal.classList.remove("active");
+    }
 }
