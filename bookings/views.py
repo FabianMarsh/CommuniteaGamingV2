@@ -107,6 +107,5 @@ def booking_success(request):
         "table_name": booking.table.name,
         "booking_date": booking.date,
         "start_time": booking.timeslot.start_time,
-        "end_time": booking.timeslot.end_time
     })
 

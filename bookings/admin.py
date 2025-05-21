@@ -19,6 +19,6 @@ class BookingAdmin(admin.ModelAdmin):
         return obj.date  # Shows booking date
 
     def time_slot(self, obj):
-        return f"{obj.timeslot.start_time} - {obj.timeslot.end_time}"  # Shows time slot
+        return f"{obj.timeslot.start_time}"  # Shows time slot
 
 admin.site.register(Booking, BookingAdmin)

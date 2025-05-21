@@ -64,9 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 info.event.title,
                                 info.event.extendedProps.description,
                                 info.event.start.toISOString().split("T")[0],
-                                info.event.start.toISOString().split("T")[1].slice(0, 5),
-                                info.event.end ? info.event.end.toISOString().split("T")[1].slice(0, 5) : ""
+                                info.event.start.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }),
+                                info.event.end ? info.event.end.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }) : ""
                             );
+                        
+                        
                         } else {
                             console.error("Event ID is missing!");
                         }
@@ -148,13 +150,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var closeBtn = editModal.querySelector(".close");
 
     // Function to open edit modal
-    function openEditModal(id, title, description, date, start_time, end_time) {
+    function openEditModal(id, title, description, date, start_time) {
+
         document.getElementById("edit-event-id").value = id;
         document.getElementById("edit-title").value = title;
         document.getElementById("edit-description").value = description;
         document.getElementById("edit-date").value = date;
         document.getElementById("edit-start-time").value = start_time;
-        document.getElementById("edit-end-time").value = end_time;
 
         editModal.classList.add("active");
     }

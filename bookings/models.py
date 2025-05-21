@@ -15,12 +15,6 @@ class Table(models.Model):
 
 class TimeSlot(models.Model):
     start_time = models.TimeField(blank=False, null=False)
-    end_time = models.TimeField(editable=False)
-
-    def save(self, *args, **kwargs):
-        """ Automatically calculate end_time. """
-        self.end_time = (datetime.combine(datetime.today(), self.start_time) + timedelta(hours=1)).time()
-        super().save(*args, **kwargs)
 
 class Booking(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)

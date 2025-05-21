@@ -12,7 +12,7 @@
         {% csrf_token %}
 
         <p><strong>Table:</strong> {{ selected_table.name }}</p>
-        <p><strong>Time Slot:</strong> {{ selected_time_slot.start_time|time:"H:i" }} - {{ selected_time_slot.end_time|time:"H:i" }}</p>
+        <p><strong>Time Slot:</strong> {{ selected_time_slot.start_time|time:"H:i" }}</p>
         <p><strong>Date:</strong> {{ selected_date }}</p>
         <p><strong>Price:</strong> £{{ selected_table.price }}</p>
         <input type="hidden" name="selected_table" value="{{ selected_table }}">

@@ -15,7 +15,7 @@
         <label for="time">Choose a time:</label>
         <select name="time" id="time" required>
             {% for slot in time_slots %}
-                <option value="{{ slot.pk }}">{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</option>
+                <option value="{{ slot.pk }}">{{ slot.start_time|time:"H:i" }}</option>
             {% endfor %}
         </select>
         

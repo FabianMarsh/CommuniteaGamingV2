@@ -10,7 +10,7 @@
 
     <p><strong>Table:</strong> {{ table_name }}</p>
     <p><strong>Date:</strong> {{ booking_date }}</p>
-    <p><strong>Time:</strong> {{ start_time }} - {{ end_time }}</p>
+    <p><strong>Time:</strong> {{ start_time }}</p>
 
     <a href="{% url 'bookings:select_table' %}">Book Another Table</a>
 {% endblock %}
