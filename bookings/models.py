@@ -14,7 +14,7 @@ class Table(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
 class TimeSlot(models.Model):
-    start_time = models.TimeField(blank=False, null=False)
+    timeslot = models.TimeField(blank=False, null=False)
 
 class Booking(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)

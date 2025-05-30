@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bookings.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
+    <script src="{% static 'js/bookings.js' %}"></script>    
+{% endblock %}
+
+{% block content %}
+    <div id="calendar"></div>
+    <div id="time-slot-menu">
+        <h3>Available Times</h3>
+        <ul id="available-times"></ul>
+        <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="date" id="selected-date-field">
+            <input type="hidden" name="time" id="selected-time-field">
+        </form>
+    </div>
+{% endblock %}
