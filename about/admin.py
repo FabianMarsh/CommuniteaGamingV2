@@ -17,5 +17,5 @@ class TeamMemberAdmin(admin.ModelAdmin):
     list_filter = ("role",)  # Adds filtering option by role
     ordering = ("name",)  # Orders by name
     fieldsets = (
-        (None, {"fields": ("name", "role", "bio", "photo", "about_section")}),
+        (None, {"fields": ("name", "role", "bio", "photo")}),
     )

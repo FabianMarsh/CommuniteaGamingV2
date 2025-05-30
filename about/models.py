@@ -17,7 +17,6 @@ class TeamMember(models.Model):
     role = models.CharField(max_length=100)
     bio = models.TextField()
     photo = models.ImageField(upload_to="team_photos/", blank=True, null=True)
-    about_section = models.TextField(default="Write something about this team member...", blank=True)
 
     def __str__(self):
         return self.name
