@@ -26,6 +26,7 @@
     {% endblock %}
 
     {% block extra_js %}
+        <script src="{% static 'js/main.js' %}"></script>    
     {% endblock %}
     
 </head>
@@ -37,8 +38,9 @@
                 <span>CommuniTea Gaming</span>
             </a>
         </div>
-        <div class="nav_mobile_icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="nav_mobile_icon" id="nav_mobile_icon"><i class="fa-solid fa-bars"></i></div>
         <nav id="main-nav">
+            <span id="nav_close"><i class="fa-solid fa-xmark"></i></span>
             {% include 'includes/main-nav.html' %}
         </nav>
         <div class="fade"></div>

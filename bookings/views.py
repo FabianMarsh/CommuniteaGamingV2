@@ -134,7 +134,6 @@ def confirm_booking(request):
 
         request.session.flush()  # Clear session after storing booking
         request.session["booking_id"] = new_booking.id  # Store booking ID for success page
-        print("booking id 1: ", new_booking.id)
 
         return redirect("bookings:booking_success")  # Redirect to success page
 
@@ -147,7 +146,6 @@ def confirm_booking(request):
 
 def booking_success(request):
     booking_id = request.session.get("booking_id")  # Retrieve the latest booking
-    print("booking id 2:", booking_id)
     if not booking_id:
         return redirect("bookings:select_table")  # Redirect if no booking exists
 
