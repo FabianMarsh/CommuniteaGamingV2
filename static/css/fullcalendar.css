@@ -811,7 +811,7 @@ NOTE: use percentage font sizes or else old IE chokes
   margin-top: 1em; }
 
 .fc-toolbar .fc-left {
-  float: left; }
+  float: left; }.fc .fc-toolbar
 
 .fc-toolbar .fc-right {
   float: right; }
@@ -1447,9 +1447,10 @@ be a descendant of the grid when it is being dragged.
       font-size: 12px; /* Reduce font size for better readability */
   }
 
-  .fc-header-toolbar {
-      flex-direction: column; /* Stack header controls */
-  }
+  .fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
   .fc-day-grid-event {
       font-size: 10px; /* Smaller event font size */
@@ -1478,3 +1479,7 @@ be a descendant of the grid when it is being dragged.
   width: 100%;
 }
 
+
+.fc-header-toolbar {
+  flex-direction: row !important;
+}

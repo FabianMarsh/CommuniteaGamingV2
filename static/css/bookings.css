@@ -2,9 +2,9 @@ main {
     background: var(--ter-bg-col);
     color: var(--pri-col);
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
     gap: clamp(20px, 6vw, 50px);
     padding: 250px 10%;
 
@@ -57,4 +57,32 @@ main {
     .tables_list_item {
         width: 23%;
     }
+}
+
+#time-slot-menu {
+    min-width: 300px;
+    padding: 30px;
+    border: 1px solid var(--pri-col);
+    overflow-y: auto;
+}
+
+#available-times {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 100%;
+    li {
+        min-height: 44px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+}
+
+/* full calendar */
+
+#calendar {
+    max-width: 700px;
+    min-width: 300px;
+    flex: 1;
 }

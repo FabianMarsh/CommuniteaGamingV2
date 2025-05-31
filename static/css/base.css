@@ -111,7 +111,7 @@ main {
 
 header {
     background: var(--pri-bg-col);
-    padding: clamp(20px, 6vw, 50px) 0;
+    padding: clamp(20px, 6vw, 50px) 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -123,7 +123,6 @@ header {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: 99;
-    width: 100%;
 }
 
 .fade {
@@ -151,7 +150,6 @@ header {
     flex-wrap: wrap;
     gap: 20px;
     text-align: center;
-    padding-left: clamp(5%, 10vw, 25%);
 
     a {
         display: flex;
@@ -237,7 +235,6 @@ nav {
     nav {
         position: initial;
         padding: 0;
-        margin-right: clamp(5%, 10vw, 25%);
         width: initial;
         min-width: initial;
         max-width: initial;

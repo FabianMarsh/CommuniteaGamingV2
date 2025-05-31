@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import select_table, select_date, select_time, select_date_time, confirm_booking, booking_success, get_available_times
+from .views import select_table, select_date, select_time, select_date_time, confirm_booking, booking_success, get_available_times, get_booked_times
 
 app_name = "bookings"
 
@@ -10,6 +10,6 @@ urlpatterns = [
     path("select-date-time/", select_date_time, name="select_date_time"),
     path("confirm-booking/", confirm_booking, name="confirm_booking"),
     path("bookings-success/", booking_success, name="booking_success"),
-    path("get_available_times/<str:selected_date>/", get_available_times, name="get_available_times"),
-
+    path("get_available_times/", get_available_times, name="get_available_times"),
+    path("get_booked_times/", get_booked_times, name="get_booked_times"),
 ]

@@ -67,49 +67,56 @@ def select_time(request):
 
 # new date and time view
 
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+
 def select_date_time(request):
     if request.method == "POST":
-        selected_date = request.POST.get("date")
-        selected_time = request.POST.get("time")
+        selected_date = request.POST.get("date")  # ✅ Get selected date from form
+        selected_time = request.POST.get("time")  # ✅ Get selected time from form
 
-        if selected_date:
+        if selected_date and selected_time:
+            # ✅ Store selected values in session
             request.session["selected_date"] = selected_date
-
-        if selected_time:
             request.session["selected_time"] = selected_time
-            return redirect("bookings:confirm_booking")  # ✅ Redirect after storing session data
 
-    # ✅ If accessed via GET, load available times for selection
+            # ✅ Redirect to confirm booking page
+            return redirect("bookings:confirm_booking")
+
+    # ✅ If accessed via GET, ensure available times are ready for selection
     selected_date = request.GET.get("date")
     available_times = []
 
     if selected_date:
-        booked_times = Booking.objects.filter(date=selected_date).values_list("timeslot_id", flat=True)  # ✅ Get booked time slot IDs
+        booked_times = Booking.objects.filter(date=selected_date).values_list("timeslot_id", flat=True)
         all_times = TimeSlot.objects.values_list("timeslot", flat=True)
-        available_times = TimeSlot.objects.exclude(id__in=booked_times).values_list("timeslot", flat=True)  # ✅ Exclude booked slot IDs
-        print("All Time Slots:", list(all_times))  # ✅ Shows all times before filtering
-        print("Booked TimeSlot IDs:", list(booked_times))  # ✅ Shows booked slot IDs
-        print("Available Time Slots:", list(available_times))
+        available_times = TimeSlot.objects.exclude(id__in=booked_times).values_list("timeslot", flat=True)
 
-    return render(request, "bookings/select_date_time.html", {"available_times": available_times, "selected_date": selected_date})
+    return render(request, "bookings/select_date_time.html", {
+        "available_times": available_times,
+        "selected_date": selected_date
+    })
 
 
-def get_available_times(request, selected_date):
-    print("Received selected_date:", selected_date)  # ✅ Debugging
+def get_available_times(request):
+    available_times = TimeSlot.objects.values_list("timeslot", flat=True)  # ✅ Get all available slots
+    return JsonResponse({"times": list(available_times)})  # ✅ Return unfiltered times
 
-    # ✅ Get all available time slots
-    available_times = TimeSlot.objects.values_list("timeslot", flat=True)
 
-    # ✅ Get booked times for the selected date
-    booked_times = Booking.objects.filter(date=selected_date).values_list("timeslot_id", flat=True)
 
-    # ✅ If no bookings exist, return all times
-    if not booked_times:
-        free_times = list(available_times)  # ✅ Show all times if no bookings
-    else:
-        free_times = [time for time in available_times if time not in booked_times]
+def get_booked_times(request):
+    selected_date = request.GET.get("date")  # ✅ Get selected date
 
-    return JsonResponse({"times": free_times})  # ✅ Returns either all times or filtered list
+    if not selected_date:
+        return JsonResponse({"error": "Date is required"}, status=400)  # ✅ Handle missing dates
+
+    # ✅ Retrieve booked times as time strings (not IDs)
+    booked_times = Booking.objects.filter(date=selected_date).values_list("timeslot__timeslot", flat=True)
+
+    print("Booked TimeSlots (formatted):", list(booked_times))  # ✅ Debugging step
+
+    return JsonResponse({"times": list(booked_times)})  # ✅ Send formatted time slots
+
 
 
 
