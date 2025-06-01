@@ -28,9 +28,15 @@ SECRET_KEY = 'django-insecure-z_sf1r_t6xkt@_w%34sadt)6%do)r)sf=4g2fof_h&-!$)%4@(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io']
+ALLOWED_HOSTS = [
+    '8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io',
+    'communiteagaming-c8bf0b2e702e.herokuapp.com'
+    ]
 
-CSRF_TRUSTED_ORIGINS = ["https://8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io"]
+CSRF_TRUSTED_ORIGINS = [
+    "https://8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io",
+    'communiteagaming-c8bf0b2e702e.herokuapp.com'
+    ]
 
 
 # Application definition
