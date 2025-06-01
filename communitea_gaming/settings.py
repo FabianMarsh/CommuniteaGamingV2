@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'https://8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io',
-    'https://communiteagaming-c8bf0b2e702e.herokuapp.com'
+    'communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
