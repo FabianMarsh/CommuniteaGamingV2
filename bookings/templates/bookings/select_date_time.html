@@ -12,14 +12,16 @@
 {% endblock %}
 
 {% block content %}
-    <div id="calendar"></div>
-    <div id="time-slot-menu">
-        <h3>Available Times</h3>
-        <ul id="available-times"></ul>
-        <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="date" id="selected-date-field">
-            <input type="hidden" name="time" id="selected-time-field">
-        </form>
+    <div class="select_date_time">
+        <div id="calendar"></div>
+        <div id="time-slot-menu">
+            <h3>Available Times</h3>
+            <ul id="available-times"></ul>
+            <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="date" id="selected-date-field">
+                <input type="hidden" name="time" id="selected-time-field">
+            </form>
+        </div>
     </div>
 {% endblock %}

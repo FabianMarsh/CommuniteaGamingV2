@@ -2,12 +2,21 @@ main {
     background: var(--ter-bg-col);
     color: var(--pri-col);
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: clamp(20px, 6vw, 50px);
     padding: 250px 10%;
 
+}
+
+.select_date_time {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: clamp(20px, 6vw, 50px);
 }
 
 .tables_list {
