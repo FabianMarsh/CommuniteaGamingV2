@@ -1,0 +1,1 @@
+web: gunicorn communitea_gaming.wsgi
