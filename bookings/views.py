@@ -1,8 +1,14 @@
+from .models import Table, TimeSlot, Booking, SlotAvailability
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from .models import Table, TimeSlot, Booking
-from datetime import datetime
+from datetime import datetime, date
+from django.contrib import messages
+from django.db.models import Sum
+
+import json
+
+from django.conf import settings
 
 
 def select_table(request):
@@ -14,7 +20,9 @@ def select_table(request):
         request.session["selected_table"] = {
             "id": selected_table.id,
             "name": selected_table.name,
-            "price": float(selected_table.price)
+            "price": float(selected_table.price),
+            "seats_required": selected_table.seats_required,
+            "private_hire": selected_table.private_hire
         }
 
         request.session["selected_table"]["price"] = "{:.2f}".format(request.session["selected_table"]["price"])
@@ -41,8 +49,6 @@ def select_date(request):
         return redirect("bookings:select_time") 
 
     return render(request, "bookings/select_date.html", {"selected_table": selected_table})
-
-
     
 
 def select_time(request):
@@ -67,23 +73,16 @@ def select_time(request):
 
 # new date and time view
 
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-
 def select_date_time(request):
     if request.method == "POST":
-        selected_date = request.POST.get("date")  # ✅ Get selected date from form
-        selected_time = request.POST.get("time")  # ✅ Get selected time from form
+        selected_date = request.POST.get("date")  
+        selected_time = request.POST.get("time")  
 
         if selected_date and selected_time:
-            # ✅ Store selected values in session
             request.session["selected_date"] = selected_date
             request.session["selected_time"] = selected_time
-
-            # ✅ Redirect to confirm booking page
             return redirect("bookings:confirm_booking")
 
-    # ✅ If accessed via GET, ensure available times are ready for selection
     selected_date = request.GET.get("date")
     available_times = []
 
@@ -92,33 +91,65 @@ def select_date_time(request):
         all_times = TimeSlot.objects.values_list("timeslot", flat=True)
         available_times = TimeSlot.objects.exclude(id__in=booked_times).values_list("timeslot", flat=True)
 
+    selected_table = request.session.get("selected_table")
+    selected_table_seats = selected_table.get("seats_required") or 0 if selected_table else 0
+
     return render(request, "bookings/select_date_time.html", {
         "available_times": available_times,
-        "selected_date": selected_date
+        "selected_date": selected_date,
+        "selected_table_seats": selected_table_seats,
     })
 
 
-def get_available_times(request):
-    available_times = TimeSlot.objects.values_list("timeslot", flat=True)  # ✅ Get all available slots
-    return JsonResponse({"times": list(available_times)})  # ✅ Return unfiltered times
-
-
-
 def get_booked_times(request):
-    selected_date = request.GET.get("date")  # ✅ Get selected date
-
+    selected_date = request.GET.get("date")
     if not selected_date:
-        return JsonResponse({"error": "Date is required"}, status=400)  # ✅ Handle missing dates
+        return JsonResponse({"error": "Date is required"}, status=400)
 
-    # ✅ Retrieve booked times as time strings (not IDs)
-    booked_times = Booking.objects.filter(date=selected_date).values_list("timeslot__timeslot", flat=True)
+    selected_table = request.session.get("selected_table")
+    is_private = selected_table and selected_table.get("private_hire") in [True, "True", 1, "1"]
 
-    print("Booked TimeSlots (formatted):", list(booked_times))  # ✅ Debugging step
+    if is_private:
+        private_table_ids = Table.objects.filter(private_hire=True).values_list("id", flat=True)
+        booked = Booking.objects.filter(date=selected_date, table_id__in=private_table_ids)
+    else:
+        private_table_ids = Table.objects.filter(private_hire=True).values_list("id", flat=True)
+        booked = Booking.objects.exclude(table_id__in=private_table_ids).filter(date=selected_date)
 
-    return JsonResponse({"times": list(booked_times)})  # ✅ Send formatted time slots
+    booked_times = booked.values_list("timeslot__timeslot", flat=True)
 
+    return JsonResponse({"times": list(booked_times)})
 
+def get_available_times(request):
+    selected_date = request.GET.get("date")
+    if not selected_date:
+        return JsonResponse({"error": "No date provided."}, status=400)
 
+    selected_table = request.session.get("selected_table") or {}
+    is_private = selected_table.get("private_hire", False)
+    selected_seats = selected_table.get("seats_required", 0)
+
+    time_slots = TimeSlot.objects.order_by("timeslot")
+    response_data = {"times": []}
+
+    for slot in time_slots:
+        availability, _ = SlotAvailability.objects.get_or_create(
+            date=selected_date,
+            timeslot=slot,
+            defaults={"seats_available": 68}
+        )
+
+        # Step 2 — hide blocked slots from non-private-hire bookings
+        if is_private and availability.is_blocked_for_hire:
+            continue
+
+        if not is_private or availability.seats_available >= selected_seats:
+            response_data["times"].append({
+                "time": str(slot.timeslot),
+                "available_seats": availability.seats_available
+            })
+
+    return JsonResponse(response_data)
 
 
 def confirm_booking(request):
@@ -127,22 +158,32 @@ def confirm_booking(request):
     selected_date = request.session.get("selected_date")
 
     if not selected_table or not selected_time_id:
-        return redirect("bookings:select_table")  # Redirect if missing required data
+        return redirect("bookings:select_table")
 
     selected_time_slot = TimeSlot.objects.get(timeslot=selected_time_id)
+    is_private = selected_table.get("private_hire") in [True, "True", 1, "1"]
+    seats_needed = selected_table.get("seats_required", 0)
 
-    if request.method == "POST":        
-        # Create booking entry in database
+    if request.method == "POST":
+        table_id = selected_table["id"]
+        is_private = selected_table.get("private_hire") in [True, "True", 1, "1"]
+        seats_needed = selected_table.get("seats_required", 0)
+
+        # Create the booking
         new_booking = Booking.objects.create(
-            table_id=selected_table["id"], 
-            timeslot_id=selected_time_slot.id, 
+            table_id=table_id,
+            timeslot_id=selected_time_slot.id,
             date=selected_date
         )
 
-        request.session.flush()  # Clear session after storing booking
-        request.session["booking_id"] = new_booking.id  # Store booking ID for success page
+        if is_private:
+            update_block(selected_date, selected_time_slot)
+        else:
+            update_seats(selected_date, selected_time_slot, seats_needed)
 
-        return redirect("bookings:booking_success")  # Redirect to success page
+        request.session.flush()
+        request.session["booking_id"] = new_booking.id
+        return redirect("bookings:booking_success")
 
 
     return render(request, "bookings/confirm_booking.html", {
@@ -150,6 +191,54 @@ def confirm_booking(request):
         "selected_time_slot": selected_time_slot,
         "selected_date": selected_date
     })
+
+
+def update_seats(date, time_slot, seats_needed):
+    time_slots = list(TimeSlot.objects.order_by("timeslot"))
+    current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
+
+    if current_index is None:
+        return
+
+    relevant_slots = [
+        time_slots[current_index - 1] if current_index > 0 else None,
+        time_slot,
+        time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
+    ]
+
+    for slot in filter(None, relevant_slots):
+        avail, _ = SlotAvailability.objects.get_or_create(
+            date=date,
+            timeslot=slot,
+            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
+        )
+        avail.seats_available -= seats_needed
+        avail.save()
+
+
+def update_block(date, time_slot):
+    time_slots = list(TimeSlot.objects.order_by("timeslot"))
+    current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
+
+    if current_index is None:
+        return
+
+    affected_slots = [
+        time_slots[current_index - 1] if current_index > 0 else None,
+        time_slot,
+        time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
+    ]
+
+    for slot in filter(None, affected_slots):
+        availability, _ = SlotAvailability.objects.get_or_create(
+            date=date,
+            timeslot=slot,
+            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
+        )
+        availability.is_blocked_for_hire = True
+        availability.save()
+
+
 
 def booking_success(request):
     booking_id = request.session.get("booking_id")  # Retrieve the latest booking
@@ -163,4 +252,5 @@ def booking_success(request):
         "booking_date": booking.date,
         "timeslot": booking.timeslot.timeslot,
     })
+
 

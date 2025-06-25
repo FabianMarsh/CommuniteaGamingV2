@@ -4,68 +4,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!calendarEl || !timesList) return;
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         selectable: true,
-        dateClick: function(info) {
-            let selectedDate = info.dateStr;
-            let today = new Date().toISOString().split("T")[0];
+        dateClick: function (info) {
+            const selectedDate = info.dateStr;
+            const today = new Date().toISOString().split("T")[0];
+            const now = new Date();
+            const currentTime = now.toTimeString().slice(0, 5) + ":00";
 
             if (selectedDate < today) {
                 timesList.innerHTML = "";
                 return;
             }
 
+            const selectedSeats = parseInt(document.getElementById("selected-table-seats").value) || 0;
             const baseUrl = window.location.origin;
-            let now = new Date();
-            let currentTime = now.toTimeString().slice(0, 5) + ":00";
 
-            // Fetch all available times
-            fetch(`${baseUrl}/bookings/get_available_times/`)
+            fetch(`${baseUrl}/bookings/get_available_times/?date=${selectedDate}`)
                 .then(response => response.json())
-                .then(availableData => {
-                    let allTimes = availableData.times;
+                .then(data => {
+                    const filteredTimes = data.times.filter(slot => {
+                        const isPast = selectedDate === today && slot.time < currentTime;
+                        const enoughSeats = slot.available_seats >= selectedSeats;
+                        return !isPast && enoughSeats;
+                    });
 
-                    // Fetch booked times for the selected date
-                    fetch(`${baseUrl}/bookings/get_booked_times/?date=${selectedDate}`)
-                        .then(response => response.json())
-                        .then(bookedData => {
-                            const bookedTimes = bookedData.times;
+                    timesList.innerHTML = "";
 
-                            // Filter out booked times and past times for today's date
-                            let filteredTimes = allTimes.filter(time => {
-                                let isBooked = bookedTimes.includes(time);
-                                let isPast = selectedDate === today && time < currentTime;
-                                return !isBooked && !isPast;
-                            });
+                    if (filteredTimes.length === 0) {
+                        timesList.innerHTML = "<li>No available times for this date.</li>";
+                        return;
+                    }
 
-                            timesList.innerHTML = "";
+                    filteredTimes.forEach(slot => {
+                        const listItem = document.createElement("li");
+                        listItem.innerText = `${slot.time.slice(0, 5)} (${slot.available_seats} seats)`;
 
-                            if (filteredTimes.length === 0) {
-                                timesList.innerHTML = "<li>No available times for this date.</li>";
-                                return;
-                            }
+                        listItem.onclick = function () {
+                            document.getElementById("selected-time-field").value = slot.time;
+                            document.getElementById("selected-date-field").value = selectedDate;
+                            document.getElementById("booking-form").submit();
+                        };
 
-                            // Populate available time slots dynamically
-                            filteredTimes.forEach(time => {
-                                let listItem = document.createElement("li");
-                                listItem.innerText = time;
-
-                                listItem.onclick = function() {
-                                    document.getElementById("selected-time-field").value = time;
-                                    document.getElementById("selected-date-field").value = selectedDate;
-                                    document.getElementById("booking-form").submit();
-                                };
-
-                                timesList.appendChild(listItem);
-                            });
-                        });
+                        timesList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error("Failed to fetch available times:", error);
+                    timesList.innerHTML = "<li>Failed to load times. Please try again.</li>";
                 });
         }
     });
 
     calendar.render();
 });
+
 
 
 // restrict available times height

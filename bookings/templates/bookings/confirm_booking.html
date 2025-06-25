@@ -14,7 +14,13 @@
         <p><strong>Table:</strong> {{ selected_table.name }}</p>
         <p><strong>Time Slot:</strong> {{ selected_time_slot.timeslot|time:"H:i" }}</p>
         <p><strong>Date:</strong> {{ selected_date }}</p>
-        <p><strong>Price:</strong> £{{ selected_table.price }}</p>
+        <p><strong>Price:</strong> 
+            {% if table.price > 0 %}
+                £{{ table.price }}
+            {% else %}
+                (Free)
+            {% endif %}
+        </p>
         <input type="hidden" name="selected_table" value="{{ selected_table }}">
         <input type="hidden" name="selected_time" value="{{ selected_time_slot.id }}">
 

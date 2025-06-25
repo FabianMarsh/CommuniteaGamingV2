@@ -5,9 +5,9 @@ from .models import Table, TimeSlot, Booking
 admin.site.register(Table)
 admin.site.register(TimeSlot)
 class TimeSlotAdmin(admin.ModelAdmin):
-    list_display = ('time',) # Show time field in the admin list
+    list_display = [field.name for field in TimeSlot._meta.fields]
 
-    ordering = ['time'] # Ensure sorting in the admin panel
+    ordering = ['timeslot'] # Ensure sorting in the admin panel
 
 class BookingAdmin(admin.ModelAdmin):
     list_display = ("table_name", "booking_date", "time_slot")

@@ -19,6 +19,8 @@
             <ul id="available-times"></ul>
             <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
                 {% csrf_token %}
+                <input type="hidden" id="selected-table-seats" value="{{ selected_table_seats }}">
+                <!-- <input type="hidden" id="selected-table-seats" value="4"> -->
                 <input type="hidden" name="date" id="selected-date-field">
                 <input type="hidden" name="time" id="selected-time-field">
             </form>

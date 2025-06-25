@@ -15,6 +15,9 @@ from os.path import join
 from pathlib import Path
 import dj_database_url
 
+# Custom defaults
+DEFAULT_AVAILABLE_SEATS = 68
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,12 +32,12 @@ SECRET_KEY = 'django-insecure-z_sf1r_t6xkt@_w%34sadt)6%do)r)sf=4g2fof_h&-!$)%4@(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'https://8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io',
+    '8000-fabianmarsh-communiteag-nwukcsqja2h.ws-eu120.gitpod.io',
     'communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://8000-fabianmarsh-communiteag-ukq996bcmrb.ws-eu120.gitpod.io",
+    "https://8000-fabianmarsh-communiteag-nwukcsqja2h.ws-eu120.gitpod.io",
     'https://communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 

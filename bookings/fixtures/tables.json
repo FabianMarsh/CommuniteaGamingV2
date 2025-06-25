@@ -6,7 +6,9 @@
             "table_type": "table_4",
             "name": "Table (4 people)",
             "amount_of_time_hours": 1,
-            "price": 5.00
+            "price": 0.00,
+            "seats_required": 4,
+            "private_hire": false
         }
     },
     {
@@ -16,7 +18,9 @@
             "table_type": "table_8",
             "name": "Table (8 people)",
             "amount_of_time_hours": 1,
-            "price": 10.00
+            "price": 0.00,
+            "seats_required": 8,
+            "private_hire": false
         }
     },
     {
@@ -26,7 +30,9 @@
             "table_type": "private_room",
             "name": "Private Hire Room (Up to 10 people)",
             "amount_of_time_hours": 1,
-            "price": 15.00
+            "price": 5.00,
+            "seats_required": 0,
+            "private_hire": true
         }
     }
 ]
