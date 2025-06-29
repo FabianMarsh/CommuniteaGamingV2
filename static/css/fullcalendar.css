@@ -1459,11 +1459,11 @@ be a descendant of the grid when it is being dragged.
 }
 
 .fc-day-past {
-  background-color: rgba(173, 216, 230, 0.2);
+  background-color: rgba(80, 97, 103, 0.163);
 }
 
 .fc-day-other  {
-  background-color: rgba(173, 216, 230, 0.1);
+  background-color: rgba(173, 216, 230, 0.05);
 }
 
 
@@ -1482,4 +1482,25 @@ be a descendant of the grid when it is being dragged.
 
 .fc-header-toolbar {
   flex-direction: row !important;
+}
+
+.fc .fc-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px !important;
+
+    transition: all 0.3s ease;
+}
+
+.fc-button-group {
+    gap: 10px;
+}
+
+td {
+  cursor: pointer;
+}
+
+.fc-day-past {
+  cursor: initial;
 }

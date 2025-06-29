@@ -11,6 +11,8 @@ main {
 }
 
 .select_date_time {
+    width: 100%;
+
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -29,7 +31,7 @@ main {
 }
 
 .tables_list_item {
-    border: 1px solid #ffffff2f;
+    border: 1px solid var(--ter-col);
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -39,22 +41,28 @@ main {
     min-height: 200px;
     hr {
         width: 100%;
-        background: #ffffff;
-        opacity: 0.2;
+        border-color: var(--ter-col);
         margin: 25px 0;
     }
     button {
         margin-top: 50px;
-        background: #ffffff;
-        border: none;
+        color: var(--sec-col);
+        background: var(--sec-bg-col);
         padding: 10px 20px;
+        
+        border-radius: 50px;
+        border: none;
+        
         cursor: pointer;
 
-        &:hover {
-            text-decoration: underline;
-        }
+        transition: color 0.3s ease;
     }
 }
+
+.tables_list_item button:hover {
+    color: var(--ter-bg-col);
+}
+
 
 @media (min-width: 768px) {
     .tables_list_item {
@@ -69,7 +77,9 @@ main {
 }
 
 #time-slot-menu {
-    min-width: 300px;
+    min-width: 250px;
+    width: 100%;
+    max-width: 360px;
     padding: 30px;
     border: 1px solid var(--pri-col);
     overflow-y: auto;
@@ -92,6 +102,6 @@ main {
 
 #calendar {
     max-width: 700px;
-    min-width: 300px;
+    min-width: 250px;
     flex: 1;
 }

@@ -1,7 +1,11 @@
 from django.db import models
 
 class WhoWeAre(models.Model):
-    text = models.CharField(max_length=100)
+    text = models.TextField()
+
+    class Meta:
+        verbose_name = "Who We Are"
+        verbose_name_plural = "Who We Are"
 
     def save(self, *args, **kwargs):
         if WhoWeAre.objects.exists() and not self.pk:  # If there's already an instance and it's a new entry

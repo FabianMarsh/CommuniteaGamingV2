@@ -93,13 +93,14 @@ strong {
 
 /* vars */
 :root {
-    --pri-bg-col: #78294c;
-    --sec-bg-col: #f0dada;
-    --ter-bg-col: #020202;
+    --pri-bg-col: #c2e1e3;
+    --sec-bg-col: #3a5f9d;
+    --ter-bg-col: #cf7ba3;
 
-    --pri-col: #fff;
-    --sec-col: #78294c;
-    --ter-col: #a29c9c;
+    --pri-col: #2c2c2c;     /* Dark charcoal – softer than black */
+    --sec-col: #cbd9ed;     /* Mid-desaturated blue, echoes bg */
+    --ter-col: #7e4f63;     /* Dusty mauve-brown – warm neutral */
+
 
     --sec-font: Helvetica, sans-serif;
 
@@ -184,6 +185,33 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 5px;
+    
+    span {
+        width: 35px;
+        height: 5px;
+        background-color: var(--pri-col);
+
+        transform-origin: 100%;
+
+        border-radius: 3px;
+
+        transition: transform 0.4s ease;
+    }
+}
+
+.nav_mobile_icon:hover {
+    .line__one {
+        transform: scaleX(0.4);
+    }
+    .line__two {
+        transform: scaleX(0.8);
+    }
+    .line__three {
+        transform: scaleX(0.6);
+    }
 }
 
 nav.active {
@@ -203,7 +231,7 @@ nav {
     height: 100vh;
     padding: 100px clamp(5%, 10vw, 25%);
 
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 
     ul {
         display: flex;
@@ -211,10 +239,10 @@ nav {
         gap: 5px;
         li {
             padding: 10px 0;
-            border-bottom: #78294c 1px solid;
+            border-bottom: var(--ter-bg-col) 1px solid;
 
             a:hover, .active{
-                color: #000;
+                color: var(--ter-bg-col);
             }
         }
     }
@@ -231,6 +259,12 @@ nav {
     color: var(--sec-col);
     font-size: 40px;
     cursor: pointer;
+
+    transition: transform 0.4s ease;
+}
+
+#nav_close:hover {
+    transform: rotate(90deg);
 }
 
 /* nav media queries */
@@ -271,10 +305,11 @@ nav {
 
 .social_links {
     position: fixed;
+    z-index: 98;
     inset: 45vh 0 auto auto;
     background-color: #00000090;
 
-    padding: 20px 30px;
+    padding: clamp(5px, 2vw, 20px) clamp(10px, 2vw, 30px);
 
     li {
         a {
@@ -283,7 +318,9 @@ nav {
             align-items: center;
             min-height: 44px;
             min-width: 44px;
+            
             font-size: 22px;
+            color: var(--sec-col);
         }
     }
 }
@@ -297,6 +334,9 @@ nav {
     background-position: center;
     background-size: cover;
 
+    position: relative;
+    z-index: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -306,9 +346,23 @@ nav {
     text-align: center;
 
     h1 {
-        color: var(--pri-col);
+        color: var(--ter-bg-col);
         font-size: clamp(40px, 6vw, 75px);
+
+        position: relative;
+        z-index: 2;
     }
+}
+
+.welcome::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: var(--pri-col);
+    opacity: 0.5;
+    position: absolute;
+    inset: 0 0 0 0;
+    z-index: 1;
 }
 
 .welcome_links {
@@ -317,6 +371,10 @@ nav {
     justify-content: center;
     align-items: center;
     gap: 30px;
+
+    position: relative;
+    z-index: 2;
+
     li a {
         font-size: clamp(20px, 3vw, 30px);
         background: var(--pri-bg-col);
@@ -330,8 +388,8 @@ nav {
     }
 
     li a:hover {
-        background-color: var(--pri-col);
-        color: var(--pri-bg-col);
+        background-color: var(--sec-bg-col);
+        color: var(--ter-bg-col);
         transition-duration: .6s;
     }
 }
@@ -363,8 +421,8 @@ nav {
 /* footer **********************************/
 
 footer {
-    background-color: var(--ter-bg-col);
-    color: var(--ter-col);
+    background-color: var(--pri-bg-col);
+    color: var(--pri-col);
     padding: clamp(50px, 6vw, 70px) 10%;
     text-align: center;
     opacity: 0.9;
