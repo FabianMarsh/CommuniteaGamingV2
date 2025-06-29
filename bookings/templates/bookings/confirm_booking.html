@@ -11,14 +11,19 @@
     <form method="POST" action="{% url 'bookings:confirm_booking' %}">
         {% csrf_token %}
 
+        <p><strong>Name:</strong> {{ user_data.name }}</p>
+        <p><strong>Email:</strong> {{ user_data.email }}</p>
+        {% if user_data.phone %}
+            <p><strong>Phone:</strong> {{ user_data.phone }}</p>
+        {% endif %}
         <p><strong>Table:</strong> {{ selected_table.name }}</p>
         <p><strong>Time Slot:</strong> {{ selected_time_slot.timeslot|time:"H:i" }}</p>
         <p><strong>Date:</strong> {{ selected_date }}</p>
         <p><strong>Price:</strong> 
-            {% if table.price > 0 %}
-                £{{ table.price }}
+            {% if selected_table.price > 0 %}
+                £{{ selected_table.price }}
             {% else %}
-                (Free)
+                No Charge
             {% endif %}
         </p>
         <input type="hidden" name="selected_table" value="{{ selected_table }}">

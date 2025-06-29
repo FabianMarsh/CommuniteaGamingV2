@@ -37,3 +37,7 @@ class Booking(models.Model):
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     timeslot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
     date = models.DateField()
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    paid = models.BooleanField(default=False)

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/fullcalendar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bookings.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="details">
+        <h3>Enter Details</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Continue to Confirmation</button>
+        </form>
+    </div>
+{% endblock %}

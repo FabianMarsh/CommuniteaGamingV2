@@ -1,15 +1,16 @@
 from .models import Table, TimeSlot, Booking, SlotAvailability
+from .forms import BookingDetailsForm
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib import messages
 from django.db.models import Sum
+from decimal import Decimal
 
 import json
 
 from django.conf import settings
-
 
 def select_table(request):
     if request.method == "POST":
@@ -81,7 +82,7 @@ def select_date_time(request):
         if selected_date and selected_time:
             request.session["selected_date"] = selected_date
             request.session["selected_time"] = selected_time
-            return redirect("bookings:confirm_booking")
+            return redirect("bookings:enter_details")
 
     selected_date = request.GET.get("date")
     available_times = []
@@ -152,10 +153,28 @@ def get_available_times(request):
     return JsonResponse(response_data)
 
 
+def enter_details(request):
+    if request.method == "POST":
+        form = BookingDetailsForm(request.POST)
+        if form.is_valid():
+            request.session["user_data"] = {
+                "name": form.cleaned_data["name"],
+                "email": form.cleaned_data["email"],
+                "phone": form.cleaned_data["phone"]
+            }
+
+            return redirect("bookings:confirm_booking")
+    else:
+        form = BookingDetailsForm()
+
+    return render(request, "bookings/enter_details.html", {"form": form})
+
+
 def confirm_booking(request):
     selected_table = request.session.get("selected_table")
     selected_time_id = request.session.get("selected_time")
     selected_date = request.session.get("selected_date")
+    user_data = request.session.get("user_data")
 
     if not selected_table or not selected_time_id:
         return redirect("bookings:select_table")
@@ -173,7 +192,10 @@ def confirm_booking(request):
         new_booking = Booking.objects.create(
             table_id=table_id,
             timeslot_id=selected_time_slot.id,
-            date=selected_date
+            date=selected_date,
+            name=user_data.get("name"),
+            email=user_data.get("email"),
+            phone=user_data.get("phone"),
         )
 
         if is_private:
@@ -185,11 +207,15 @@ def confirm_booking(request):
         request.session["booking_id"] = new_booking.id
         return redirect("bookings:booking_success")
 
+    # convert price from string to decimal
+    price_str = selected_table['price']
+    selected_table['price'] =  Decimal(price_str)
 
     return render(request, "bookings/confirm_booking.html", {
         "selected_table": selected_table,
         "selected_time_slot": selected_time_slot,
-        "selected_date": selected_date
+        "selected_date": selected_date,
+        "user_data": user_data
     })
 
 
@@ -237,7 +263,6 @@ def update_block(date, time_slot):
         )
         availability.is_blocked_for_hire = True
         availability.save()
-
 
 
 def booking_success(request):
