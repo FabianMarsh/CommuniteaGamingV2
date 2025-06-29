@@ -83,6 +83,10 @@ strong {
     color: #00f2ea;
 }
 
+.discord:hover {
+    color: #5865F2;
+}
+
 .email {
     text-decoration: underline;
 }
