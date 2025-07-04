@@ -1,13 +1,12 @@
 main {
-    color: white;
+    color: var(--pri-col);
     margin-top: 17vh;
-    padding: 50px clamp(5%, 10vw, 25%);
-    background-color: black;
-    min-height: calc(100vh - 156px - 200px); /* minus footer and header */
+    background-color: var(--ter-bg-col);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 200px clamp(5%, 50vw, 25%);
 }
 
 .contact {
@@ -20,4 +19,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    li a {
+        color: var(--pri-col);
+    }
 }

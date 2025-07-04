@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     const calendarEl = document.getElementById("calendar");
     const timesList = document.getElementById("available-times");
+    const isWideScreen = window.matchMedia('(min-width: 768px)').matches;
 
     if (!calendarEl || !timesList) return;
-
+    
     const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
+        initialView: isWideScreen ? 'dayGridMonth' : 'timeGridWeek',
         selectable: true,
         dateClick: function (info) {
             const selectedDate = info.dateStr;

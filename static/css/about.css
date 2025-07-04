@@ -1,8 +1,14 @@
 main {
     color: var(--pri-col);
     margin-top: 17vh;
-    padding: 200px clamp(5%, 10vw, 25%);
     background-color: var(--ter-bg-col);
+    padding: 200px clamp(5%, 15vw, 25%);
+}
+
+p {
+    width: 100%;
+    max-width: 800px;
+    line-height: 25px;
 }
 
 .about {
@@ -16,12 +22,6 @@ main {
 
     h1 {
         margin: 0;
-    }
-
-    p {
-        width: 100%;
-        max-width: 800px;
-        line-height: 25px;
     }
 
     .about_social_links {
@@ -75,18 +75,54 @@ main {
 
         .team_members_role {
             font-size: clamp(20px, 6vw, 30px);
-
         }
     }
 }
 
-.team_members_img {
-    aspect-ratio: 1/1;
-    width: 100%;
+
+.team_members_img_wrapper {
     min-width: 250px;
     max-width: 450px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}
+
+.team_members_img_wrapper::before {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 80px;
+
+    background-image: url('../../media/meeple-svgrepo-com.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: clamp(0px, 1vw, 20px);
+    left: clamp(0px, 1vw, 20px);
+    z-index: -1;
+
+    transform: rotate(-30deg);
+}
+
+.team_members li:nth-child(3n - 2) .team_members_img_wrapper::before {
+    filter: var(--meeple-filter-red-dropshadow);
+}
+.team_members li:nth-child(3n - 1) .team_members_img_wrapper::before {
+    filter: var(--meeple-filter-blue-dropshadow);
+}
+.team_members li:nth-child(3n) .team_members_img_wrapper::before {
+    filter: var(--meeple-filter-yellow-dropshadow);
+}
+
+.team_members_img {
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    aspect-ratio: 1/1;
+    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5))
 }
 
 .team_members_role {
@@ -99,14 +135,23 @@ main {
             width: 100%;
             flex-direction: row;
             gap: 50px;
+
             .team_members_content {
                 text-align: left;
             }
         }
+
         li:nth-child(even) {
             flex-direction: row-reverse;
+
             .team_members_content {
                 text-align: right;
+            }
+
+            .team_members_img_wrapper::before {
+                transform: rotate(30deg);
+                right: 20px;
+                left: auto;
             }
         }
     }

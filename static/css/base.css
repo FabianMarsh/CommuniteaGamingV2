@@ -101,6 +101,13 @@ strong {
     --sec-col: #cbd9ed;     /* Mid-desaturated blue, echoes bg */
     --ter-col: #7e4f63;     /* Dusty mauve-brown – warm neutral */
 
+    --meeple-filter-red: brightness(0) saturate(100%) invert(19%) sepia(91%) saturate(6855%) hue-rotate(360deg) brightness(101%) contrast(120%);
+    --meeple-filter-blue: brightness(0) saturate(100%) invert(10%) sepia(99%) saturate(6430%) hue-rotate(240deg) brightness(97%) contrast(128%);
+    --meeple-filter-yellow: brightness(0) saturate(100%) invert(89%) sepia(80%) saturate(4794%) hue-rotate(2deg) brightness(103%) contrast(102%);
+
+    --meeple-filter-red-dropshadow: brightness(0) saturate(100%) invert(19%) sepia(91%) saturate(6855%) hue-rotate(360deg) brightness(101%) contrast(120%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-blue-dropshadow: brightness(0) saturate(100%) invert(10%) sepia(99%) saturate(6430%) hue-rotate(240deg) brightness(97%) contrast(128%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-yellow-dropshadow: brightness(0) saturate(100%) invert(89%) sepia(80%) saturate(4794%) hue-rotate(2deg) brightness(103%) contrast(102%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
 
     --sec-font: Helvetica, sans-serif;
 
@@ -397,8 +404,8 @@ nav {
 /* find us **********************************/
 
 .find_us {
-    background: var(--pri-bg-col);
-    color: var(--pri-col);
+    background: var(--sec-bg-col);
+    color: var(--sec-col);
     padding: clamp(50px, 6vw, 150px) 10%;
 
     strong {
@@ -414,7 +421,12 @@ nav {
         display: flex;
         flex-direction: column;
         gap: 25px;
+
         font-size: clamp(15px, 3vw, 25px);
+
+        a {
+            color: var(--sec-col);
+        }
     }
 }
 

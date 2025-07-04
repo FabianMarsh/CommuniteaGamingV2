@@ -32,7 +32,9 @@
             {% for member in team %}
             <li>
                 {% if member.photo %}
-                    <img class="team_members_img" src="{{ member.photo.url }}" alt="{{ member.name }}">
+                    <div class="team_members_img_wrapper">
+                        <img class="team_members_img" src="{{ member.photo.url }}" alt="{{ member.name }}">
+                    </div>
                 {% endif %}
                 <div class="team_members_content">
                     <h2 class="team_members_name">{{ member.name }}</h2>

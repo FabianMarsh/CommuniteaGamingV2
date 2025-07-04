@@ -6,8 +6,7 @@ main {
     justify-content: center;
     flex-direction: column;
     gap: clamp(20px, 6vw, 50px);
-    padding: 250px 10%;
-
+    padding: 200px clamp(5%, 50vw, 25%);
 }
 
 .select_date_time {
@@ -96,6 +95,30 @@ main {
         display: flex;
         align-items: center;
     }
+}
+
+#available-times li::before {
+    content: "";
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    margin-right: 8px;
+    background-image: url('../../media/meeple-svgrepo-com.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    opacity: 0.65;
+}
+
+#available-times li:nth-child(3n - 2):before {  
+    filter: var(--meeple-filter-red);
+}
+#available-times li:nth-child(3n - 1):before {  
+    filter: var(--meeple-filter-blue);
+}
+#available-times li:nth-child(3n):before {  
+    filter: var(--meeple-filter-yellow);
 }
 
 /* full calendar */

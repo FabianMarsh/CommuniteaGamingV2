@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar");
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
+        initialView: "timeGridWeek",
         events: "/events/json/",
         eventClick: function(info) {
             alert("Event: " + info.event.title + "\nDescription: " + info.event.extendedProps.description);
@@ -54,7 +54,13 @@ document.addEventListener("DOMContentLoaded", function () {
             var isAdmin = data.is_admin;
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: "dayGridMonth",
+                initialView: "timeGridWeek",
+                slotMinTime: '12:00:00',
+                slotMaxTime: '22:00:00', 
+                eventOverlap: false,
+                slotEventOverlap: false,
+                expandRows: true,
+                contentHeight: 'auto',
                 events: "/events/json/",
                 eventClick: function(info) {
                     if (isAdmin) {
