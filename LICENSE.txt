@@ -1,0 +1,13 @@
+Copyright © 2025 Maker in the Marsh
+
+This software was developed by Maker in the Marsh on behalf of CommuniTea Gaming Ltd. It was provided at no charge, and CommuniTea Gaming Ltd is granted full rights to use, modify, deploy, and redistribute this software for commercial or non-commercial purposes.
+
+Maker in the Marsh retains authorship of the code and associated intellectual property, but grants CommuniTea Gaming Ltd a perpetual, non-exclusive, worldwide license to operate and adapt the software as part of their business operations.
+
+No other individual or entity may copy, modify, use, or distribute this software without prior written consent from the author.
+
+This license does not constitute a transfer of copyright ownership.
+
+Attribution of code authorship must be retained in all derivative works.
+
+For licensing inquiries, contact the author directly.
