@@ -1,0 +1,21 @@
+main {
+    background: var(--ter-bg-col);
+    color: var(--pri-col);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(20px, 6vw, 50px);
+    padding: 200px clamp(5%, 6vw, 25%);
+}
+
+.edit-event-btn {
+    width: 100px;
+    height: 100px;
+    background: green;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    display: block; /* Ensures the button is visible */
+}

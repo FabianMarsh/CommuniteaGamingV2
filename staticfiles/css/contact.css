@@ -1,0 +1,26 @@
+main {
+    color: var(--pri-col);
+    margin-top: 17vh;
+    background-color: var(--ter-bg-col);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 200px clamp(5%, 6vw, 25%);
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.contact_list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    li a {
+        color: var(--pri-col);
+    }
+}
