@@ -5,8 +5,16 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: clamp(20px, 6vw, 50px);
+    gap: 20px;
     padding: 200px clamp(5%, 6vw, 25%);
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
 }
 
 h1 {

@@ -122,6 +122,21 @@ main {
     margin-top: 18vh;
 }
 
+button {
+    border: none;
+    background-color: var(--sec-bg-col);
+    color: var(--sec-col);
+    padding: 15px 25px;
+    border-radius: 15px;
+
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+    background: var(--pri-bg-col);
+    color: var(--pri-col);
+}
+
 /* header **********************************/
 
 header {
