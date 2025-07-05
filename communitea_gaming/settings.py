@@ -32,12 +32,12 @@ SECRET_KEY = 'django-insecure-z_sf1r_t6xkt@_w%34sadt)6%do)r)sf=4g2fof_h&-!$)%4@(
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-fabianmarsh-communiteag-7t01h9fupw9.ws-eu120.gitpod.io',
+    '8000-fabianmarsh-communiteag-qg92qignvbb.ws-eu120.gitpod.io',
     'communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://8000-fabianmarsh-communiteag-7t01h9fupw9.ws-eu120.gitpod.io",
+    "https://8000-fabianmarsh-communiteag-qg92qignvbb.ws-eu120.gitpod.io",
     'https://communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 

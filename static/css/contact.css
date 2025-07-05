@@ -6,7 +6,7 @@ main {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 200px clamp(5%, 50vw, 25%);
+    padding: 200px clamp(5%, 6vw, 25%);
 }
 
 .contact {

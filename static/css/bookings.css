@@ -6,7 +6,11 @@ main {
     justify-content: center;
     flex-direction: column;
     gap: clamp(20px, 6vw, 50px);
-    padding: 200px clamp(5%, 50vw, 25%);
+    padding: 200px clamp(5%, 6vw, 25%);
+}
+
+h1 {
+    text-align: center;
 }
 
 .select_date_time {
@@ -63,22 +67,21 @@ main {
 }
 
 
-@media (min-width: 768px) {
+@media (min-width: 960px) {
     .tables_list_item {
         width: 37%;
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1300px) {
     .tables_list_item {
-        width: 23%;
+        width: 27%;
     }
 }
 
 #time-slot-menu {
-    min-width: 250px;
-    width: 100%;
-    max-width: 360px;
+    width: clamp(250px, 6vw, 360px);
+
     padding: 30px;
     border: 1px solid var(--pri-col);
     overflow-y: auto;

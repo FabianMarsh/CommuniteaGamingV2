@@ -291,7 +291,7 @@ nav {
         ul {
             flex-direction: row;
             padding: 10px 25px;
-            gap: clamp(10px);
+            gap: 10px;
             li {
                 border: none;
             }
@@ -311,12 +311,13 @@ nav {
 /* social links **********************************/
 
 .social_links {
-    position: fixed;
-    z-index: 98;
-    inset: 45vh 0 auto auto;
+    position: absolute;
+    bottom: -104px;
+    width: 100%;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
     background-color: #00000090;
-
-    padding: clamp(5px, 2vw, 20px) clamp(10px, 2vw, 30px);
 
     li {
         a {
@@ -329,6 +330,19 @@ nav {
             font-size: 22px;
             color: var(--sec-col);
         }
+    }
+}
+
+@media (min-width: 650px) {
+    .social_links {
+        position: fixed;
+        padding: clamp(5px, 2vw, 20px) clamp(10px, 2vw, 30px);
+        width: initial;
+        
+        flex-direction: column;
+
+        z-index: 98;
+        inset: 45vh 0 auto auto;
     }
 }
 

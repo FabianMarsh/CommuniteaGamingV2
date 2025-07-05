@@ -35,45 +35,6 @@ def select_table(request):
     return render(request, "bookings/select_table.html", {"tables": tables})
 
 
-
-# old date and time view
-def select_date(request):
-    selected_table = request.session.get("selected_table")  # Get stored value
-
-    if not selected_table:
-        return redirect("bookings:select_table")
-
-    if request.method == "POST":
-        selected_date = request.POST.get("date") 
-        request.session["selected_date"] = selected_date 
-        request.session.modified = True
-        return redirect("bookings:select_time") 
-
-    return render(request, "bookings/select_date.html", {"selected_table": selected_table})
-    
-
-def select_time(request):
-    selected_table = request.session.get("selected_table")
-
-    if "selected_table" not in request.session:
-        return redirect("bookings:select_table")
-    elif "selected_date" not in request.session:
-        return redirect("bookings:select_date")
-
-    available_times = ["12:00", "14:00", "18:00"]  # Example times, replace with logic
-
-    if request.method == "POST":
-        selected_time = request.POST.get("time")
-        request.session["selected_time"] = request.POST["time"]
-
-        return redirect("bookings:confirm_booking")
-
-    time_slots = TimeSlot.objects.all()
-    return render(request, "bookings/select_time.html", {"time_slots": time_slots, "selected_table": selected_table})
-
-
-# new date and time view
-
 def select_date_time(request):
     if request.method == "POST":
         selected_date = request.POST.get("date")  
