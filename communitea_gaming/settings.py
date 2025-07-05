@@ -14,6 +14,7 @@ import os
 from os.path import join
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 # Custom defaults
 DEFAULT_AVAILABLE_SEATS = 68
@@ -26,10 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z_sf1r_t6xkt@_w%34sadt)6%do)r)sf=4g2fof_h&-!$)%4@('
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = [
     '8000-fabianmarsh-communiteag-qg92qignvbb.ws-eu120.gitpod.io',
@@ -127,10 +128,9 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    "default": dj_database_url.config(default="postgresql://communiteagaming_db_user:PCCVbEBxNk909WIBZmSheZ9436TfhSP6@dpg-d0u7vabe5dus738rl9pg-a.frankfurt-postgres.render.com/communiteagaming_db")
+    "default": dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 
