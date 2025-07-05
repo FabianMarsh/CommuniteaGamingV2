@@ -6,7 +6,7 @@ main {
     justify-content: center;
     align-items: center;
     gap: clamp(20px, 6vw, 50px);
-    padding: 200px clamp(5%, 6vw, 25%);
+    padding: 200px clamp(1rem, 10vw, 15%);
 }
 
 .edit-event-btn {

@@ -6,7 +6,7 @@ main {
     justify-content: center;
     flex-direction: column;
     gap: 20px;
-    padding: 200px clamp(5%, 6vw, 25%);
+    padding: 200px clamp(1rem, 10vw, 15%);
 
     form {
         display: flex;
