@@ -14,7 +14,7 @@ import os
 from os.path import join
 from pathlib import Path
 import dj_database_url
-from decouple import config
+from decouple import config, Csv
 
 # Custom defaults
 DEFAULT_AVAILABLE_SEATS = 68
@@ -30,18 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [
-    '8000-fabianmarsh-communiteag-xenvso5nftz.ws-eu120.gitpod.io',
-    'communiteagaming-c8bf0b2e702e.herokuapp.com'
-    ]
-
-CSRF_TRUSTED_ORIGINS = [
-    "https://8000-fabianmarsh-communiteag-xenvso5nftz.ws-eu120.gitpod.io",
-    'https://communiteagaming-c8bf0b2e702e.herokuapp.com'
-    ]
-
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', cast=Csv())
 
 # Application definition
 
@@ -114,9 +106,17 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SITE_ID = 1
+SITE_ID = config('SITE_ID', default=1, cast=int)
+DOMAIN = config('DOMAIN', default='localhost')
+SITE_NAME = config('SITE_NAME', default='CommuniTea')
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='')
+EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 
 WSGI_APPLICATION = 'communitea_gaming.wsgi.application'
 
@@ -159,7 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/London'
+TIME_ZONE = config('DJANGO_TIME_ZONE', default='Europe/London')
 
 USE_I18N = True
 
