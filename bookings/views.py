@@ -7,6 +7,7 @@ from datetime import datetime, date
 from django.contrib import messages
 from django.db.models import Sum
 from decimal import Decimal
+from django.core.mail import send_mail
 
 import json
 
@@ -164,7 +165,6 @@ def confirm_booking(request):
         else:
             update_seats(selected_date, selected_time_slot, seats_needed)
 
-        request.session.flush()
         request.session["booking_id"] = new_booking.id
         return redirect("bookings:booking_success")
 
@@ -227,16 +227,44 @@ def update_block(date, time_slot):
 
 
 def booking_success(request):
-    booking_id = request.session.get("booking_id")  # Retrieve the latest booking
+    booking_id = request.session.get("booking_id")
     if not booking_id:
-        return redirect("bookings:select_table")  # Redirect if no booking exists
+        return redirect("bookings:select_table")
 
     booking = Booking.objects.get(id=booking_id)
+
+    email = request.session["booking_email"] = booking.email
+    selected_table = request.session.get("selected_table")
+    price = Decimal(selected_table["price"]).quantize(Decimal('0.01'))
+
+    subject = "Your Booking Confirmation"
+    message = (
+    f"Hi!\n\n"
+    f"Your booking for table '{booking.table.name}' on {booking.date} "
+    f"at {booking.timeslot.timeslot} has been confirmed.\n\n"
+)
+
+    # Include SumUp payment link if price > 0
+    if price > 0:
+        message += (
+            f"A payment of £{price:.2f} is required.\n"
+            f"You can pay securely via SumUp here: https://pay.sumup.com/b2c/QKWSCH28\n\n"
+        )
+
+    message += f"Thanks for choosing to hang with CommuniTea Gaming!"
+
+    recipient = email
+    sender = settings.EMAIL_HOST_USER
+
+    send_mail(subject, message, sender, [recipient], fail_silently=False)
+
+    request.session.flush()
 
     return render(request, "bookings/booking_success.html", {
         "table_name": booking.table.name,
         "booking_date": booking.date,
         "timeslot": booking.timeslot.timeslot,
     })
+
 
 
