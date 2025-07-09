@@ -33,12 +33,12 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = [
-    '8000-fabianmarsh-communiteag-qg92qignvbb.ws-eu120.gitpod.io',
+    '8000-fabianmarsh-communiteag-xenvso5nftz.ws-eu120.gitpod.io',
     'communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://8000-fabianmarsh-communiteag-qg92qignvbb.ws-eu120.gitpod.io",
+    "https://8000-fabianmarsh-communiteag-xenvso5nftz.ws-eu120.gitpod.io",
     'https://communiteagaming-c8bf0b2e702e.herokuapp.com'
     ]
 

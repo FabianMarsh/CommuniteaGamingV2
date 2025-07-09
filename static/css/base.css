@@ -198,6 +198,11 @@ header {
 .logo_image {
     max-width: 100px;
     max-height: 100px;
+    border-radius: 35px;
+}
+
+.logo_text {
+    max-width: clamp(250px, 30vw, 600px);
 }
 
 .nav_mobile_icon {
@@ -389,6 +394,12 @@ nav {
         position: relative;
         z-index: 2;
     }
+}
+
+.welcome_image {
+    max-width: clamp(300px, 35vw, 750px);
+    position: relative;
+    z-index: 2;
 }
 
 .welcome::after {
