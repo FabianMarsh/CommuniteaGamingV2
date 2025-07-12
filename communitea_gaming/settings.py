@@ -115,8 +115,17 @@ EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.conso
 EMAIL_HOST = config('EMAIL_HOST', default='')
 EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
+EMAIL_USE_SSL = False
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+
+ANYMAIL = {
+    "MAILERSEND_API_TOKEN": os.environ.get("MAILERSEND_API_TOKEN"),
+    "MAILERSEND_SENDER_DOMAIN": "test-65qngkdx3x3lwr12.mlsender.net",
+}
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_HOST_USER', default='django.core.mail.backends.console.EmailBackend')
+
 
 WSGI_APPLICATION = 'communitea_gaming.wsgi.application'
 

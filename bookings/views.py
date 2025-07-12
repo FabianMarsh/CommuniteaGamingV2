@@ -7,9 +7,12 @@ from datetime import datetime, date
 from django.contrib import messages
 from django.db.models import Sum
 from decimal import Decimal
-from django.core.mail import send_mail
+from django.core.mail import send_mail, get_connection
 
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 from django.conf import settings
 
@@ -141,43 +144,48 @@ def confirm_booking(request):
     if not selected_table or not selected_time_id:
         return redirect("bookings:select_table")
 
-    selected_time_slot = TimeSlot.objects.get(timeslot=selected_time_id)
-    is_private = selected_table.get("private_hire") in [True, "True", 1, "1"]
-    seats_needed = selected_table.get("seats_required", 0)
-
-    if request.method == "POST":
-        table_id = selected_table["id"]
+    try:
+        selected_time_slot = TimeSlot.objects.get(timeslot=selected_time_id)
         is_private = selected_table.get("private_hire") in [True, "True", 1, "1"]
         seats_needed = selected_table.get("seats_required", 0)
 
-        # Create the booking
-        new_booking = Booking.objects.create(
-            table_id=table_id,
-            timeslot_id=selected_time_slot.id,
-            date=selected_date,
-            name=user_data.get("name"),
-            email=user_data.get("email"),
-            phone=user_data.get("phone"),
-        )
+        if request.method == "POST":
+            table_id = selected_table["id"]
 
-        if is_private:
-            update_block(selected_date, selected_time_slot)
-        else:
-            update_seats(selected_date, selected_time_slot, seats_needed)
+            # Create the booking
+            new_booking = Booking.objects.create(
+                table_id=table_id,
+                timeslot_id=selected_time_slot.id,
+                date=selected_date,
+                name=user_data.get("name"),
+                email=user_data.get("email"),
+                phone=user_data.get("phone"),
+            )
 
-        request.session["booking_id"] = new_booking.id
-        return redirect("bookings:booking_success")
+            # Update availability
+            if is_private:
+                update_block(selected_date, selected_time_slot)
+            else:
+                update_seats(selected_date, selected_time_slot, seats_needed)
 
-    # convert price from string to decimal
-    price_str = selected_table['price']
-    selected_table['price'] =  Decimal(price_str)
+            request.session["booking_id"] = new_booking.id
+            return redirect("bookings:booking_success")
 
-    return render(request, "bookings/confirm_booking.html", {
-        "selected_table": selected_table,
-        "selected_time_slot": selected_time_slot,
-        "selected_date": selected_date,
-        "user_data": user_data
-    })
+        # Convert price from string to decimal safely
+        price_str = selected_table['price']
+        selected_table['price'] = Decimal(price_str)
+
+        return render(request, "bookings/confirm_booking.html", {
+            "selected_table": selected_table,
+            "selected_time_slot": selected_time_slot,
+            "selected_date": selected_date,
+            "user_data": user_data
+        })
+
+    except Exception as e:
+        logger.error(f"Booking failed: {e}", exc_info=True)
+        return redirect("bookings:booking_failure")
+
 
 
 def update_seats(date, time_slot, seats_needed):
@@ -256,7 +264,7 @@ def booking_success(request):
     recipient = email
     sender = settings.EMAIL_HOST_USER
 
-    send_mail(subject, message, sender, [recipient], fail_silently=False)
+    send_mail(subject, message, sender, [recipient], fail_silently=False, connection=get_connection(timeout=10))
 
     request.session.flush()
 
@@ -267,4 +275,7 @@ def booking_success(request):
     })
 
 
+def booking_failure(request):
+
+    return render(request, "bookings/booking_failure.html")
 
