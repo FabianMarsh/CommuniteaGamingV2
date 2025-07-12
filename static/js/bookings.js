@@ -81,7 +81,7 @@ function loadAvailableTimes(selectedDate) {
 
             filteredTimes.forEach(slot => {
                 const listItem = document.createElement("li");
-                listItem.innerText = `${slot.time.slice(0, 5)} – ${slot.available_seats} seats available`;
+                listItem.innerText = `${slot.time.slice(0, 5)}`;
                 listItem.onclick = function () {
                     document.getElementById("selected-time-field").value = slot.time;
                     document.getElementById("selected-date-field").value = selectedDate;
