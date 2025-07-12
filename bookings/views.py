@@ -1,11 +1,13 @@
 from .models import Table, TimeSlot, Booking, SlotAvailability
+from django.db import transaction
+from django.core.exceptions import ValidationError
 from .forms import BookingDetailsForm
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from datetime import datetime, date
 from django.contrib import messages
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
 
@@ -41,8 +43,8 @@ def select_table(request):
 
 def select_date_time(request):
     if request.method == "POST":
-        selected_date = request.POST.get("date")  
-        selected_time = request.POST.get("time")  
+        selected_date = request.POST.get("date")
+        selected_time = request.POST.get("time")
 
         if selected_date and selected_time:
             request.session["selected_date"] = selected_date
@@ -50,21 +52,39 @@ def select_date_time(request):
             return redirect("bookings:enter_details")
 
     selected_date = request.GET.get("date")
+    selected_table = request.session.get("selected_table")
+    selected_table_seats = selected_table.get("seats_required", 0) if selected_table else 0
+    is_private = selected_table.get("private_hire") in [True, "True", 1, "1"] if selected_table else False
+
     available_times = []
 
     if selected_date:
-        booked_times = Booking.objects.filter(date=selected_date).values_list("timeslot_id", flat=True)
-        all_times = TimeSlot.objects.values_list("timeslot", flat=True)
-        available_times = TimeSlot.objects.exclude(id__in=booked_times).values_list("timeslot", flat=True)
+        time_slots = TimeSlot.objects.order_by("timeslot")
 
-    selected_table = request.session.get("selected_table")
-    selected_table_seats = selected_table.get("seats_required") or 0 if selected_table else 0
+        for slot in time_slots:
+            availability = SlotAvailability.objects.filter(
+                date=selected_date,
+                timeslot=slot
+            ).first()
+
+            if not availability:
+                continue  # No slot data yet—skip
+
+            # Check for blocked slots and minimum seat availability
+            if is_private:
+                if not availability.is_blocked_for_hire:
+                    continue
+            elif availability.seats_available < selected_table_seats:
+                continue
+
+            available_times.append(slot.timeslot.strftime("%H:%M"))
 
     return render(request, "bookings/select_date_time.html", {
         "available_times": available_times,
         "selected_date": selected_date,
         "selected_table_seats": selected_table_seats,
     })
+
 
 
 def get_booked_times(request):
@@ -201,14 +221,21 @@ def update_seats(date, time_slot, seats_needed):
         time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
     ]
 
-    for slot in filter(None, relevant_slots):
-        avail, _ = SlotAvailability.objects.get_or_create(
-            date=date,
-            timeslot=slot,
-            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
-        )
-        avail.seats_available -= seats_needed
-        avail.save()
+    with transaction.atomic():
+        for slot in filter(None, relevant_slots):
+            avail, _ = SlotAvailability.objects.get_or_create(
+                date=date,
+                timeslot=slot,
+                defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
+            )
+
+            if avail.seats_available < seats_needed:
+                logger.warning(f"Attempted to subtract {seats_needed} seats, but only {avail.seats_available} available for slot {slot}")
+                raise ValidationError("Not enough seats available for this timeslot.")
+
+            avail.seats_available -= seats_needed
+            avail.save()
+
 
 
 def update_block(date, time_slot):
