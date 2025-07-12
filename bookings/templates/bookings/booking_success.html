@@ -8,9 +8,13 @@
 {% block content %}
     <h1>Booking Success!</h1>
 
-    <p><strong>Table:</strong> {{ table_name }}</p>
     <p><strong>Date:</strong> {{ booking_date }}</p>
-    <p><strong>Time:</strong> {{ timeslot }}</p>
-
-    <a href="{% url 'bookings:select_table' %}">Book Another Table</a>
+    <p><strong>Time Slot:</strong> {{ timeslot }}</p>
+    <p><strong>Table:</strong> {{ table_name }}</p>
+    <p>We've reserved your slot! Feel free to screenshot this for your records.</p>
+    <p>If you need to change or cancel, please contact us via <a href="/contact">the contact page</a>.</p>
+    {% if price > 0 %}
+        <p>please go to <a href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank">Sumup</a> to make your payment</p>
+    {% endif %}
+    <button><a href="{% url 'bookings:select_table' %}">Book Another Table</a></button>
 {% endblock %}

@@ -268,30 +268,30 @@ def booking_success(request):
 
     booking = Booking.objects.get(id=booking_id)
 
-    email = request.session["booking_email"] = booking.email
+    # email = request.session["booking_email"] = booking.email
     selected_table = request.session.get("selected_table")
     price = Decimal(selected_table["price"]).quantize(Decimal('0.01'))
 
-    subject = "Your Booking Confirmation"
-    message = (
-    f"Hi!\n\n"
-    f"Your booking for table '{booking.table.name}' on {booking.date} "
-    f"at {booking.timeslot.timeslot} has been confirmed.\n\n"
-)
+    # subject = "Your Booking Confirmation"
+    # message = (
+    # f"Hi!\n\n"
+    # f"Your booking for table '{booking.table.name}' on {booking.date} "
+    # f"at {booking.timeslot.timeslot} has been confirmed.\n\n"
+# )
 
     # Include SumUp payment link if price > 0
-    if price > 0:
-        message += (
-            f"A payment of £{price:.2f} is required.\n"
-            f"You can pay securely via SumUp here: https://pay.sumup.com/b2c/QKWSCH28\n\n"
-        )
+    # if price > 0:
+    #     message += (
+    #         f"A payment of £{price:.2f} is required.\n"
+    #         f"You can pay securely via SumUp here: https://pay.sumup.com/b2c/QKWSCH28\n\n"
+    #     )
 
-    message += f"Thanks for choosing to hang with CommuniTea Gaming!"
+    # message += f"Thanks for choosing to hang with CommuniTea Gaming!"
 
-    recipient = email
-    sender = settings.EMAIL_HOST_USER
+    # recipient = email
+    # sender = settings.EMAIL_HOST_USER
 
-    send_mail(subject, message, sender, [recipient], fail_silently=False, connection=get_connection(timeout=10))
+    # send_mail(subject, message, sender, [recipient], fail_silently=False, connection=get_connection(timeout=10))
 
     request.session.flush()
 
@@ -299,6 +299,7 @@ def booking_success(request):
         "table_name": booking.table.name,
         "booking_date": booking.date,
         "timeslot": booking.timeslot.timeslot,
+        "price": price,
     })
 
 
