@@ -91,6 +91,7 @@ strong {
     text-decoration: underline;
 }
 
+
 /* vars */
 :root {
     --pri-bg-col: #c2e1e3;
@@ -120,9 +121,10 @@ strong {
 
 main {
     margin-top: 18vh;
+    min-height: 31vh;
 }
 
-button {
+button, .btn {
     border: none;
     background-color: var(--sec-bg-col);
     color: var(--sec-col);
@@ -130,11 +132,24 @@ button {
     border-radius: 15px;
     cursor: pointer;
 
+    min-height: initial;
+    min-width: initial;
+
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-button:hover {
+button a {
+    color: var(--sec-col);
+    transition: none;
+}
+
+button:hover,
+.btn:hover {
     background: var(--pri-bg-col);
+    color: var(--pri-col);
+}
+
+button:hover a {
     color: var(--pri-col);
 }
 

@@ -28,6 +28,10 @@ main {
     }
 }
 
+button a {
+    color: inherit;
+}
+
 h1 {
     text-align: center;
 }
@@ -61,6 +65,7 @@ h1 {
     justify-content: center;
     width: 100%;
     min-height: 200px;
+    border-radius: 35px;
     hr {
         width: 100%;
         border-color: var(--ter-col);
@@ -100,17 +105,33 @@ h1 {
 
 #time-slot-menu {
     width: clamp(250px, 6vw, 360px);
-
     padding: 30px;
+    
     border: 1px solid var(--pri-col);
-    overflow-y: auto;
+    border-radius: 35px;
 }
+
+/* commented out until can override full calendar overflow scroll 
+#available-times::-webkit-scrollbar {
+  width: 10px;
+}
+
+#available-times::-webkit-scrollbar-track {
+  background: var(--ter-col);
+  border-radius: 5px;
+}
+
+#available-times::-webkit-scrollbar-thumb {
+  background: var(--sec-bg-col);
+  border-radius: 5px;
+} */
 
 #available-times {
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 100%;
+    max-height: inherit;
+    overflow-y: scroll;
     li {
         min-height: 44px;
         cursor: pointer;
@@ -141,6 +162,33 @@ h1 {
 }
 #available-times li:nth-child(3n):before {  
     filter: var(--meeple-filter-yellow);
+}
+
+.booking_failure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.booking_failure_footer {
+    margin-top: 20px;
+    
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.booking_success_header {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#book_another {
+    display: none;
 }
 
 /* full calendar */

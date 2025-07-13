@@ -1,12 +1,18 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/bookings.css' %}">
+{% endblock %}
 
 {% block content %}
-  <div class="booking-failure-page">
-    <h2>Booking Unsuccessful</h2>
+  <div class="booking_failure">
+    <h1>Booking Unsuccessful</h1>
 
     <p>It looks like something didn't go quite right. We've logged the issue, and you're welcome to try again or select a different slot.</p>
-
-    <a href="{% url 'bookings:select_table' %}" class="btn btn-primary">Try Again</a>
-    <a href="{% url 'contact' %}" class="btn btn-outline-secondary">Contact Support</a>
+    <div class="booking_failure_footer">
+      <button><a href="{% url 'bookings:select_table' %}">Try Again</a></button>
+      <button><a href="{% url 'contact' %}">Contact Support</a></button>
+    </div>
   </div>
 {% endblock %}

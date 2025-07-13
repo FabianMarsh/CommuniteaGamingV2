@@ -293,7 +293,7 @@ def booking_success(request):
 
     # send_mail(subject, message, sender, [recipient], fail_silently=False, connection=get_connection(timeout=10))
 
-    request.session.flush()
+    # request.session.flush()
 
     return render(request, "bookings/booking_success.html", {
         "table_name": booking.table.name,
