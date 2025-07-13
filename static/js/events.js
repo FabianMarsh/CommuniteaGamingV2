@@ -3,116 +3,137 @@
 
 // Retrieve
 document.addEventListener("DOMContentLoaded", function () {
-    var calendarEl = document.getElementById("calendar");
+  const calendarEl = document.getElementById("calendar");
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "timeGridWeek",
-        events: "/events/json/",
-        eventClick: function(info) {
-            alert("Event: " + info.event.title + "\nDescription: " + info.event.extendedProps.description);
-        },
-    });
+  fetch("/events/user/is_admin/")
+    .then(response => response.json())
+    .then(data => {
+        const isAdmin = data.is_admin;
+        const screenWidth = window.innerWidth;
+        let initialView = screenWidth >= 768 ? (isAdmin ? "timeGridWeek" : "dayGridDay"): "timeGridDay";
+        
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: initialView,
+            slotMinTime: "12:00:00",
+            slotMaxTime: "22:00:00",
+            expandRows: true,
+            contentHeight: "auto",
+            events: "/events/json/",
+            eventClick: function (info) {
+            if (isAdmin) {
+                if (info.event.id) {
+                openEditModal(
+                    info.event.id,
+                    info.event.title,
+                    info.event.extendedProps.description,
+                    info.event.start.toISOString().split("T")[0],
+                    info.event.start.toLocaleString("en-GB", { hour: "2-digit", minute: "2-digit" }),
+                    info.event.end ? info.event.end.toLocaleString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""
+                );
+                } else {
+                console.error("Event ID is missing!");
+                }
+            } else {
+                alert(
+                "Event: " + info.event.title +
+                "\nDescription: " + info.event.extendedProps.description
+                );
+            }
+            },
+            dateClick: function (info) {
+            console.log("Clicked date:", info.dateStr);
+            }
+        });
 
-    calendar.render();
+        calendar.render();
+        });
 });
+
 
 // Edit
 
 document.addEventListener("DOMContentLoaded", function () {
-    var editForm = document.getElementById("edit-event-form");
-    if (editForm) {
-        editForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-            var eventId = document.getElementById("edit-event-id").value;
-            var formData = new FormData(this);
+  const editForm = document.getElementById("edit-event-form");
 
-            fetch(`/events/edit/${eventId}/`, {
-                method: "POST",
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);
-                closeEditModal();
-                location.reload(); // Refresh events after edit
-            })
-            .catch(error => console.error("Error updating event:", error));
-        });
-    } else {
-        console.error("Error: Edit event form not found!");
-    }
+  if (editForm) {
+    editForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const eventId = document.getElementById("edit-event-id").value;
+      const formData = new FormData(this);
+
+      fetch(`/events/edit/${eventId}/`, {
+        method: "POST",
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.message);
+          closeEditModal();
+          location.reload(); // Refresh calendar
+        })
+        .catch(error => console.error("Error updating event:", error));
+    });
+  } else {
+    console.error("Error: Edit event form not found!");
+  }
 });
 
 // Add
 
 document.addEventListener("DOMContentLoaded", function () {
-    var calendarEl = document.getElementById("calendar");
+  const addForm = document.getElementById("add-event-form");
 
-    fetch("/events/user/is_admin/")  // Check if the user is an admin
+  if (addForm) {
+    addForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+
+      fetch("/events/add/", {
+        method: "POST",
+        body: formData,
+      })
         .then(response => response.json())
         .then(data => {
-            var isAdmin = data.is_admin;
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: "timeGridWeek",
-                slotMinTime: '12:00:00',
-                slotMaxTime: '22:00:00', 
-                expandRows: true,
-                contentHeight: 'auto',
-                events: "/events/json/",
-                eventClick: function(info) {
-                    if (isAdmin) {
-                        if (info.event.id) {
-                            openEditModal(
-                                info.event.id,
-                                info.event.title,
-                                info.event.extendedProps.description,
-                                info.event.start.toISOString().split("T")[0],
-                                info.event.start.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }),
-                                info.event.end ? info.event.end.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }) : ""
-                            );
-                        
-                        
-                        } else {
-                            console.error("Event ID is missing!");
-                        }
-                    }
-                },
-                dateClick: function(info) {
-                    console.log("Clicked date:", info.dateStr);
-                }
-            });
-
-            calendar.render();
+          console.log(data.message);
+          closeAddModal(); // Optional: if you’re using a modal for adding
+          location.reload(); // Refresh calendar to show new event
         })
+        .catch(error => console.error("Error adding event:", error));
+    });
+  } else {
+    console.error("Error: Add event form not found!");
+  }
 });
+
 
 // Delete
 
 document.addEventListener("DOMContentLoaded", function () {
-    var deleteButton = document.getElementById("delete-event-btn");
+  const deleteButton = document.getElementById("delete-event-btn");
 
-    if (deleteButton) {
-        deleteButton.addEventListener("click", function () {
-            var eventId = document.getElementById("edit-event-id").value;
+  if (deleteButton) {
+    deleteButton.addEventListener("click", function () {
+      const eventId = document.getElementById("edit-event-id").value;
 
-            if (confirm("Are you sure you want to delete this event?")) {
-                fetch(`/events/delete/${eventId}/`, {
-                    method: "DELETE"
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.message);
-                    closeEditModal();
-                    location.reload(); // Refresh events after deletion
-                })
-                .catch(error => console.error("Error deleting event:", error));
-            }
-        });
-    } else {
-        console.error("Error: Delete Event button not found!");
-    }
+      if (confirm("Are you sure you want to delete this event?")) {
+        fetch(`/events/delete/${eventId}/`, {
+          method: "DELETE",
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data.message);
+            closeEditModal();
+            location.reload(); // Refresh calendar
+          })
+          .catch(error => console.error("Error deleting event:", error));
+      }
+    });
+  } else {
+    console.error("Error: Delete Event button not found!");
+  }
 });
+
 
 
 
