@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 from django.conf import settings
 
+
 def select_table(request):
     if request.method == "POST":
         table_id = request.POST.get("table") 
@@ -86,7 +87,6 @@ def select_date_time(request):
     })
 
 
-
 def get_booked_times(request):
     selected_date = request.GET.get("date")
     if not selected_date:
@@ -105,6 +105,7 @@ def get_booked_times(request):
     booked_times = booked.values_list("timeslot__timeslot", flat=True)
 
     return JsonResponse({"times": list(booked_times)})
+
 
 def get_available_times(request):
     selected_date = request.GET.get("date")
@@ -207,7 +208,6 @@ def confirm_booking(request):
         return redirect("bookings:booking_failure")
 
 
-
 def update_seats(date, time_slot, seats_needed):
     time_slots = list(TimeSlot.objects.order_by("timeslot"))
     current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
@@ -235,7 +235,6 @@ def update_seats(date, time_slot, seats_needed):
 
             avail.seats_available -= seats_needed
             avail.save()
-
 
 
 def update_block(date, time_slot):
