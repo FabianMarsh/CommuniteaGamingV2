@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'bookings',
     "events",
     "about",
-    "contact"
+    "contact",
+    "blog"
 ]
 
 MIDDLEWARE = [
