@@ -105,10 +105,13 @@ strong {
     --meeple-filter-red: brightness(0) saturate(100%) invert(19%) sepia(91%) saturate(6855%) hue-rotate(360deg) brightness(101%) contrast(120%);
     --meeple-filter-blue: brightness(0) saturate(100%) invert(10%) sepia(99%) saturate(6430%) hue-rotate(240deg) brightness(97%) contrast(128%);
     --meeple-filter-yellow: brightness(0) saturate(100%) invert(89%) sepia(80%) saturate(4794%) hue-rotate(2deg) brightness(103%) contrast(102%);
+    --meeple-filter-green: brightness(0) saturate(100%) invert(56%) sepia(79%) saturate(3637%) hue-rotate(96deg) brightness(126%) contrast(115%);
 
     --meeple-filter-red-dropshadow: brightness(0) saturate(100%) invert(19%) sepia(91%) saturate(6855%) hue-rotate(360deg) brightness(101%) contrast(120%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
     --meeple-filter-blue-dropshadow: brightness(0) saturate(100%) invert(10%) sepia(99%) saturate(6430%) hue-rotate(240deg) brightness(97%) contrast(128%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
     --meeple-filter-yellow-dropshadow: brightness(0) saturate(100%) invert(89%) sepia(80%) saturate(4794%) hue-rotate(2deg) brightness(103%) contrast(102%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-green-dropshadow: brightness(0) saturate(100%) invert(56%) sepia(79%) saturate(3637%) hue-rotate(96deg) brightness(126%) contrast(115%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+
 
     --sec-font: Helvetica, sans-serif;
 
@@ -338,7 +341,7 @@ nav {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     nav ul {
         gap: 50px
     }

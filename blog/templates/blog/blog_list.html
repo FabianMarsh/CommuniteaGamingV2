@@ -10,25 +10,30 @@
     <h1>Communitea's Commuity Blog</h1>
 
     {% for post in page_obj %}
-        <article>
+        <article class="blog_post">
+            <div class="blog_post_meeple">
+                <img class="blog_post_meeple--red" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-red">
+                <img class="blog_post_meeple--yellow" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-yellow">
+                <img class="blog_post_meeple--green" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-green">
+            </div>
             <h2>{{ post.title }}</h2>
-            <p>{{ post.created_at|date:"F j, Y, g:i a" }}</p>
+            <p class="blog_post_date"><strong>{{ post.created_at|date:"F j, Y, g:i a" }}</strong></p>
+            <div class="blog_post_content">{{ post.content|linebreaks }}</div>
             {% if post.image %}
-            <img src="{{ post.image.url }}" loading="lazy" alt="{{ post.title }}">
+            <img class="blog_post_img" src="{{ post.image.url }}" loading="lazy" alt="{{ post.title }}">
             {% endif %}
-            <div>{{ post.content|linebreaks }}</div>
         </article>
     {% endfor %}
 
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></a>
+            <a class="btn" href="?page={{ page_obj.previous_page_number }}" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></a>
         {% endif %}
         
         <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
         
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" aria-label="next"><i class="fa-solid fa-chevron-right"></i></a>
+            <a class="btn" href="?page={{ page_obj.next_page_number }}" aria-label="next"><i class="fa-solid fa-chevron-right"></i></a>
         {% endif %}
     </div>
 {% endblock %}
