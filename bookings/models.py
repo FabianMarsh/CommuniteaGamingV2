@@ -15,6 +15,10 @@ class Table(models.Model):
     seats_required = models.PositiveIntegerField(default=0)
     private_hire = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
+
 class TimeSlot(models.Model):
     timeslot = models.TimeField(blank=False, null=False)
 
