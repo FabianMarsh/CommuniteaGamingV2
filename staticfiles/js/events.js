@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 info.event.extendedProps.description,
                                 info.event.start.toISOString().split("T")[0],
                                 info.event.start.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }),
+                                info.event.end.toISOString().split("T")[0],
+                                info.event.end.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }),
                                 info.event.end ? info.event.end.toLocaleString("en-GB", { hour: '2-digit', minute: '2-digit' }) : ""
                             );
                         
@@ -161,6 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("edit-description").value = description;
         document.getElementById("edit-date").value = date;
         document.getElementById("edit-start-time").value = start_time;
+        document.getElementById("edit-end-time").value = end_time;
 
         editModal.classList.add("active");
     }

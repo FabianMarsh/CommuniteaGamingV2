@@ -7,6 +7,7 @@ class Event(models.Model):
     description = models.TextField(blank=True)
     date = models.DateField()
     start_time = models.TimeField()
+    end_time = models.TimeField()
     recurrence = models.CharField(
         max_length=20, choices=[
             ("none", "None"),

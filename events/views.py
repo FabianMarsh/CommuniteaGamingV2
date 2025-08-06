@@ -14,6 +14,7 @@ def events_view(request):
             {
                 "title": event.title,
                 "start": f"{event.date}T{event.start_time}",
+                "end": f"{event.date}T{event.end_time}",
                 "description": event.description,
             }
             for event in events
@@ -36,6 +37,7 @@ def events_json(request):
             "id": event.id,
             "title": event.title,
             "start": f"{event.date}T{event.start_time}",
+            "end": f"{event.date}T{event.end_time}",
             "description": event.description,
             "recurrence": event.recurrence
         }
@@ -53,6 +55,7 @@ def edit_event(request, event_id):
             event.description = request.POST.get("description", "")
             event.date = request.POST["date"]
             event.start_time = request.POST["start_time"]
+            event.end_time = request.POST["end_time"]
             event.recurrence = request.POST["recurrence"]
 
             event.save()
@@ -69,6 +72,7 @@ def add_event(request):
         description = request.POST.get("description", "")
         date = request.POST["date"]
         start_time = request.POST["start_time"]
+        end_time = request.POST["end_time"]
         recurrence = request.POST["recurrence"]
 
         # Create the initial event
@@ -77,6 +81,7 @@ def add_event(request):
             description=description,
             date=date,  # this might be a string initially
             start_time=start_time,
+            end_time=end_time,
             recurrence=recurrence
         )
 
@@ -105,6 +110,7 @@ def add_event(request):
                     description=event.description,
                     date=new_date,
                     start_time=event.start_time,
+                    end_time=event.end_time,
                     recurrence=recurrence
                 )
 
