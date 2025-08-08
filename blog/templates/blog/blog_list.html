@@ -10,19 +10,21 @@
     <h1>Communitea's Commuity Blog</h1>
 
     {% for post in page_obj %}
-        <article class="blog_post">
-            <div class="blog_post_meeple">
-                <img class="blog_post_meeple--red" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-red">
-                <img class="blog_post_meeple--yellow" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-yellow">
-                <img class="blog_post_meeple--green" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-green">
-            </div>
-            <h2>{{ post.title }}</h2>
-            <p class="blog_post_date"><strong>{{ post.created_at|date:"F j, Y, g:i a" }}</strong></p>
-            <div class="blog_post_content">{{ post.content|linebreaks }}</div>
-            {% if post.image %}
-            <img class="blog_post_img" src="{{ post.image.url }}" loading="lazy" alt="{{ post.title }}">
-            {% endif %}
-        </article>
+        <div class="article_container">
+            <article class="blog_post">
+                <div class="blog_post_meeple">
+                    <img class="blog_post_meeple--red" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-red">
+                    <img class="blog_post_meeple--yellow" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-yellow">
+                    <img class="blog_post_meeple--green" src="../../../media/meeple-svgrepo-com.svg" alt="meeple-green">
+                </div>
+                <h2>{{ post.title }}</h2>
+                <p class="blog_post_date"><strong>{{ post.created_at|date:"F j, Y, g:i a" }}</strong></p>
+                <div class="blog_post_content">{{ post.content|linebreaks }}</div>
+                {% if post.image %}
+                <img class="blog_post_img" src="{{ post.image.url }}" loading="lazy" alt="{{ post.title }}">
+                {% endif %}
+            </article>
+        </div>
     {% endfor %}
 
     <div class="pagination">
