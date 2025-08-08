@@ -37,7 +37,7 @@ def select_table(request):
         request.session["selected_table"]["price"] = "{:.2f}".format(request.session["selected_table"]["price"])
 
         request.session.modified = True
-        return redirect("bookings:select_date_time")
+        return redirect("bookings:select_date_time_new")
 
     tables = Table.objects.all()
     return render(request, "bookings/select_table.html", {"tables": tables})
@@ -87,7 +87,13 @@ def select_date_time(request):
         "selected_table_seats": selected_table_seats,
     })
 
+# new date time code start //////////////////////////////////////////////
 
+def select_date_time_new(request):
+    return render(request, "bookings/select_date_time_new.html")
+
+
+# new date time code end ///////////////////////////////////////////////
 def get_booked_times(request):
     selected_date = request.GET.get("date")
     if not selected_date:
@@ -255,3 +261,10 @@ def booking_failure(request):
 
     return render(request, "bookings/booking_failure.html")
 
+# Admin views
+
+def booking_availability(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return render(request, "bookings/booking_availability.html")
+    else:
+        return redirect("bookings:select_table")

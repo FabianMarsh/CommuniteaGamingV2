@@ -615,7 +615,6 @@ footer {
     color: #000;
 }
 
-/* Modal Overlay */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -627,7 +626,6 @@ footer {
     display: none;
 }
 
-/* Overlay Active */
 .modal-overlay.active {
     display: block;
 }
