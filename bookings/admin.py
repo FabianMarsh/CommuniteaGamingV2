@@ -1,5 +1,8 @@
-from django.contrib import admin
+from django.core.exceptions import ValidationError
+from django.contrib import admin, messages
+from django.db import transaction
 from .models import Table, TimeSlot, Booking
+from .services import update_block, update_seats
 from datetime import date, timedelta
 
 # Register your models here.
@@ -68,6 +71,34 @@ class BookingAdmin(admin.ModelAdmin):
     )
 
     list_filter = ("date", "timeslot", ThisWeekFilter, NextWeekFilter)
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+
+        try:
+            if obj.table.private_hire:
+                update_block(obj.date, obj.timeslot)
+                messages.success(request, "Private hire block applied.")
+            else:
+                update_seats(obj.date, obj.timeslot, obj.table.seats_required)
+                messages.success(request, f"{obj.table.seats_required} seats allocated.")
+        except ValidationError as e:
+            messages.error(request, f"Seat allocation failed: {e}")
+
+    def delete_model(self, request, obj):
+        with transaction.atomic():
+            try:
+                if obj.table.private_hire:
+                    update_block(obj.date, obj.timeslot, delete=True)
+                    messages.success(request, "Private hire block removed.")
+                else:
+                    update_seats(obj.date, obj.timeslot, obj.table.seats_required, delete=True)
+                    messages.success(request, f"{obj.table.seats_required} seats restored.")
+            except ValidationError as e:
+                messages.error(request, f"Seat restoration failed: {e}")
+
+        super().delete_model(request, obj)
+
 
     def table_name(self, obj):
         return obj.table.name

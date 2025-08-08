@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.db.models import Sum, Q
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
+from .services import update_block, update_seats
 
 import json
 import logging
@@ -206,58 +207,6 @@ def confirm_booking(request):
     except Exception as e:
         logger.error(f"Booking failed: {e}", exc_info=True)
         return redirect("bookings:booking_failure")
-
-
-def update_seats(date, time_slot, seats_needed):
-    time_slots = list(TimeSlot.objects.order_by("timeslot"))
-    current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
-
-    if current_index is None:
-        return
-
-    relevant_slots = [
-        time_slots[current_index - 1] if current_index > 0 else None,
-        time_slot,
-        time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
-    ]
-
-    with transaction.atomic():
-        for slot in filter(None, relevant_slots):
-            avail, _ = SlotAvailability.objects.get_or_create(
-                date=date,
-                timeslot=slot,
-                defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
-            )
-
-            if avail.seats_available < seats_needed:
-                logger.warning(f"Attempted to subtract {seats_needed} seats, but only {avail.seats_available} available for slot {slot}")
-                raise ValidationError("Not enough seats available for this timeslot.")
-
-            avail.seats_available -= seats_needed
-            avail.save()
-
-
-def update_block(date, time_slot):
-    time_slots = list(TimeSlot.objects.order_by("timeslot"))
-    current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
-
-    if current_index is None:
-        return
-
-    affected_slots = [
-        time_slots[current_index - 1] if current_index > 0 else None,
-        time_slot,
-        time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
-    ]
-
-    for slot in filter(None, affected_slots):
-        availability, _ = SlotAvailability.objects.get_or_create(
-            date=date,
-            timeslot=slot,
-            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
-        )
-        availability.is_blocked_for_hire = True
-        availability.save()
 
 
 def booking_success(request):
