@@ -286,16 +286,27 @@ nav {
         li {
             padding: 10px 0;
             border-bottom: var(--ter-bg-col) 1px solid;
+            position: relative;
 
             a:hover, .active{
                 color: var(--ter-bg-col);
             }
+        }
+        li:hover .nav_list_sub_list {
+            opacity: 1;
+            pointer-events: all;
         }
     }
 
     a {
         color: var(--sec-col);
     }
+}
+
+.nav_list_sub_list {
+    margin-left: 20px;
+
+    transition: all 0.3s ease;
 }
 
 #nav_close {
@@ -334,6 +345,21 @@ nav {
             li {
                 border: none;
             }
+        }
+    }
+    .nav_list_sub_list {
+        position: absolute;
+
+        background-color: var(--sec-col);
+        border-radius: 15px;
+        margin-left: 0;
+        margin-top: 10px;
+        
+        opacity: 0;
+        pointer-events: none;
+
+        a {
+            color: var(--sec-bg-col);
         }
     }
     #nav_close {

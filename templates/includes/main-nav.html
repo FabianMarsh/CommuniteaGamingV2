@@ -4,6 +4,13 @@
     </li>
     <li class="nav_list_item">
         <a href="{% url 'bookings:select_table' %}">Book a table</a>
+        {% if request.user.is_authenticated and request.user.is_staff %}
+            <ul class="nav_list_sub_list">
+                <li class="nav_list_sub_list_item">
+                    <a href="#">Availability</a>
+                </li>
+            </ul>
+        {% endif %}
     </li>
     <li class="nav_list_item">
         <a href="{% url 'about' %}">About us</a>
