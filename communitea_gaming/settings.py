@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'appointment',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -107,22 +106,6 @@ AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by email
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-# django-appointment
-
-APPOINTMENT_WEBSITE_NAME = 'Communitea Gaming'
-
-# django q default settings
-
-Q_CLUSTER = {
-    'name': 'CommuniteaCluster',
-    'workers': 4,
-    'timeout': 60,  # task must finish within 60 seconds
-    'retry': 90,    # broker waits 90 seconds before retrying
-    'queue_limit': 50,
-    'bulk': 10,
-    'orm': 'default',
-}
 
 
 SITE_ID = config('SITE_ID', default=1, cast=int)

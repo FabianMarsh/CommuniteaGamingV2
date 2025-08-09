@@ -191,6 +191,24 @@ h1 {
     display: none;
 }
 
+table.availability {
+  border-collapse: collapse;
+  width: 100%;
+}
+table.availability th, table.availability td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+table.availability .blocked {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+table.availability .full {
+  background-color: #ffeeba;
+  color: #856404;
+}
+
 /* full calendar */
 
 #calendar {

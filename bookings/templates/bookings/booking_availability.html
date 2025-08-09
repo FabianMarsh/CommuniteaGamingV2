@@ -5,9 +5,18 @@
     <link rel="stylesheet" href="{% static 'css/bookings.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
+    <script src="{% static 'js/booking_availability.js' %}"></script>    
+{% endblock %}
+
 {% block content %}
-  <div class="booking_availability">
-    <h1>Booking Availability</h1>
-    
+    <div class="booking_availability">
+        <h1>Booking Availability</h1>
+        <div id="availabilityTable"></div>
+        
+        <input type="date" id="datePicker">
+        <button onclick="loadAvailability()">Check Availability</button>
+
   </div>
 {% endblock %}

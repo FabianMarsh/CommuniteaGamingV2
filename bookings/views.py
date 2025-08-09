@@ -1,16 +1,11 @@
 from .models import Table, TimeSlot, Booking, SlotAvailability
-from django.db import transaction
-from django.core.exceptions import ValidationError
 from .forms import BookingDetailsForm
-from django.shortcuts import render
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from datetime import datetime, date
-from django.contrib import messages
+from datetime import date
 from django.db.models import Sum, Q
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
-from .services import update_block, update_seats
+from .services import update_block, update_seats, get_available_times, get_booked_times
 
 import json
 import logging
@@ -87,63 +82,7 @@ def select_date_time(request):
         "selected_table_seats": selected_table_seats,
     })
 
-# new date time code start //////////////////////////////////////////////
 
-def select_date_time_new(request):
-    return render(request, "bookings/select_date_time_new.html")
-
-
-# new date time code end ///////////////////////////////////////////////
-def get_booked_times(request):
-    selected_date = request.GET.get("date")
-    if not selected_date:
-        return JsonResponse({"error": "Date is required"}, status=400)
-
-    selected_table = request.session.get("selected_table")
-    is_private = selected_table and selected_table.get("private_hire") in [True, "True", 1, "1"]
-
-    if is_private:
-        private_table_ids = Table.objects.filter(private_hire=True).values_list("id", flat=True)
-        booked = Booking.objects.filter(date=selected_date, table_id__in=private_table_ids)
-    else:
-        private_table_ids = Table.objects.filter(private_hire=True).values_list("id", flat=True)
-        booked = Booking.objects.exclude(table_id__in=private_table_ids).filter(date=selected_date)
-
-    booked_times = booked.values_list("timeslot__timeslot", flat=True)
-
-    return JsonResponse({"times": list(booked_times)})
-
-
-def get_available_times(request):
-    selected_date = request.GET.get("date")
-    if not selected_date:
-        return JsonResponse({"error": "No date provided."}, status=400)
-
-    selected_table = request.session.get("selected_table") or {}
-    is_private = selected_table.get("private_hire", False)
-    selected_seats = selected_table.get("seats_required", 0)
-
-    time_slots = TimeSlot.objects.order_by("timeslot")
-    response_data = {"times": []}
-
-    for slot in time_slots:
-        availability, _ = SlotAvailability.objects.get_or_create(
-            date=selected_date,
-            timeslot=slot,
-            defaults={"seats_available": 68}
-        )
-
-        # Step 2 — hide blocked slots from non-private-hire bookings
-        if is_private and availability.is_blocked_for_hire:
-            continue
-
-        if not is_private or availability.seats_available >= selected_seats:
-            response_data["times"].append({
-                "time": str(slot.timeslot),
-                "available_seats": availability.seats_available
-            })
-
-    return JsonResponse(response_data)
 
 
 def enter_details(request):
@@ -192,9 +131,9 @@ def confirm_booking(request):
             print("adjusted booking")
             # Update availability
             if is_private:
-                update_block(selected_date, selected_time_slot)
+                update_block(selected_date, selected_table, selected_time_slot)
             else:
-                update_seats(selected_date, selected_time_slot, seats_needed)
+                update_seats(selected_date, selected_time_slot, selected_table, seats_needed)
 
             request.session["booking_id"] = new_booking.id
             return redirect("bookings:booking_success")
@@ -268,3 +207,4 @@ def booking_availability(request):
         return render(request, "bookings/booking_availability.html")
     else:
         return redirect("bookings:select_table")
+
