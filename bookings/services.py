@@ -95,7 +95,7 @@ def get_booked_times(request):
 
 def get_slot_availability_for_date(date, session_data=None):
     is_private = session_data.get("private_hire", False)
-    selected_seats = session_data.get("seats_required", 0)
+    selected_seats = session_data.get("seats_required", settings.DEFAULT_AVAILABLE_SEATS)
 
     time_slots = TimeSlot.objects.order_by("timeslot")
     results = []
@@ -105,16 +105,16 @@ def get_slot_availability_for_date(date, session_data=None):
         availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
 
         total_seats = sum(a.seats_available for a in availabilities)
-        is_blocked = any(a.is_blocked_for_hire for a in availabilities)
+        is_hired = any(a.is_blocked_for_hire for a in availabilities)
 
-        if is_private and is_blocked:
+        if is_private and is_hired:
             continue
 
         if not is_private or total_seats >= selected_seats:
             results.append({
                 "time": str(slot.timeslot),
                 "available_seats": total_seats,
-                "is_blocked": is_blocked
+                "is_hried": is_hired
             })
 
     return results
@@ -148,12 +148,12 @@ def get_availability_matrix(request):
             )
 
             total_seats = sum(a.seats_available for a in availabilities)
-            is_blocked = any(a.is_blocked_for_hire for a in availabilities)
+            is_hired = any(a.is_blocked_for_hire for a in availabilities)
 
             matrix.append({
                 "time": str(slot.timeslot),
                 "available_seats": total_seats,
-                "is_blocked": is_blocked
+                "is_hired": is_hired
             })
 
         return JsonResponse({
