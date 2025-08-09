@@ -37,7 +37,7 @@ def select_table(request):
         request.session["selected_table"]["price"] = "{:.2f}".format(request.session["selected_table"]["price"])
 
         request.session.modified = True
-        return redirect("bookings:select_date_time_new")
+        return redirect("bookings:select_date_time")
 
     tables = Table.objects.all()
     return render(request, "bookings/select_table.html", {"tables": tables})
