@@ -5,7 +5,10 @@ from datetime import date
 from django.db.models import Sum, Q
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
-from .services import update_block, update_seats, get_available_times, get_booked_times
+from .services import update_block, update_seats, get_available_times, get_booked_times, update_slot_blocks
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 import json
 import logging
@@ -208,3 +211,16 @@ def booking_availability(request):
     else:
         return redirect("bookings:select_table")
 
+@csrf_exempt
+@require_POST
+def update_blocks(request):
+    data = json.loads(request.body)
+    date = data.get("date")
+    updates = data.get("updates", [])
+
+    try:
+        update_slot_blocks(date, updates)
+    except ValueError as e:
+        return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"status": "success"})

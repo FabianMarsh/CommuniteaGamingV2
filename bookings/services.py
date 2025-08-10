@@ -1,9 +1,10 @@
 from django.db import transaction
+from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 from .models import SlotAvailability, TimeSlot, Booking, Table
 from django.conf import settings
 import logging
-from django.http import JsonResponse
+
 
 logger = logging.getLogger(__name__)
 
@@ -164,3 +165,23 @@ def get_availability_matrix(request):
     except Exception as e:
         logger.error(f"Error in availability view: {e}")
         return JsonResponse({"error": "Internal server error"}, status=500)
+
+
+def update_slot_blocks(date, updates):
+    if not date or not isinstance(updates, list):
+        raise ValueError("Invalid input")
+
+    for item in updates:
+        time = item.get("time")
+        is_blocked = item.get("is_blocked", False)
+        logger.debug(f"Updating {time} on {date} to blocked={is_blocked}")
+        if not time:
+            continue  # or raise error if strict
+
+        availability, _ = SlotAvailability.objects.get_or_create(
+            date=date,
+            timeslot=time,
+            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
+        )
+        availability.is_blocked_for_hire = is_blocked
+        availability.save()

@@ -97,6 +97,20 @@ TEMPLATES = [
     },
 ]
 
+LOGGING = {
+    "version": 1,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}
+
+
 # may need to be ()
 
 AUTHENTICATION_BACKENDS = [

@@ -34,6 +34,46 @@ document.addEventListener("DOMContentLoaded", () => {
   dateInput.addEventListener("change", loadAvailability);
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const saveBtn = document.getElementById("saveBlockChanges");
+  if (!saveBtn) {
+    console.warn("Save button not found");
+    return;
+  }
+
+  saveBtn.addEventListener("click", () => {
+    const date = document.getElementById("datePicker").value;
+    if (!date) {
+      alert("Please select a date.");
+      return;
+    }
+
+    const checkboxes = document.querySelectorAll(".block-checkbox");
+    const updates = Array.from(checkboxes).map(cb => ({
+      time: cb.dataset.time,
+      is_blocked: cb.checked
+    }));
+
+    const baseUrl = window.location.origin;
+
+    fetch(`${baseUrl}/bookings/update_blocks/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date, updates })
+    })
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to update blocks");
+      return res.json();
+    })
+    .then(() => loadAvailability())
+    .catch(err => {
+      console.error("Error saving block changes:", err);
+      alert("Could not save changes. Please try again.");
+    });
+  });
+});
+
+
 function loadAvailability() {
   const date = document.getElementById("datePicker").value;
   if (!date) {
