@@ -156,6 +156,11 @@ button:hover a {
     color: var(--pri-col);
 }
 
+#calendar a {
+    min-width: initial;
+    min-height: initial;
+}
+
 /* header **********************************/
 
 header {
@@ -276,15 +281,18 @@ header {
 }
 
 nav.active {
-    right: 0;
+    transform: translateX(0);
 }
 
 /* nav */
 
 nav {
-    position: absolute;
-    inset: 0 -100vw 0 auto;
-    z-index: 99;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99; 
+    transform: translateX(100%);
+
     background-color: var(--sec-bg-col);
     font-family: var(--sec-font);
     min-width: 80%;
@@ -347,6 +355,7 @@ nav {
     }
     nav {
         position: initial;
+        transform: initial;
         padding: 0;
         width: initial;
         min-width: initial;

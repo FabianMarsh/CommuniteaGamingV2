@@ -1505,3 +1505,15 @@ td {
   cursor: initial;
 }
 
+.fc-button-primary{
+    background-color: var(--sec-bg-col) !important;
+    color: var(--sec-col) !important;
+}
+
+.fc-button-primary:hover{
+    color: var(--ter-bg-col) !important;
+}
+
+.fc-button-primary:focus{
+    box-shadow: none !important;
+}

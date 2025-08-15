@@ -17,7 +17,7 @@
         <div id="time-slot-menu">
             <h3>Available Times</h3>
             <ul id="available-times">
-                <li>Select a day and we'll let you know what tables are available</li>
+                <li class="no_times">Select a day and we'll let you know what tables are available</li>
             </ul>
             <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
                 {% csrf_token %}

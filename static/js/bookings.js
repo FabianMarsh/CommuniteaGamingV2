@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth", // Default view — change if needed
     selectable: true,
+    contentHeight: 'auto',
     slotMinTime: '12:00:00',
     slotMaxTime: '21:00:00',
     allDaySlot: false,
@@ -75,7 +76,7 @@ function loadAvailableTimes(selectedDate) {
             timesList.innerHTML = "";
 
             if (filteredTimes.length === 0) {
-                timesList.innerHTML = "<li>No available times for this date.</li>";
+                timesList.innerHTML = "<li class='no_times'>No available times for this date.</li>";
                 return;
             }
 
@@ -110,17 +111,17 @@ function enableTimeSlotSelection(calendar) {
 
 
 // restrict available times height
-document.addEventListener("DOMContentLoaded", function () {
-    function adjustMenuHeight() {
-        const calendar = document.getElementById("calendar");
-        const menu = document.getElementById("time-slot-menu");
+// document.addEventListener("DOMContentLoaded", function () {
+//     function adjustMenuHeight() {
+//         const calendar = document.getElementById("calendar");
+//         const menu = document.getElementById("time-slot-menu");
 
-        if (calendar && menu) {
-            menu.style.maxHeight = calendar.clientHeight + "px";
-        }
-    }
+//         if (calendar && menu) {
+//             menu.style.maxHeight = calendar.clientHeight + "px";
+//         }
+//     }
 
-    window.addEventListener("resize", adjustMenuHeight);
-    adjustMenuHeight();
-});
+//     window.addEventListener("resize", adjustMenuHeight);
+//     adjustMenuHeight();
+// });
 
