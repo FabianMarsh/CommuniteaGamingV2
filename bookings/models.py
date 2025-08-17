@@ -30,6 +30,7 @@ class SlotAvailability(models.Model):
     timeslot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
     seats_available = models.PositiveIntegerField(default=68)
     is_blocked_for_hire = models.BooleanField(default=False)
+    is_blocked = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('date', 'timeslot')

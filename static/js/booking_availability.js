@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
 
     const baseUrl = window.location.origin;
-
+    console.log("Sending payload:", { date, updates });
     fetch(`${baseUrl}/bookings/update_blocks/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -85,11 +85,13 @@ function loadAvailability() {
 
   fetch(`${baseUrl}/bookings/availability_matrix/?date=${date}`)
     .then(res => res.json())
-    .then(data => renderTable(data))
+    .then(data => {
+        console.log("Fetched availability:", data);
+        renderTable(data);
+    })
     .catch(err => {
       console.error("Error loading availability:", err);
-      document.getElementById("availabilityTable").innerHTML =
-        "<p>Could not load availability. Please try again.</p>";
+      document.getElementById("availabilityTable").innerHTML = "<p>Could not load availability. Please try again.</p>";
     });
 }
 
@@ -126,7 +128,7 @@ function renderTable(data) {
     const hireCell = `<td>${row.is_hired ? "Hired" : "Open"}</td>`;
     const blockCell = `
       <td>
-        <input type="checkbox" data-time="${row.time}" ${row.is_blocked ? "checked" : ""}>
+        <input type="checkbox" class="block-checkbox" data-time="${row.time}" ${row.is_blocked ? "checked" : ""}>
       </td>
     `;
 

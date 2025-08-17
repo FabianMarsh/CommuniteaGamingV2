@@ -229,7 +229,11 @@ def booking_availability(request):
 @csrf_exempt
 @require_POST
 def update_blocks(request):
-    data = json.loads(request.body)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError as e:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
+
     date = data.get("date")
     updates = data.get("updates", [])
 
@@ -239,3 +243,4 @@ def update_blocks(request):
         return JsonResponse({"error": str(e)}, status=400)
 
     return JsonResponse({"status": "success"})
+
