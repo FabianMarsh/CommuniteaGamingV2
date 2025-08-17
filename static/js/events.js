@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(data => {
         const isAdmin = data.is_admin;
         const screenWidth = window.innerWidth;
-        let initialView = screenWidth >= 768 ? (isAdmin ? "timeGridWeek" : "dayGridDay"): "timeGridDay";
+        let initialView = screenWidth >= 800 ? "timeGridWeek" : "dayGridDay";
         
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: initialView,

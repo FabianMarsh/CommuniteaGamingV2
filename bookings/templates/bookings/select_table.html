@@ -6,8 +6,11 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Book a Table</h1>
-
+    <div class="headings">
+        <h1>Booking a Table</h1>
+        <h2>Really needing a table?</h2>
+        <h3>We've got you covered! Just pick a table and we'll guide you through our process</h3>
+    </div>
     {% if tables %}
         <ul class="tables_list">
             {% for table in tables %}

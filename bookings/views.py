@@ -3,6 +3,7 @@ from .forms import BookingDetailsForm
 from django.shortcuts import render, redirect
 from datetime import date
 from django.db.models import Sum, Q
+from django.db import transaction
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
 from .services import update_block, update_seats, get_available_times, get_booked_times, update_slot_blocks
@@ -86,8 +87,6 @@ def select_date_time(request):
     })
 
 
-
-
 def enter_details(request):
     if request.method == "POST":
         form = BookingDetailsForm(request.POST)
@@ -111,7 +110,8 @@ def confirm_booking(request):
     selected_date = request.session.get("selected_date")
     user_data = request.session.get("user_data")
 
-    if not selected_table or not selected_time_id:
+    if not selected_table or not selected_time_id or not user_data:
+        logger.warning("Missing session data for booking")
         return redirect("bookings:select_table")
 
     try:
@@ -120,41 +120,56 @@ def confirm_booking(request):
         seats_needed = selected_table.get("seats_required", 0)
 
         if request.method == "POST":
-            table_id = selected_table["id"]
+            try:
+                with transaction.atomic():
+                    table_id = selected_table["id"]
+                    logger.info(
+                        f"Booking attempt: table={table_id}, time={selected_time_slot.id}, "
+                        f"date={selected_date}, private={is_private}, seats={seats_needed}"
+                    )
 
-            # Create the booking
-            new_booking = Booking.objects.create(
-                table_id=table_id,
-                timeslot_id=selected_time_slot.id,
-                date=selected_date,
-                name=user_data.get("name"),
-                email=user_data.get("email"),
-                phone=user_data.get("phone"),
-            )
-            print("adjusted booking")
-            # Update availability
-            if is_private:
-                update_block(selected_date, selected_table, selected_time_slot)
-            else:
-                update_seats(selected_date, selected_time_slot, selected_table, seats_needed)
+                    new_booking = Booking.objects.create(
+                        table_id=table_id,
+                        timeslot_id=selected_time_slot.id,
+                        date=selected_date,
+                        name=user_data.get("name"),
+                        email=user_data.get("email"),
+                        phone=user_data.get("phone"),
+                    )
 
-            request.session["booking_id"] = new_booking.id
-            return redirect("bookings:booking_success")
+                    if is_private:
+                        update_block(selected_date, selected_time_slot)
+                    else:
+                        update_seats(selected_date, selected_time_slot, seats_needed)
 
-        # Convert price from string to decimal safely
-        price_str = selected_table['price']
-        selected_table['price'] = Decimal(price_str)
+                    request.session["booking_id"] = new_booking.id
+                    return redirect("bookings:booking_success")
+
+            except Exception as e:
+                logger.error(f"Booking transaction failed: {e}", exc_info=True)
+                return redirect("bookings:booking_failure")
+
+        # Convert price from string to Decimal safely
+        try:
+            selected_table["price"] = Decimal(selected_table["price"])
+        except (KeyError, ValueError, TypeError) as e:
+            logger.warning(f"Price conversion failed: {e}")
+            selected_table["price"] = Decimal("0.00")
 
         return render(request, "bookings/confirm_booking.html", {
             "selected_table": selected_table,
             "selected_time_slot": selected_time_slot,
             "selected_date": selected_date,
-            "user_data": user_data
+            "user_data": user_data,
         })
 
-    except Exception as e:
-        logger.error(f"Booking failed: {e}", exc_info=True)
+    except TimeSlot.DoesNotExist:
+        logger.error(f"TimeSlot not found for ID: {selected_time_id}")
         return redirect("bookings:booking_failure")
+    except Exception as e:
+        logger.error(f"Booking view failed: {e}", exc_info=True)
+        return redirect("bookings:booking_failure")
+
 
 
 def booking_success(request):

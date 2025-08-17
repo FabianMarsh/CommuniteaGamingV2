@@ -5,6 +5,9 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    text-align: center;
+
     gap: 20px;
     padding: 200px clamp(1rem, 10vw, 15%);
 
@@ -28,6 +31,17 @@ main {
     }
 }
 
+.headings {
+    margin-bottom: clamp(20px, 6vw, 50px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    h1 {
+        margin: 0;
+    }
+}
+
 button a {
     color: inherit;
 }
@@ -38,6 +52,7 @@ h1 {
 
 .select_date_time {
     width: 100%;
+    position: relative;
 
     display: flex;
     justify-content: center;
@@ -46,6 +61,64 @@ h1 {
     flex-wrap: wrap;
     gap: clamp(20px, 4vw, 50px);
 }
+
+#select-date-time-loading {
+    position: absolute;
+    background: #00000030;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.3s ease;
+}
+
+#select-date-time-loading.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.loading_meeple {
+    height: 50px;
+    width: 50px;
+    animation: hop 1s ease-in-out infinite;
+}
+
+.loading_meeple--red {
+    filter: var(--meeple-filter-red);
+    animation-delay: 0s;
+}
+.loading_meeple--blue {
+    filter: var(--meeple-filter-blue);
+    animation-delay: 0.2s;
+}
+.loading_meeple--yellow {
+    filter: var(--meeple-filter-yellow);
+    animation-delay: 0.4s;
+}
+
+@keyframes hop {
+  0%, 20%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60%, 80% {
+    transform: translateY(0);
+  }
+}
+
+
 
 .tables_list {
     display: flex;
@@ -110,6 +183,8 @@ h1 {
     
     border: 1px solid var(--pri-col);
     border-radius: 35px;
+
+    transition: all 0.3s ease;
 
     h3 {
         margin-bottom: clamp(10px, 6vw, 20px);
@@ -211,6 +286,7 @@ h1 {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 #book_another {

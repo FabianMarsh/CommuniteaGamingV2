@@ -6,7 +6,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Confirm Your Booking</h1>
+    <div class="headings">
+        <h1>Confirm Your Booking</h1>
+        <h2>Did we get it all?</h2>
+    </div>
 
     <form method="POST" action="{% url 'bookings:confirm_booking' %}">
         {% csrf_token %}

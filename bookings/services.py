@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def update_seats(date, time_slot, table, seats_needed, delete=False):
+def update_seats(date, time_slot, seats_needed, delete=False):
     time_slots = list(TimeSlot.objects.order_by("timeslot"))
     current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
 
@@ -28,7 +28,6 @@ def update_seats(date, time_slot, table, seats_needed, delete=False):
             avail, _ = SlotAvailability.objects.get_or_create(
                 date=date,
                 timeslot=slot,
-                table=table,
 
                 defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
             )
@@ -40,12 +39,11 @@ def update_seats(date, time_slot, table, seats_needed, delete=False):
                     logger.warning(f"Attempted to subtract {seats_needed} seats, but only {avail.seats_available} available for slot {slot}")
                     raise ValidationError("Not enough seats available for this timeslot.")
                 avail.seats_available -= seats_needed
-
             avail.save()
 
 
 
-def update_block(date, time_slot, table, delete=False):
+def update_block(date, time_slot, delete=False):
     time_slots = list(TimeSlot.objects.order_by("timeslot"))
     current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
 
@@ -62,7 +60,6 @@ def update_block(date, time_slot, table, delete=False):
         availability, _ = SlotAvailability.objects.get_or_create(
             date=date,
             timeslot=slot,
-            table=table,
 
             defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
         )

@@ -64,6 +64,8 @@ function loadAvailableTimes(selectedDate) {
         return;
     }
 
+    show_loading()
+
     fetch(`${baseUrl}/bookings/get_available_times/?date=${selectedDate}`)
         .then(response => response.json())
         .then(data => {
@@ -77,6 +79,7 @@ function loadAvailableTimes(selectedDate) {
 
             if (filteredTimes.length === 0) {
                 timesList.innerHTML = "<li class='no_times'>No available times for this date.</li>";
+                hide_loading()
                 return;
             }
 
@@ -90,10 +93,12 @@ function loadAvailableTimes(selectedDate) {
                 };
                 timesList.appendChild(listItem);
             });
+            hide_loading()
         })
         .catch(error => {
             console.error("Failed to fetch available times:", error);
             timesList.innerHTML = "<li>Failed to load times. Please try again.</li>";
+            hide_loading()
         });
 }
 
@@ -102,13 +107,19 @@ function enableTimeSlotSelection(calendar) {
     calendar.on('select', function(info) {
         const selectedDate = info.startStr.split("T")[0];
         const selectedTime = info.startStr.split("T")[1].slice(0,5) + ":00";
-
         document.getElementById("selected-time-field").value = selectedTime;
         document.getElementById("selected-date-field").value = selectedDate;
         document.getElementById("booking-form").submit();
     });
 }
 
+function show_loading() {
+    document.getElementById("select-date-time-loading").classList.add('active')
+}
+
+function hide_loading() {
+    document.getElementById("select-date-time-loading").classList.remove('active')
+}
 
 // restrict available times height
 // document.addEventListener("DOMContentLoaded", function () {

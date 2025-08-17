@@ -12,7 +12,13 @@
 {% endblock %}
 
 {% block content %}
+    <h1>When are we thinking?</h1>
     <div class="select_date_time">
+        <div id="select-date-time-loading">
+            <img class="loading_meeple loading_meeple--red" src="../../../media/meeple-svgrepo-com.svg" alt="meeple red">
+            <img class="loading_meeple loading_meeple--blue" src="../../../media/meeple-svgrepo-com.svg" alt="meeple blue">
+            <img class="loading_meeple loading_meeple--yellow" src="../../../media/meeple-svgrepo-com.svg" alt="meeple yellow">
+        </div>
         <div id="calendar"></div>
         <div id="time-slot-menu">
             <h3>Available Times</h3>
@@ -22,7 +28,6 @@
             <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" id="selected-table-seats" value="{{ selected_table_seats }}">
-                <!-- <input type="hidden" id="selected-table-seats" value="4"> -->
                 <input type="hidden" name="date" id="selected-date-field">
                 <input type="hidden" name="time" id="selected-time-field">
             </form>
