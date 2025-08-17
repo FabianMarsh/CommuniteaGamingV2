@@ -1,10 +1,13 @@
+import { show_loading, hide_loading } from "./loading.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   const calendarEl = document.getElementById("calendar");
   if (!calendarEl) return;
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth", // Default view — change if needed
+    initialView: "dayGridMonth",
     selectable: true,
+    contentHeight: 'auto',
     slotMinTime: '12:00:00',
     slotMaxTime: '21:00:00',
     allDaySlot: false,
@@ -63,19 +66,25 @@ function loadAvailableTimes(selectedDate) {
         return;
     }
 
+    show_loading()
+
     fetch(`${baseUrl}/bookings/get_available_times/?date=${selectedDate}`)
         .then(response => response.json())
         .then(data => {
+            console.log("Fetched times:", data.times);
             const filteredTimes = data.times.filter(slot => {
                 const isPast = selectedDate === today && slot.time < currentTime;
                 const enoughSeats = slot.available_seats >= selectedSeats;
-                return !isPast && enoughSeats;
+                const isBlocked = slot.is_blocked; 
+
+                return !isPast && enoughSeats && !isBlocked;
             });
 
             timesList.innerHTML = "";
 
             if (filteredTimes.length === 0) {
-                timesList.innerHTML = "<li>No available times for this date.</li>";
+                timesList.innerHTML = "<li class='no_times'>No available times for this date.</li>";
+                hide_loading()
                 return;
             }
 
@@ -89,10 +98,12 @@ function loadAvailableTimes(selectedDate) {
                 };
                 timesList.appendChild(listItem);
             });
+            hide_loading()
         })
         .catch(error => {
             console.error("Failed to fetch available times:", error);
             timesList.innerHTML = "<li>Failed to load times. Please try again.</li>";
+            hide_loading()
         });
 }
 
@@ -101,26 +112,24 @@ function enableTimeSlotSelection(calendar) {
     calendar.on('select', function(info) {
         const selectedDate = info.startStr.split("T")[0];
         const selectedTime = info.startStr.split("T")[1].slice(0,5) + ":00";
-
         document.getElementById("selected-time-field").value = selectedTime;
         document.getElementById("selected-date-field").value = selectedDate;
         document.getElementById("booking-form").submit();
     });
 }
 
-
 // restrict available times height
-document.addEventListener("DOMContentLoaded", function () {
-    function adjustMenuHeight() {
-        const calendar = document.getElementById("calendar");
-        const menu = document.getElementById("time-slot-menu");
+// document.addEventListener("DOMContentLoaded", function () {
+//     function adjustMenuHeight() {
+//         const calendar = document.getElementById("calendar");
+//         const menu = document.getElementById("time-slot-menu");
 
-        if (calendar && menu) {
-            menu.style.maxHeight = calendar.clientHeight + "px";
-        }
-    }
+//         if (calendar && menu) {
+//             menu.style.maxHeight = calendar.clientHeight + "px";
+//         }
+//     }
 
-    window.addEventListener("resize", adjustMenuHeight);
-    adjustMenuHeight();
-});
+//     window.addEventListener("resize", adjustMenuHeight);
+//     adjustMenuHeight();
+// });
 

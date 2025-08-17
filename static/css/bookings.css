@@ -62,64 +62,6 @@ h1 {
     gap: clamp(20px, 4vw, 50px);
 }
 
-#select-date-time-loading {
-    position: absolute;
-    background: #00000030;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-
-    opacity: 0;
-    pointer-events: none;
-
-    transition: all 0.3s ease;
-}
-
-#select-date-time-loading.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.loading_meeple {
-    height: 50px;
-    width: 50px;
-    animation: hop 1s ease-in-out infinite;
-}
-
-.loading_meeple--red {
-    filter: var(--meeple-filter-red);
-    animation-delay: 0s;
-}
-.loading_meeple--blue {
-    filter: var(--meeple-filter-blue);
-    animation-delay: 0.2s;
-}
-.loading_meeple--yellow {
-    filter: var(--meeple-filter-yellow);
-    animation-delay: 0.4s;
-}
-
-@keyframes hop {
-  0%, 20%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60%, 80% {
-    transform: translateY(0);
-  }
-}
-
-
-
 .tables_list {
     display: flex;
     align-items: center;
@@ -247,7 +189,7 @@ h1 {
     width: 35px;
     height: 35px;
     margin-right: 8px;
-    background-image: url('../../media/meeple-svgrepo-com.svg');
+    background-image: url('../images/meeple-svgrepo-com.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -302,13 +244,14 @@ table.availability th, table.availability td {
   padding: 8px;
   text-align: center;
 }
-table.availability .blocked {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-table.availability .full {
-  background-color: #ffeeba;
-  color: #856404;
+
+
+.booking_availability_loading {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 /* full calendar */

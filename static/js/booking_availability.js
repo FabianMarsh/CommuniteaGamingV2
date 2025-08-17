@@ -1,3 +1,5 @@
+import { show_loading, hide_loading } from "./loading.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("datePicker");
   const prevBtn = document.getElementById("datePrev");
@@ -35,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const saveBtn = document.getElementById("saveBlockChanges");
+  const saveBtn = document.getElementById("saveChanges");
   if (!saveBtn) {
     console.warn("Save button not found");
     return;
@@ -55,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }));
 
     const baseUrl = window.location.origin;
-    console.log("Sending payload:", { date, updates });
+
+    show_loading()
+
     fetch(`${baseUrl}/bookings/update_blocks/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -69,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(err => {
       console.error("Error saving block changes:", err);
       alert("Could not save changes. Please try again.");
+    })
+    .finally(() => {
+        hide_loading()
     });
   });
 });
@@ -82,18 +89,25 @@ function loadAvailability() {
   }
 
   const baseUrl = window.location.origin;
+  const table = document.getElementById("availabilityTable");
+
+  show_loading();
 
   fetch(`${baseUrl}/bookings/availability_matrix/?date=${date}`)
     .then(res => res.json())
     .then(data => {
-        console.log("Fetched availability:", data);
-        renderTable(data);
+      console.log("Fetched availability:", data);
+      renderTable(data);
     })
     .catch(err => {
       console.error("Error loading availability:", err);
-      document.getElementById("availabilityTable").innerHTML = "<p>Could not load availability. Please try again.</p>";
+      table.innerHTML = "<p>Could not load availability. Please try again.</p>";
+    })
+    .finally(() => {
+      hide_loading();
     });
 }
+
 
 function renderTable(data) {
   const container = document.getElementById("availabilityTable");
@@ -115,7 +129,7 @@ function renderTable(data) {
     <th>Time Slot</th>
     <th>Seats</th>
     <th>Private Hire</th>
-    <th>Block</th>
+    <th>Blocked</th>
   `;
   table.appendChild(header);
 
@@ -138,3 +152,25 @@ function renderTable(data) {
 
   container.appendChild(table);
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const blockButton = document.getElementById('blockDay');
+
+  blockButton.addEventListener('click', function () {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = true;
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const unblockButton = document.getElementById('unblockDay');
+
+  unblockButton.addEventListener('click', function () {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  });
+});

@@ -5,8 +5,45 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: clamp(20px, 6vw, 50px);
-    padding: 200px clamp(5%, 6vw, 25%);
+
+    text-align: center;
+
+    gap: 20px;
+    padding: 200px clamp(1rem, 10vw, 15%);
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+
+        input {
+            background: none;
+            border: none;
+            border-bottom: 1px solid black;
+
+        }
+
+        input::placeholder {
+            color: rgba(0, 0, 0, 0.386);
+        }
+    }
+}
+
+.headings {
+    margin-bottom: clamp(20px, 6vw, 50px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    h1 {
+        margin: 0;
+    }
+}
+
+button a {
+    color: inherit;
 }
 
 h1 {
@@ -15,13 +52,14 @@ h1 {
 
 .select_date_time {
     width: 100%;
+    position: relative;
 
     display: flex;
     justify-content: center;
-    flex-direction: row;
+    align-items: center;
+    flex-direction: column;
     flex-wrap: wrap;
-    align-items: flex-start;
-    gap: clamp(20px, 6vw, 50px);
+    gap: clamp(20px, 4vw, 50px);
 }
 
 .tables_list {
@@ -42,6 +80,7 @@ h1 {
     justify-content: center;
     width: 100%;
     min-height: 200px;
+    border-radius: 35px;
     hr {
         width: 100%;
         border-color: var(--ter-col);
@@ -80,39 +119,83 @@ h1 {
 }
 
 #time-slot-menu {
-    width: clamp(250px, 6vw, 360px);
-
+    max-width: 360px;
     padding: 30px;
+    text-align: center;
+    
     border: 1px solid var(--pri-col);
-    overflow-y: auto;
+    border-radius: 35px;
+
+    transition: all 0.3s ease;
+
+    h3 {
+        margin-bottom: clamp(10px, 6vw, 20px);
+    }
 }
 
 #available-times {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     flex: 1;
-    min-height: 100%;
+    max-height: inherit;
+    gap: 4px;
     li {
         min-height: 44px;
+        min-width: 100px;
         cursor: pointer;
         display: flex;
+        justify-content: center;
         align-items: center;
+
+        color: #fff;
+        background-color: #0000003a;
+        
+    }
+    li.no_times {
+        background-color: initial;
+        color: var(--pri-col);
     }
 }
 
-#available-times li::before {
+@media all and (min-width: 1020px) {
+    .select_date_time {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #time-slot-menu {
+        width: 30%;
+    }
+}
+
+/* commented out until can override full calendar overflow scroll 
+#available-times::-webkit-scrollbar {
+  width: 10px;
+}
+
+#available-times::-webkit-scrollbar-track {
+  background: var(--ter-col);
+  border-radius: 5px;
+}
+
+#available-times::-webkit-scrollbar-thumb {
+  background: var(--sec-bg-col);
+  border-radius: 5px;
+} */
+
+/* #available-times li::before {
     content: "";
     display: inline-block;
     width: 35px;
     height: 35px;
     margin-right: 8px;
-    background-image: url('../../media/meeple-svgrepo-com.svg');
+    background-image: url('../images/meeple-svgrepo-com.svg');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
     opacity: 0.65;
-}
+} */
 
 #available-times li:nth-child(3n - 2):before {  
     filter: var(--meeple-filter-red);
@@ -124,10 +207,54 @@ h1 {
     filter: var(--meeple-filter-yellow);
 }
 
+.booking_failure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.booking_failure_footer {
+    margin-top: 20px;
+    
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.booking_success_header {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#book_another {
+    display: none;
+}
+
+table.availability {
+  border-collapse: collapse;
+  width: 100%;
+}
+table.availability th, table.availability td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+
+.booking_availability {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 /* full calendar */
 
 #calendar {
     max-width: 700px;
-    min-width: 250px;
     flex: 1;
 }

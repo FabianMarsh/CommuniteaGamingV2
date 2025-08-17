@@ -91,6 +91,7 @@ strong {
     text-decoration: underline;
 }
 
+
 /* vars */
 :root {
     --pri-bg-col: #c2e1e3;
@@ -101,13 +102,16 @@ strong {
     --sec-col: #cbd9ed;     /* Mid-desaturated blue, echoes bg */
     --ter-col: #7e4f63;     /* Dusty mauve-brown – warm neutral */
 
-    --meeple-filter-red: brightness(0) saturate(100%) invert(19%) sepia(91%) saturate(6855%) hue-rotate(360deg) brightness(101%) contrast(120%);
-    --meeple-filter-blue: brightness(0) saturate(100%) invert(10%) sepia(99%) saturate(6430%) hue-rotate(240deg) brightness(97%) contrast(128%);
-    --meeple-filter-yellow: brightness(0) saturate(100%) invert(89%) sepia(80%) saturate(4794%) hue-rotate(2deg) brightness(103%) contrast(102%);
+    --meeple-filter-red: brightness(0) saturate(100%) invert(20%) sepia(85%) saturate(3393%) hue-rotate(346deg) brightness(100%) contrast(99%);
+    --meeple-filter-blue: brightness(0) saturate(100%) invert(64%) sepia(28%) saturate(7476%) hue-rotate(189deg) brightness(99%) contrast(93%);
+    --meeple-filter-yellow: brightness(0) saturate(100%) invert(99%) sepia(20%) saturate(7132%) hue-rotate(319deg) brightness(104%) contrast(100%);
+    --meeple-filter-green: brightness(0) saturate(100%) invert(29%) sepia(99%) saturate(692%) hue-rotate(82deg) brightness(93%) contrast(89%);
 
-    --meeple-filter-red-dropshadow: brightness(0) saturate(100%) invert(19%) sepia(91%) saturate(6855%) hue-rotate(360deg) brightness(101%) contrast(120%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
-    --meeple-filter-blue-dropshadow: brightness(0) saturate(100%) invert(10%) sepia(99%) saturate(6430%) hue-rotate(240deg) brightness(97%) contrast(128%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
-    --meeple-filter-yellow-dropshadow: brightness(0) saturate(100%) invert(89%) sepia(80%) saturate(4794%) hue-rotate(2deg) brightness(103%) contrast(102%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-red-dropshadow: brightness(0) saturate(100%) invert(20%) sepia(85%) saturate(3393%) hue-rotate(346deg) brightness(100%) contrast(99%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-blue-dropshadow: brightness(0) saturate(100%) invert(64%) sepia(28%) saturate(7476%) hue-rotate(189deg) brightness(99%) contrast(93%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-yellow-dropshadow: brightness(0) saturate(100%) invert(99%) sepia(20%) saturate(7132%) hue-rotate(319deg) brightness(104%) contrast(100%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    --meeple-filter-green-dropshadow: brightness(0) saturate(100%) invert(29%) sepia(99%) saturate(692%) hue-rotate(82deg) brightness(93%) contrast(89%) drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+
 
     --sec-font: Helvetica, sans-serif;
 
@@ -119,39 +123,89 @@ strong {
 }
 
 main {
-    margin-top: 18vh;
+    margin-top: clamp(12vh, 2vw, 18vh);
+    min-height: 31vh;
+}
+
+button, .btn {
+    border: none;
+    background-color: var(--sec-bg-col);
+    color: var(--sec-col);
+    padding: 15px 25px;
+    border-radius: 15px;
+    cursor: pointer;
+
+    min-height: initial;
+    min-width: initial;
+
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+button a {
+    color: var(--sec-col);
+    transition: none;
+}
+
+button:hover,
+.btn:hover {
+    background: var(--pri-bg-col);
+    color: var(--pri-col);
+}
+
+button:hover a {
+    color: var(--pri-col);
+}
+
+#calendar a {
+    min-width: initial;
+    min-height: initial;
 }
 
 /* header **********************************/
 
 header {
     background: var(--pri-bg-col);
-    padding: clamp(20px, 6vw, 50px) 5%;
+    padding: clamp(5px, 2vw, 50px) 5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     flex-direction: column;
-    gap: 20px;
+    gap: clamp(5px, 2vw, 20px);
     color: var(--pri-col);
 
-    position: fixed;
+    position: absolute;
     inset: 0 0 auto 0;
     z-index: 99;
 }
 
 .fade {
     position: absolute;
-    inset: auto 0 -60px 0;
+    inset: auto 0 clamp(-20px, 2vw, -60px) 0;
     width: 100%;
-    height: 60px;
+    height: clamp(20px, 2vw, 60px);
     background-color: var(--pri-bg-col);
     opacity: 0.9;
+}
+
+@media (min-width: 650px) {
+    .fade {
+        bottom: -60px;
+        height: 60px;
+    }
 }
 
 @media (min-width: 682px) {
     header {
         flex-direction: row;
+    }
+}
+
+
+
+@media (min-width: 995px) {
+    header {
+        position: fixed;
     }
 }
 
@@ -182,6 +236,11 @@ header {
 .logo_image {
     max-width: 100px;
     max-height: 100px;
+    border-radius: 35px;
+}
+
+.logo_text {
+    max-width: clamp(250px, 30vw, 600px);
 }
 
 .nav_mobile_icon {
@@ -222,15 +281,18 @@ header {
 }
 
 nav.active {
-    right: 0;
+    transform: translateX(0);
 }
 
 /* nav */
 
 nav {
-    position: absolute;
-    inset: 0 -100vw 0 auto;
-    z-index: 99;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99; 
+    transform: translateX(100%);
+
     background-color: var(--sec-bg-col);
     font-family: var(--sec-font);
     min-width: 80%;
@@ -247,16 +309,27 @@ nav {
         li {
             padding: 10px 0;
             border-bottom: var(--ter-bg-col) 1px solid;
+            position: relative;
 
             a:hover, .active{
                 color: var(--ter-bg-col);
             }
+        }
+        li:hover .nav_list_sub_list {
+            opacity: 1;
+            pointer-events: all;
         }
     }
 
     a {
         color: var(--sec-col);
     }
+}
+
+.nav_list_sub_list {
+    margin-left: 20px;
+
+    transition: all 0.3s ease;
 }
 
 #nav_close {
@@ -282,6 +355,7 @@ nav {
     }
     nav {
         position: initial;
+        transform: initial;
         padding: 0;
         width: initial;
         min-width: initial;
@@ -297,12 +371,27 @@ nav {
             }
         }
     }
+    .nav_list_sub_list {
+        position: absolute;
+
+        background-color: var(--sec-col);
+        border-radius: 15px;
+        margin-left: 0;
+        margin-top: 10px;
+        
+        opacity: 0;
+        pointer-events: none;
+
+        a {
+            color: var(--sec-bg-col);
+        }
+    }
     #nav_close {
         display: none;
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
     nav ul {
         gap: 50px
     }
@@ -312,7 +401,7 @@ nav {
 
 .social_links {
     position: absolute;
-    bottom: -104px;
+    bottom: clamp(-64px, 2vw, -104px);
     width: 100%;
     left: 0;
     display: flex;
@@ -351,7 +440,7 @@ nav {
 .welcome {
     height: 100vh;
     max-height: 820px;
-    background-image: url(/media/catan-background.png);
+    background-image: url('../images/catan-background.png');
     background-position: center;
     background-size: cover;
 
@@ -373,6 +462,12 @@ nav {
         position: relative;
         z-index: 2;
     }
+}
+
+.welcome_image {
+    max-width: clamp(300px, 35vw, 750px);
+    position: relative;
+    z-index: 2;
 }
 
 .welcome::after {
@@ -544,7 +639,6 @@ footer {
     color: #000;
 }
 
-/* Modal Overlay */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -556,8 +650,73 @@ footer {
     display: none;
 }
 
-/* Overlay Active */
 .modal-overlay.active {
     display: block;
 }
 
+/* payment link */
+
+.payment_link {
+    font-size: 23px;
+    a {
+        text-decoration: underline;
+    }
+}
+
+/* loading */
+
+#loading-overlay {
+    position: absolute;
+    background: #00000030;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.3s ease;
+}
+
+#loading-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.loading_meeple {
+    height: 50px;
+    width: 50px;
+    animation: hop 1s ease-in-out infinite;
+}
+
+.loading_meeple--red {
+    filter: var(--meeple-filter-red);
+    animation-delay: 0s;
+}
+.loading_meeple--blue {
+    filter: var(--meeple-filter-blue);
+    animation-delay: 0.2s;
+}
+.loading_meeple--yellow {
+    filter: var(--meeple-filter-yellow);
+    animation-delay: 0.4s;
+}
+
+@keyframes hop {
+  0%, 20%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60%, 80% {
+    transform: translateY(0);
+  }
+}

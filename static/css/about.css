@@ -94,7 +94,7 @@ p {
     width: 80px;
     height: 80px;
 
-    background-image: url('../../media/meeple-svgrepo-com.svg');
+    background-image: url('../images/meeple-svgrepo-com.svg');
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;

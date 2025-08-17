@@ -34,7 +34,6 @@ def update_seats(date, time_slot, seats_needed, delete=False):
             )
             if delete:
                 avail.seats_available += seats_needed
-                logger.info(f"Restored {seats_needed} seats to slot {slot}")
             else:
                 if avail.seats_available < seats_needed:
                     logger.warning(f"Attempted to subtract {seats_needed} seats, but only {avail.seats_available} available for slot {slot}")
@@ -197,8 +196,6 @@ def update_slot_blocks(date_str, updates):
             timeslot = TimeSlot.objects.get(timeslot=time_obj)
         except TimeSlot.DoesNotExist:
             raise ValueError(f"No TimeSlot found for {time_obj}")
-
-        logger.debug(f"Updating {date} — {time_obj} to blocked={is_blocked}")
 
         availability, _ = SlotAvailability.objects.get_or_create(
             date=date,

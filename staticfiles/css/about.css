@@ -2,12 +2,11 @@ main {
     color: var(--pri-col);
     margin-top: 17vh;
     background-color: var(--ter-bg-col);
-    padding: 200px clamp(5%, 6vw, 25%);
+    padding: 200px clamp(1rem, 10vw, 15%);
 }
 
 p {
     width: 100%;
-    max-width: 800px;
     line-height: 25px;
 }
 
@@ -95,7 +94,7 @@ p {
     width: 80px;
     height: 80px;
 
-    background-image: url('../../media/meeple-svgrepo-com.svg');
+    background-image: url('../images/meeple-svgrepo-com.svg');
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;

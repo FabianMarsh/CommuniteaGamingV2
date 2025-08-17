@@ -440,7 +440,7 @@ nav {
 .welcome {
     height: 100vh;
     max-height: 820px;
-    background-image: url(/media/catan-background.png);
+    background-image: url('../images/catan-background.png');
     background-position: center;
     background-size: cover;
 
@@ -661,4 +661,62 @@ footer {
     a {
         text-decoration: underline;
     }
+}
+
+/* loading */
+
+#loading-overlay {
+    position: absolute;
+    background: #00000030;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.3s ease;
+}
+
+#loading-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.loading_meeple {
+    height: 50px;
+    width: 50px;
+    animation: hop 1s ease-in-out infinite;
+}
+
+.loading_meeple--red {
+    filter: var(--meeple-filter-red);
+    animation-delay: 0s;
+}
+.loading_meeple--blue {
+    filter: var(--meeple-filter-blue);
+    animation-delay: 0.2s;
+}
+.loading_meeple--yellow {
+    filter: var(--meeple-filter-yellow);
+    animation-delay: 0.4s;
+}
+
+@keyframes hop {
+  0%, 20%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60%, 80% {
+    transform: translateY(0);
+  }
 }

@@ -8,16 +8,16 @@
 
 {% block extra_js %}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
-    <script src="{% static 'js/bookings.js' %}"></script>    
+    <script type="module" src="{% static 'js/bookings.js' %}"></script>    
 {% endblock %}
 
 {% block content %}
     <h1>When are we thinking?</h1>
     <div class="select_date_time">
-        <div id="select-date-time-loading">
-            <img class="loading_meeple loading_meeple--red" src="../../../media/meeple-svgrepo-com.svg" alt="meeple red">
-            <img class="loading_meeple loading_meeple--blue" src="../../../media/meeple-svgrepo-com.svg" alt="meeple blue">
-            <img class="loading_meeple loading_meeple--yellow" src="../../../media/meeple-svgrepo-com.svg" alt="meeple yellow">
+        <div id="loading-overlay">
+            <img class="loading_meeple loading_meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
+            <img class="loading_meeple loading_meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
+            <img class="loading_meeple loading_meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
         </div>
         <div id="calendar"></div>
         <div id="time-slot-menu">
