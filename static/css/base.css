@@ -124,7 +124,8 @@ strong {
 
 main {
     margin-top: clamp(130px, 13%, 160px);
-    min-height: 31vh;
+    min-height: 36vh;
+    position: relative;
 }
 
 button, .btn {

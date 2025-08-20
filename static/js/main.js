@@ -12,3 +12,19 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
 });
+
+function adjustMainMargin() {
+  const header = document.querySelector("header");
+  const main = document.querySelector("main");
+
+  if (header && main) {
+    const headerHeight = header.offsetHeight;
+    main.style.marginTop = `${headerHeight}px`;
+  }
+}
+
+// Run on initial load
+window.addEventListener("DOMContentLoaded", adjustMainMargin);
+
+// Run on resize to keep it responsive
+window.addEventListener("resize", adjustMainMargin);
