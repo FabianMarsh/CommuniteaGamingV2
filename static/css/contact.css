@@ -1,6 +1,6 @@
 main {
     color: var(--pri-col);
-    margin-top: 17vh;
+    /* margin-top: 17vh; */
     background-color: var(--ter-bg-col);
     display: flex;
     justify-content: center;

@@ -123,7 +123,7 @@ strong {
 }
 
 main {
-    margin-top: clamp(12vh, 2vw, 18vh);
+    margin-top: clamp(130px, 13%, 160px);
     min-height: 31vh;
 }
 
@@ -181,7 +181,7 @@ header {
 
 .fade {
     position: absolute;
-    inset: auto 0 clamp(-20px, 2vw, -60px) 0;
+    inset: auto 0 clamp(-20px, 2vw, -59px) 0;
     width: 100%;
     height: clamp(20px, 2vw, 60px);
     background-color: var(--pri-bg-col);
@@ -190,7 +190,7 @@ header {
 
 @media (min-width: 650px) {
     .fade {
-        bottom: -60px;
+        bottom: -59px;
         height: 60px;
     }
 }
