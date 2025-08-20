@@ -19,6 +19,7 @@
 
     <div id="calendar"></div>
 
+    {% if superuser %}
     <div id="add-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -89,4 +90,5 @@
             </form>
         </div>
     </div>
+    {% endif %}
 {% endblock %}

@@ -14,12 +14,12 @@
 {% block content %}
     <div class="booking_availability">
         <h1>Booking Availability</h1>
+        <div id="loading-overlay">
+            <img class="loading_meeple loading_meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
+            <img class="loading_meeple loading_meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
+            <img class="loading_meeple loading_meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
+        </div>
         <div class="booking_availability_loading">
-            <div id="loading-overlay">
-                <img class="loading_meeple loading_meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
-                <img class="loading_meeple loading_meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
-                <img class="loading_meeple loading_meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
-            </div>
             <div class="booking_availability_header">
                 <button id="datePrev"><i class="fa-solid fa-chevron-left"></i></button>
                 <input type="date" id="datePicker">
