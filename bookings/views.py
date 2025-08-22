@@ -218,14 +218,6 @@ def booking_failure(request):
 
     return render(request, "bookings/booking_failure.html")
 
-# Admin views
-
-def booking_availability(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        return render(request, "bookings/booking_availability.html")
-    else:
-        return redirect("bookings:select_table")
-
 @csrf_exempt
 @require_POST
 def update_blocks(request):
@@ -243,4 +235,20 @@ def update_blocks(request):
         return JsonResponse({"error": str(e)}, status=400)
 
     return JsonResponse({"status": "success"})
+
+# Admin views
+
+def booking_availability(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return render(request, "bookings/booking_availability.html")
+    else:
+        return redirect("bookings:select_table")
+
+def view_bookings(request):
+    if request.user.is_authenticated and request.user.is_staff:
+        return render(request, "bookings/view_bookings.html")
+    else:
+        return redirect("bookings:select_table")
+
+
 

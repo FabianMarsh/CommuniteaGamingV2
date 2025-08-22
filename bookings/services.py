@@ -5,6 +5,7 @@ from .models import SlotAvailability, TimeSlot, Booking, Table
 from django.conf import settings
 import logging
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -169,6 +170,49 @@ def get_availability_matrix(request):
     except Exception as e:
         logger.error(f"Error in availability view: {e}")
         return JsonResponse({"error": "Internal server error"}, status=500)
+
+@require_GET
+def bookings_for_date(request):
+    try:
+        selected_date = request.GET.get("date")
+        if not selected_date:
+            return JsonResponse({"error": "Date is required"}, status=400)
+
+        time_slots = TimeSlot.objects.order_by("timeslot")
+        matrix = []
+
+        for slot in time_slots:
+            bookings = Booking.objects.filter(date=selected_date, timeslot=slot)
+
+            slot_data = {
+                "timeslot": str(slot.timeslot),  # e.g. "12:00:00"
+                "bookings": [
+                    {
+                        "table_id": booking.table.id,
+                        "table_name": str(booking.table),
+                        "name": booking.name,
+                        "email": booking.email,
+                        "phone": booking.phone,
+                        "paid": booking.paid,
+                    }
+                    for booking in bookings
+                ]
+            }
+
+            matrix.append(slot_data)
+
+        return JsonResponse({
+            "date": selected_date,
+            "matrix": matrix
+        })
+
+    except Exception as e:
+        logger.error(f"Error in bookings view: {e}")
+        return JsonResponse({"error": "Internal server error"}, status=500)
+
+
+
+
 
 @csrf_exempt
 def update_slot_blocks(date_str, updates):

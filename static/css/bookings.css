@@ -235,11 +235,13 @@ h1 {
     display: none;
 }
 
-table.availability {
+table.availability,
+table.bookings {
   border-collapse: collapse;
   width: 100%;
 }
-table.availability th, table.availability td {
+table.availability th, table.availability td,
+table.bookings th, table.bookings td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
@@ -252,6 +254,19 @@ table.availability th, table.availability td {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.bookings {
+    width: 100%;
+}
+
+.bookings th {
+    min-width: clamp(100px, 10vw, 200px);
+}
+
+.table_wrapper {
+    width: 100%;
+    overflow-x: auto;
 }
 
 /* full calendar */

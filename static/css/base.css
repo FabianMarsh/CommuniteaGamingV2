@@ -330,6 +330,7 @@ nav {
 
 .nav_list_sub_list {
     margin-left: 20px;
+    flex-direction: column;
 
     transition: all 0.3s ease;
 }

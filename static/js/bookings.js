@@ -71,7 +71,6 @@ function loadAvailableTimes(selectedDate) {
     fetch(`${baseUrl}/bookings/get_available_times/?date=${selectedDate}`)
         .then(response => response.json())
         .then(data => {
-            console.log("Fetched times:", data.times);
             const filteredTimes = data.times.filter(slot => {
                 const isPast = selectedDate === today && slot.time < currentTime;
                 const enoughSeats = slot.available_seats >= selectedSeats;

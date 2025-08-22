@@ -93,7 +93,6 @@ function loadAvailability() {
   fetch(`${baseUrl}/bookings/availability_matrix/?date=${date}`)
     .then(res => res.json())
     .then(data => {
-        console.log("Fetched availability:", data);
         renderTable(data);
     })
     .catch(err => {
