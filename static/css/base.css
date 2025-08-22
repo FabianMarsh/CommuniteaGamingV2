@@ -126,6 +126,7 @@ main {
     margin-top: clamp(130px, 13%, 160px);
     min-height: 36vh;
     position: relative;
+    z-index: 0;
 }
 
 button, .btn {
@@ -538,6 +539,19 @@ nav {
             color: var(--sec-col);
         }
     }
+}
+
+/* background */
+
+.cup {
+    position: absolute;
+    bottom: 0;
+    left: -70px;
+    z-index: -1;
+    opacity: 0.05;
+
+    width: clamp(200px, 100%, 840px);
+    aspect-ratio: 1/1;
 }
 
 /* footer **********************************/

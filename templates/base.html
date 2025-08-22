@@ -73,6 +73,10 @@
         {% block content %}
         {% endblock %}
 
+        {% if request.path != '/' and request.path != '/blog/' %} <!-- if not homepage -->
+            <img class="cup" src="{% static  'images/coffee-cup-opt.svg' %}" alt="" role="presentation">
+        {% endif %}
+
         {% block postloadjs %}
         {% endblock %}
     </main>
