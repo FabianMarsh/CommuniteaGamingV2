@@ -188,6 +188,7 @@ def bookings_for_date(request):
                 "timeslot": str(slot.timeslot),  # e.g. "12:00:00"
                 "bookings": [
                     {
+                        "id": booking.id,
                         "table_id": booking.table.id,
                         "table_name": str(booking.table),
                         "name": booking.name,

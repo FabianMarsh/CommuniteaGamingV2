@@ -37,6 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
   dateInput.addEventListener("change", loadBookings);
 });
 
+document.querySelector('.close-button').addEventListener('click', () => {
+  document.getElementById('bookingModal').classList.remove('active');
+});
+
 function loadBookings() {
   const date = document.getElementById("datePicker").value;
   if (!date) {
@@ -83,10 +87,8 @@ function renderTable(data) {
   });
   table.appendChild(header);
 
-  // Determine max number of bookings in any slot
   const maxRows = Math.max(...data.matrix.map(slot => slot.bookings.length));
 
-  // Create rows
   for (let i = 0; i < maxRows; i++) {
     const tr = document.createElement("tr");
 
@@ -96,16 +98,36 @@ function renderTable(data) {
 
       if (booking) {
         td.innerHTML = `
-            ${booking.table_name}<br>
-            ${booking.name}<br>
-            ${booking.table_name.toLowerCase().includes("private") 
-                ? (booking.paid ? "Paid" : "Not paid") 
-                : ""}
+          ${booking.table_name}<br>
+          ${booking.name}<br>
+          ${booking.table_name.toLowerCase().includes("private") 
+            ? (booking.paid ? "Paid" : "Not paid") 
+            : ""}
         `;
 
+        td.classList.add("booking-cell");
+        td.dataset.bookingId = booking.id;
+
+        td.addEventListener("click", () => {
+          console.log("click"); // ✅ Should now log
+          const modalDetails = document.getElementById("modalDetails");
+          modalDetails.innerHTML = `
+            <strong>Table:</strong> ${booking.table_name}<br>
+            <strong>Name:</strong> ${booking.name}<br>
+            <strong>Email:</strong> ${booking.email}<br>
+            <strong>Phone:</strong> ${booking.phone}<br>
+            <strong>Paid:</strong> ${
+                booking.table_name.toLowerCase().includes("private")
+                    ? (booking.paid ? "Paid" : "Not paid")
+                    : (booking.paid ? "Yes" : "No")
+            }<br>
+            <strong>Notes:</strong> ${booking.notes ? booking.notes : "No Notes"}
+          `;
+          document.getElementById("bookingModal").classList.add("active");
+        });
 
       } else {
-        td.innerHTML = ""; // empty cell
+        td.innerHTML = "";
       }
 
       tr.appendChild(td);

@@ -46,3 +46,4 @@ class Booking(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True, null=True)
     paid = models.BooleanField(default=False)
+    notes = models.TextField(blank=True, null=True)
