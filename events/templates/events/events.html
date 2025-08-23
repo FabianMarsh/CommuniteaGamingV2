@@ -19,76 +19,86 @@
 
     <div id="calendar"></div>
 
-    {% if superuser %}
-    <div id="add-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Add Event</h2>
-            <form id="event-form" action="{% url 'add_event' %}" method="POST">
-                {% csrf_token %}
+    {% if request.user.is_staff %}
+        <div id="add-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add Event</h2>
+                <form id="event-form" action="{% url 'add_event' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
                 
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required>
-            
-                <label for="description">Description:</label>
-                <textarea id="description" name="description"></textarea>
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description"></textarea>
 
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-            
-                <label for="start_time">Start Time:</label>
-                <input type="time" id="start_time" name="start_time" required>
-            
-                <label for="end_time">End Time:</label>
-                <input type="time" id="end_time" name="end_time" required>
-
-                <label for="recurrence">Recurrence:</label>
-                <select id="recurrence" name="recurrence">
-                    <option value="none">None</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                </select>
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
                 
-                <button type="submit">Save Event</button>
-            </form>
+                    <label for="start_time">Start Time:</label>
+                    <input type="time" id="start_time" name="start_time" required>
+                
+                    <label for="end_time">End Time:</label>
+                    <input type="time" id="end_time" name="end_time" required>
+
+                    <label for="recurrence">Recurrence:</label>
+                    <select id="recurrence" name="recurrence">
+                        <option value="none">None</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                    
+                    <button type="submit">Save Event</button>
+                </form>
+            </div>
         </div>
-    </div>
-    
-    <div id="edit-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Edit Event</h2>
-            <form id="edit-event-form" method="POST">
-                {% csrf_token %}
-                <input type="hidden" id="edit-event-id" name="event_id">
-                
-                <label for="edit-title">Title:</label>
-                <input type="text" id="edit-title" name="title" required>
-    
-                <label for="edit-description">Description:</label>
-                <textarea id="edit-description" name="description"></textarea>
-    
-                <label for="edit-date">Date:</label>
-                <input type="date" id="edit-date" name="date" required>
-    
-                <label for="edit-start-time">Start Time:</label>
-                <input type="time" id="edit-start-time" name="start_time" required>
-                
-                <label for="edit-end-time">End Time:</label>
-                <input type="time" id="edit-end-time" name="end_time" required>
+        
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Event</h2>
+                <form id="edit-event-form" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="edit-event-id" name="event_id">
+                    
+                    <label for="edit-title">Title:</label>
+                    <input type="text" id="edit-title" name="title" required>
+        
+                    <label for="edit-description">Description:</label>
+                    <textarea id="edit-description" name="description"></textarea>
+        
+                    <label for="edit-date">Date:</label>
+                    <input type="date" id="edit-date" name="date" required>
+        
+                    <label for="edit-start-time">Start Time:</label>
+                    <input type="time" id="edit-start-time" name="start_time" required>
+                    
+                    <label for="edit-end-time">End Time:</label>
+                    <input type="time" id="edit-end-time" name="end_time" required>
 
-                <label for="edit-recurrence" hidden>Recurrence:</label>
-                <select id="edit-recurrence" name="recurrence" hidden>
-                    <option value="none">None</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                </select>
-                <button type="submit">Save Changes</button>
-                <button type="button" id="delete-event-btn">Delete Event</button>
-            </form>
+                    <label for="edit-recurrence" hidden>Recurrence:</label>
+                    <select id="edit-recurrence" name="recurrence" hidden>
+                        <option value="none">None</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" id="delete-event-btn">Delete Event</button>
+                </form>
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div id="view-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="title"></h2>
+                <p id="description"></p>
+                <p id="start_time"><strong>Start Time: </strong></p>
+                <p id="end_time"><strong>End Time: </strong></p>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
