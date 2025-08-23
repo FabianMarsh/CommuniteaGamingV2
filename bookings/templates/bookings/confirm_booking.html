@@ -19,6 +19,13 @@
         {% if user_data.phone %}
             <p><strong>Phone:</strong> {{ user_data.phone }}</p>
         {% endif %}
+
+        {% if user_data.notes %}
+            <p><strong>Notes:</strong> {{ user_data.notes }}</p>
+        {% else %}
+            <p><strong>Notes:</strong> Nothing to specify</p>
+        {% endif %}
+
         <p><strong>Table:</strong> {{ selected_table.name }}</p>
         <p><strong>Time Slot:</strong> {{ selected_time_slot.timeslot|time:"H:i" }}</p>
         <p><strong>Date:</strong> {{ selected_date }}</p>

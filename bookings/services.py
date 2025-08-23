@@ -195,6 +195,7 @@ def bookings_for_date(request):
                         "email": booking.email,
                         "phone": booking.phone,
                         "paid": booking.paid,
+                        "notes": booking.notes,
                     }
                     for booking in bookings
                 ]

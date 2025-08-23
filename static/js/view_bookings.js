@@ -41,6 +41,7 @@ document.querySelector('.close-button').addEventListener('click', () => {
   document.getElementById('bookingModal').classList.remove('active');
 });
 
+
 function loadBookings() {
   const date = document.getElementById("datePicker").value;
   if (!date) {
@@ -66,7 +67,6 @@ function loadBookings() {
       hide_loading();
     });
 }
-
 
 
 function renderTable(data) {

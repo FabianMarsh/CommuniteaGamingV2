@@ -18,7 +18,7 @@ function adjustMainMargin() {
   const main = document.querySelector("main");
 
   if (header && main) {
-    const headerHeight = header.offsetHeight;
+    const headerHeight = header.offsetHeight -1;
     main.style.marginTop = `${headerHeight}px`;
   }
 }

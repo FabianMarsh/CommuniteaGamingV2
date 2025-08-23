@@ -94,7 +94,8 @@ def enter_details(request):
             request.session["user_data"] = {
                 "name": form.cleaned_data["name"],
                 "email": form.cleaned_data["email"],
-                "phone": form.cleaned_data["phone"]
+                "phone": form.cleaned_data["phone"],
+                "notes": form.cleaned_data["notes"]
             }
 
             return redirect("bookings:confirm_booking")
@@ -135,6 +136,7 @@ def confirm_booking(request):
                         name=user_data.get("name"),
                         email=user_data.get("email"),
                         phone=user_data.get("phone"),
+                        notes=user_data.get("notes")
                     )
 
                     if is_private:

@@ -16,3 +16,12 @@ class BookingDetailsForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={"placeholder": "07... or +44..."})
     )
+    notes = forms.CharField(
+        label="Additional Notes (optional)",
+        required=False,
+        widget=forms.Textarea(attrs={
+            "placeholder": "Any extra info you'd like to share...",
+            "rows": 4,
+            "cols": 40
+        })
+    )
