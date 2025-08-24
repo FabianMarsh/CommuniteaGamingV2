@@ -39,7 +39,7 @@ def select_table(request):
         return redirect("bookings:select_date_time")
 
     tables = Table.objects.all()
-    return render(request, "bookings/select_table.html", {"tables": tables})
+    return render(request, "bookings/select-table.html", {"tables": tables})
 
 
 def select_date_time(request):
@@ -80,7 +80,7 @@ def select_date_time(request):
 
             available_times.append(slot.timeslot.strftime("%H:%M"))
 
-    return render(request, "bookings/select_date_time.html", {
+    return render(request, "bookings/select-date-time.html", {
         "available_times": available_times,
         "selected_date": selected_date,
         "selected_table_seats": selected_table_seats,
@@ -102,7 +102,7 @@ def enter_details(request):
     else:
         form = BookingDetailsForm()
 
-    return render(request, "bookings/enter_details.html", {"form": form})
+    return render(request, "bookings/enter-details.html", {"form": form})
 
 
 def confirm_booking(request):
@@ -158,7 +158,7 @@ def confirm_booking(request):
             logger.warning(f"Price conversion failed: {e}")
             selected_table["price"] = Decimal("0.00")
 
-        return render(request, "bookings/confirm_booking.html", {
+        return render(request, "bookings/confirm-booking.html", {
             "selected_table": selected_table,
             "selected_time_slot": selected_time_slot,
             "selected_date": selected_date,
@@ -208,7 +208,7 @@ def booking_success(request):
 
     request.session.flush()
 
-    return render(request, "bookings/booking_success.html", {
+    return render(request, "bookings/booking-success.html", {
         "table_name": booking.table.name,
         "booking_date": booking.date,
         "timeslot": booking.timeslot.timeslot,
@@ -218,7 +218,7 @@ def booking_success(request):
 
 def booking_failure(request):
 
-    return render(request, "bookings/booking_failure.html")
+    return render(request, "bookings/booking-failure.html")
 
 @csrf_exempt
 @require_POST
@@ -242,13 +242,13 @@ def update_blocks(request):
 
 def booking_availability(request):
     if request.user.is_authenticated and request.user.is_staff:
-        return render(request, "bookings/booking_availability.html")
+        return render(request, "bookings/booking-availability.html")
     else:
         return redirect("bookings:select_table")
 
 def view_bookings(request):
     if request.user.is_authenticated and request.user.is_staff:
-        return render(request, "bookings/view_bookings.html")
+        return render(request, "bookings/view-bookings.html")
     else:
         return redirect("bookings:select_table")
 
