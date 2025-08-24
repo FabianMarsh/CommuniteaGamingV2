@@ -12,7 +12,7 @@
     <p>
         {{ who_we_are.text }}
     </p>
-    <!-- <ul class="about_social-links"> as social links are on everypage I dont feel this is needed
+    <!-- <ul class="about-social-links"> as social links are on everypage I dont feel this is needed
         <li>
             <a class="facebook" href="https://www.facebook.com/profile.php?id=61573046213188" target="_blank"><i class="fa-brands fa-facebook"></i></a>
         </li>
@@ -28,18 +28,18 @@
 {% if team %}
     <div class="team">
         <h1>Meet The Team</h1>
-        <ul class="team_members">
+        <ul class="team-members">
             {% for member in team %}
             <li>
                 {% if member.photo %}
-                    <div class="team_members_img_wrapper">
-                        <img class="team_members_img" src="{{ member.photo.url }}" alt="{{ member.name }}">
+                    <div class="team-members-img-wrapper">
+                        <img class="team-members-img" src="{{ member.photo.url }}" alt="{{ member.name }}">
                     </div>
                 {% endif %}
-                <div class="team_members_content">
-                    <h2 class="team_members_name">{{ member.name }}</h2>
-                    <p class="team_members_role"><strong>Role:</strong> {{ member.role }}</p>
-                    <p class="team_members_bio">{{ member.bio }}</p>
+                <div class="team-members-content">
+                    <h2 class="team-members_name">{{ member.name }}</h2>
+                    <p class="team-members-role"><strong>Role:</strong> {{ member.role }}</p>
+                    <p class="team-members_bio">{{ member.bio }}</p>
                 </div>
             </li>
             {% endfor %}
