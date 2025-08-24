@@ -1,7 +1,7 @@
 export function show_loading() {
-    document.getElementById("loading-overlay").classList.add('active')
+    document.getElementById("loadingOverlay").classList.add('active')
 }
 
 export function hide_loading() {
-    document.getElementById("loading-overlay").classList.remove('active')
+    document.getElementById("loadingOverlay").classList.remove('active')
 }

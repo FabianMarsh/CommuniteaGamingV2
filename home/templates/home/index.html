@@ -3,20 +3,20 @@
 
 {% block content %}
     <div class="welcome">
-        <img class="welcome_image" src="{% static 'images/logo/textlogo-background-removed.png' %}" alt="communitea gaming">
-        <ul class="welcome_links">
-            <li class="welcome_links_item">
+        <img class="welcome-image" src="{% static 'images/logo/textlogo-background-removed.png' %}" alt="communitea gaming">
+        <ul class="welcome-links">
+            <li class="welcome-links_item">
                 <a href="{% url 'events' %}">What's on</a>
             </li>
-            <li class="welcome_links_item">
+            <li class="welcome-links_item">
                 <a href="{% url 'bookings:select_table' %}">Book a table</a>
             </li>
-            <li class="welcome_links_item">
+            <li class="welcome-links_item">
                 <a href="{% url 'about' %}">About us</a>
             </li>
         </ul>
     </div>
-    <div class="find_us">
+    <div class="find-us">
         <h1>Find us</h1>
         <ul class="contact_list">
             <li><a href="mailto:{{ contact_info.email }}"><strong>Email:</strong> {{ contact_info.email }}</a></li>

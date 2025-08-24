@@ -5,11 +5,11 @@
     <li class="nav_list_item">
         <a href="{% url 'bookings:select_table' %}">Book a table</a>
         {% if request.user.is_authenticated and request.user.is_staff %}
-            <ul class="nav_list_sub_list">
-                <li class="nav_list_sub_list_item">
+            <ul class="nav-list-sub-list">
+                <li class="nav-list-sub-list_item">
                     <a href="{% url 'bookings:booking_availability' %}">Availability</a>
                 </li>
-                <li class="nav_list_sub_list_item">
+                <li class="nav-list-sub-list_item">
                     <a href="{% url 'bookings:view_bookings' %}">Bookings</a>
                 </li>
             </ul>

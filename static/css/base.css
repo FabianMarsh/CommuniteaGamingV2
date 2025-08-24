@@ -98,9 +98,9 @@ strong {
     --sec-bg-col: #3a5f9d;
     --ter-bg-col: #cf7ba3;
 
-    --pri-col: #2c2c2c;     /* Dark charcoal – softer than black */
-    --sec-col: #cbd9ed;     /* Mid-desaturated blue, echoes bg */
-    --ter-col: #7e4f63;     /* Dusty mauve-brown – warm neutral */
+    --pri-col: #2c2c2c;
+    --sec-col: #cbd9ed;
+    --ter-col: #7e4f63; 
 
     --meeple-filter-red: brightness(0) saturate(100%) invert(20%) sepia(85%) saturate(3393%) hue-rotate(346deg) brightness(100%) contrast(99%);
     --meeple-filter-blue: brightness(0) saturate(100%) invert(64%) sepia(28%) saturate(7476%) hue-rotate(189deg) brightness(99%) contrast(93%);
@@ -114,6 +114,8 @@ strong {
 
 
     --sec-font: Helvetica, sans-serif;
+
+    /* unused left for reference */
 
     --breakpoint-sm-phone: 320px;
     --breakpoint-phone: 480px;
@@ -213,7 +215,7 @@ header {
 
 /* logo */
 
-.logo_container {
+.logo-container {
     color: var(--pri-col);
     display: flex;
     align-items: center;
@@ -235,17 +237,17 @@ header {
     }
 }
 
-.logo_image {
+.logo-image {
     max-width: 100px;
     max-height: 100px;
     border-radius: 35px;
 }
 
-.logo_text {
+.logo-text {
     max-width: clamp(250px, 30vw, 600px);
 }
 
-.nav_mobile_icon {
+.nav-mobile-icon {
     font-size: 30px;
     min-height: 44px;
     min-width: 44px;
@@ -270,7 +272,7 @@ header {
     }
 }
 
-.nav_mobile_icon:hover {
+.nav-mobile-icon:hover {
     .line__one {
         transform: scaleX(0.4);
     }
@@ -317,7 +319,7 @@ nav {
                 color: var(--ter-bg-col);
             }
         }
-        li:hover .nav_list_sub_list {
+        li:hover .nav-list-sub-list {
             opacity: 1;
             pointer-events: all;
         }
@@ -328,7 +330,7 @@ nav {
     }
 }
 
-.nav_list_sub_list {
+.nav-list-sub-list {
     margin-left: 20px;
     flex-direction: column;
     gap: 10px;
@@ -336,7 +338,7 @@ nav {
     transition: all 0.3s ease;
 }
 
-#nav_close {
+#navClose {
     position: absolute;
     top: 25px;
     right: 25px;
@@ -347,14 +349,14 @@ nav {
     transition: transform 0.4s ease;
 }
 
-#nav_close:hover {
+#navClose:hover {
     transform: rotate(90deg);
 }
 
 /* nav media queries */
 
 @media (min-width: 995px) {
-    .nav_mobile_icon {
+    .nav-mobile-icon {
         display: none;
     }
     nav {
@@ -375,7 +377,7 @@ nav {
             }
         }
     }
-    .nav_list_sub_list {
+    .nav-list-sub-list {
         position: absolute;
 
         background-color: var(--sec-col);
@@ -390,7 +392,7 @@ nav {
             color: var(--sec-bg-col);
         }
     }
-    #nav_close {
+    #navClose {
         display: none;
     }
 }
@@ -403,7 +405,7 @@ nav {
 
 /* social links **********************************/
 
-.social_links {
+.social-links {
     position: absolute;
     bottom: clamp(-64px, 2vw, -104px);
     width: 100%;
@@ -427,7 +429,7 @@ nav {
 }
 
 @media (min-width: 650px) {
-    .social_links {
+    .social-links {
         position: fixed;
         padding: clamp(5px, 2vw, 20px) clamp(10px, 2vw, 30px);
         width: initial;
@@ -468,7 +470,7 @@ nav {
     }
 }
 
-.welcome_image {
+.welcome-image {
     max-width: clamp(300px, 35vw, 750px);
     position: relative;
     z-index: 2;
@@ -485,7 +487,7 @@ nav {
     z-index: 1;
 }
 
-.welcome_links {
+.welcome-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -516,7 +518,7 @@ nav {
 
 /* find us **********************************/
 
-.find_us {
+.find-us {
     background: var(--sec-bg-col);
     color: var(--sec-col);
     padding: clamp(50px, 6vw, 150px) 10%;
@@ -591,7 +593,7 @@ footer {
     pointer-events: none;
 }
 
-.modal_content,
+.modal-content,
 #modalDetails {
     display: flex;
     flex-direction: column;
@@ -686,7 +688,7 @@ footer {
 
 /* payment link */
 
-.payment_link {
+.payment-link {
     font-size: 23px;
     a {
         text-decoration: underline;
@@ -695,7 +697,7 @@ footer {
 
 /* loading */
 
-#loading-overlay {
+#loadingOverlay {
     position: absolute;
     background: #00000030;
     top: 0;
@@ -715,26 +717,26 @@ footer {
     transition: all 0.3s ease;
 }
 
-#loading-overlay.active {
+#loadingOverlay.active {
     opacity: 1;
     pointer-events: all;
 }
 
-.loading_meeple {
+.loading-meeple {
     height: 50px;
     width: 50px;
     animation: hop 1s ease-in-out infinite;
 }
 
-.loading_meeple--red {
+.loading-meeple--red {
     filter: var(--meeple-filter-red);
     animation-delay: 0s;
 }
-.loading_meeple--blue {
+.loading-meeple--blue {
     filter: var(--meeple-filter-blue);
     animation-delay: 0.2s;
 }
-.loading_meeple--yellow {
+.loading-meeple--yellow {
     filter: var(--meeple-filter-yellow);
     animation-delay: 0.4s;
 }

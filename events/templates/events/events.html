@@ -21,7 +21,7 @@
 
     {% if request.user.is_staff %}
         <div id="add-modal" class="modal">
-            <div class="modal_content">
+            <div class="modal-content">
                 <span class="close"><i class="fa-solid fa-xmark"></i></span>
                 <h2>Add Event</h2>
                 <form id="event-form" action="{% url 'add_event' %}" method="POST">
@@ -56,7 +56,7 @@
         </div>
         
         <div id="edit-modal" class="modal">
-            <div class="modal_content">
+            <div class="modal-content">
                 <span class="close"><i class="fa-solid fa-xmark"></i></span>
                 <h2>Edit Event</h2>
                 <form id="edit-event-form" method="POST">
@@ -92,7 +92,7 @@
         </div>
     {% else %}
         <div id="view-modal" class="modal">
-            <div class="modal_content">
+            <div class="modal-content">
                 <span class="close"><i class="fa-solid fa-xmark"></i></span>
                 <h2 id="title"></h2>
                 <p id="description"></p>

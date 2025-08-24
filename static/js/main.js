@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const navOpen = document.getElementById("nav_mobile_icon");
-    const navClose = document.getElementById("nav_close");
+    const navOpen = document.getElementById("nav-mobile-icon");
+    const navClose = document.getElementById("navClose");
     const mainNav = document.getElementById("main-nav");
 
 

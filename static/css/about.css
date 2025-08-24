@@ -22,7 +22,7 @@ p {
         margin: 0;
     }
 
-    .about_social_links {
+    .about_social-links {
         display: flex;
         gap: 15px; 
         
