@@ -24,7 +24,8 @@ main {
             border-bottom: 1px solid black;
         }
 
-        input::placeholder {
+        input::placeholder,
+        textarea::placeholder {
             color: rgba(0, 0, 0, 0.386);
         }
 
@@ -32,6 +33,13 @@ main {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 5px;
+        }
+
+        textarea {
+            background: none;
+            border: none;
+            border-bottom: 1px solid black;
         }
     }
 }
