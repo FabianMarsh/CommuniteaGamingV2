@@ -247,7 +247,7 @@ header {
     max-width: clamp(250px, 30vw, 600px);
 }
 
-.nav-mobile-icon {
+#navMobileIcon {
     font-size: 30px;
     min-height: 44px;
     min-width: 44px;
@@ -272,7 +272,7 @@ header {
     }
 }
 
-.nav-mobile-icon:hover {
+#navMobileIcon:hover {
     .line__one {
         transform: scaleX(0.4);
     }
@@ -356,7 +356,7 @@ nav {
 /* nav media queries */
 
 @media (min-width: 995px) {
-    .nav-mobile-icon {
+    #navMobileIcon {
         display: none;
     }
     nav {
