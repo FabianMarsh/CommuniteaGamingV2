@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (editForm) {
     editForm.addEventListener("submit", function (event) {
       event.preventDefault();
-      const eventId = document.getElementById("edit-event-id").value;
+      const eventId = document.getElementById("editEventId").value;
       const formData = new FormData(this);
 
       fetch(`/events/edit/${eventId}/`, {
@@ -110,11 +110,11 @@ document.addEventListener("DOMContentLoaded", function () {
 // Delete
 
 document.addEventListener("DOMContentLoaded", function () {
-  const deleteButton = document.getElementById("delete-event-btn");
+  const deleteButton = document.getElementById("deleteEventBtn");
 
   if (deleteButton) {
     deleteButton.addEventListener("click", function () {
-      const eventId = document.getElementById("edit-event-id").value;
+      const eventId = document.getElementById("editEventId").value;
 
       if (confirm("Are you sure you want to delete this event?")) {
         fetch(`/events/delete/${eventId}/`, {
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to open edit modal
     function openEditModal(id, title, description, date, start_time, end_time) {
-      document.getElementById("edit-event-id").value = id;
+      document.getElementById("editEventId").value = id;
       document.getElementById("edit-title").value = title;
       document.getElementById("edit-description").value = description;
       document.getElementById("edit-date").value = date;

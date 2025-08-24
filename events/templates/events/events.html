@@ -8,7 +8,7 @@
 
 {% block extra_js %}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
-    <script src="{% static 'js/events.js' %}"></script>    
+    <script src="{% static 'js/events.js' %}" type="module"></script>    
 {% endblock %}
 
 {% block content %}
@@ -59,34 +59,34 @@
             <div class="modal-content">
                 <span class="close"><i class="fa-solid fa-xmark"></i></span>
                 <h2>Edit Event</h2>
-                <form id="edit-event-form" method="POST">
+                <form id="editEventForm" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" id="edit-event-id" name="event_id">
+                    <input type="hidden" id="editEventId" name="event_id">
                     
-                    <label for="edit-title">Title:</label>
-                    <input type="text" id="edit-title" name="title" required>
+                    <label for="editTitle">Title:</label>
+                    <input type="text" id="editTitle" name="title" required>
         
-                    <label for="edit-description">Description:</label>
-                    <textarea id="edit-description" name="description"></textarea>
+                    <label for="editDescription">Description:</label>
+                    <textarea id="editDescription" name="description"></textarea>
         
-                    <label for="edit-date">Date:</label>
-                    <input type="date" id="edit-date" name="date" required>
+                    <label for="editDate">Date:</label>
+                    <input type="date" id="editDate" name="date" required>
         
-                    <label for="edit-start-time">Start Time:</label>
-                    <input type="time" id="edit-start-time" name="start_time" required>
+                    <label for="editStartTime">Start Time:</label>
+                    <input type="time" id="editStartTime" name="start_time" required>
                     
-                    <label for="edit-end-time">End Time:</label>
-                    <input type="time" id="edit-end-time" name="end_time" required>
+                    <label for="editEndTime">End Time:</label>
+                    <input type="time" id="editEndTime" name="end_time" required>
 
-                    <label for="edit-recurrence" hidden>Recurrence:</label>
-                    <select id="edit-recurrence" name="recurrence" hidden>
+                    <label for="editRecurrence" hidden>Recurrence:</label>
+                    <select id="editRecurrence" name="recurrence" hidden>
                         <option value="none">None</option>
                         <option value="daily">Daily</option>
                         <option value="weekly">Weekly</option>
                         <option value="monthly">Monthly</option>
                     </select>
                     <button type="submit">Save Changes</button>
-                    <button type="button" id="delete-event-btn">Delete Event</button>
+                    <button type="button" id="deleteEventBtn">Delete Event</button>
                 </form>
             </div>
         </div>
