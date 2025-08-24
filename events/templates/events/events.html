@@ -14,13 +14,13 @@
 {% block content %}
     <h1>What's on in store</h1>
     {% if request.user.is_staff %}
-        <button id="add-event-btn">Add Event</button>
+        <button id="addEventBtn">Add Event</button>
     {% endif %}
 
     <div id="calendar"></div>
 
     {% if request.user.is_staff %}
-        <div id="add-modal" class="modal">
+        <div id="addModal" class="modal">
             <div class="modal-content">
                 <span class="close"><i class="fa-solid fa-xmark"></i></span>
                 <h2>Add Event</h2>
@@ -55,7 +55,7 @@
             </div>
         </div>
         
-        <div id="edit-modal" class="modal">
+        <div id="editModal" class="modal">
             <div class="modal-content">
                 <span class="close"><i class="fa-solid fa-xmark"></i></span>
                 <h2>Edit Event</h2>

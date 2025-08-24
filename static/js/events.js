@@ -5,6 +5,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   const calendarEl = document.getElementById("calendar");
 
+
+  /* TODO importable is_admin fetch */
   fetch("/events/user/is_admin/")
     .then(response => response.json())
     .then(data => {
@@ -64,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       calendar.render();
     });
 
+  // TODO reusable open/close modal function - pass id?
   // Close button logic for view modal
   const closeBtn = document.querySelector("#view-modal .close");
   if (closeBtn) {
@@ -105,35 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Add - doesnt do anything?
-
-// document.addEventListener("DOMContentLoaded", function () {
-//   const addForm = document.getElementById("add-event-form");
-
-//   if (addForm) {
-//     addForm.addEventListener("submit", function (event) {
-//       event.preventDefault();
-
-//       const formData = new FormData(this);
-
-//       fetch("/events/add/", {
-//         method: "POST",
-//         body: formData,
-//       })
-//         .then(response => response.json())
-//         .then(data => {
-//           console.log(data.message);
-//           closeAddModal(); // Optional: if you’re using a modal for adding
-//           location.reload(); // Refresh calendar to show new event
-//         })
-//         .catch(error => console.error("Error adding event:", error));
-//     });
-//   } else {
-//     console.error("Error: Add event form not found!");
-//   }
-// });
-
-
 // Delete
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -169,8 +143,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // Add
 
 document.addEventListener("DOMContentLoaded", function () {
-    var modal = document.getElementById("add-modal");
-    var openBtn = document.getElementById("add-event-btn");
+    var modal = document.getElementById("addModal");
+    var openBtn = document.getElementById("addEventBtn");
+    // TODO this can use an ID and be made into a close modal function modals need an import me thinks?
     var closeBtn = document.querySelector(".close");
 
     // Open modal function
@@ -187,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Edit
 
 document.addEventListener("DOMContentLoaded", function () {
-    var modal = document.getElementById("edit-modal");
+    var modal = document.getElementById("editModal");
     var closeBtn = document.querySelector(".close");
 
     // Close modal function
@@ -197,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    var editModal = document.getElementById("edit-modal");
+    var editModal = document.getElementById("editModal");
     
     var closeBtn = editModal.querySelector(".close");
 
@@ -227,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // close modal
 
 function closeEditModal() {
-    var editModal = document.getElementById("edit-modal");
+    var editModal = document.getElementById("editModal");
     if (editModal) {
         editModal.classList.remove("active");
     }

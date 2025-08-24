@@ -142,8 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // Add
 
 document.addEventListener("DOMContentLoaded", function () {
-    var modal = document.getElementById("add-modal");
-    var openBtn = document.getElementById("add-event-btn");
+    var modal = document.getElementById("addModal");
+    var openBtn = document.getElementById("addEventBtn");
     var closeBtn = document.querySelector(".close");
 
     // Open modal function
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Edit
 
 document.addEventListener("DOMContentLoaded", function () {
-    var modal = document.getElementById("edit-modal");
+    var modal = document.getElementById("editModal");
     var closeBtn = document.querySelector(".close");
 
     // Close modal function
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    var editModal = document.getElementById("edit-modal");
+    var editModal = document.getElementById("editModal");
     
     var closeBtn = editModal.querySelector(".close");
 
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function closeEditModal() {
-    var editModal = document.getElementById("edit-modal");
+    var editModal = document.getElementById("editModal");
     if (editModal) {
         editModal.classList.remove("active");
     }
