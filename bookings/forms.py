@@ -20,8 +20,8 @@ class BookingDetailsForm(forms.Form):
         label="Additional Notes (optional)",
         required=False,
         widget=forms.Textarea(attrs={
-            "placeholder": "Any extra info you'd like to share...",
-            "rows": 4,
+            "placeholder": "Anything we should know..?",
+            "rows": 1,
             "cols": 40
         })
     )

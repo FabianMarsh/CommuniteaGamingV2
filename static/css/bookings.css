@@ -22,11 +22,16 @@ main {
             background: none;
             border: none;
             border-bottom: 1px solid black;
-
         }
 
         input::placeholder {
             color: rgba(0, 0, 0, 0.386);
+        }
+
+        p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }
