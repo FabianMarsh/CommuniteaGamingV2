@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
   dateInput.addEventListener("change", loadBookings);
 });
 
-document.querySelector('.close-button').addEventListener('click', () => {
+document.querySelector('.close').addEventListener('click', () => {
   document.getElementById('bookingModal').classList.remove('active');
 });
 
@@ -109,19 +109,18 @@ function renderTable(data) {
         td.dataset.bookingId = booking.id;
 
         td.addEventListener("click", () => {
-          console.log("click"); // ✅ Should now log
           const modalDetails = document.getElementById("modalDetails");
           modalDetails.innerHTML = `
-            <strong>Table:</strong> ${booking.table_name}<br>
-            <strong>Name:</strong> ${booking.name}<br>
-            <strong>Email:</strong> ${booking.email}<br>
-            <strong>Phone:</strong> ${booking.phone}<br>
-            <strong>Paid:</strong> ${
+            <span><strong>Table:</strong> ${booking.table_name}</span><br>
+            <span><strong>Name:</strong> ${booking.name}</span><br>
+            <span><strong>Email:</strong> ${booking.email}</span><br>
+            <span><strong>Phone:</strong> ${booking.phone}</span><br>
+            <span><strong>Paid:</strong> ${
                 booking.table_name.toLowerCase().includes("private")
                     ? (booking.paid ? "Paid" : "Not paid")
                     : (booking.paid ? "Yes" : "No")
-            }<br>
-            <strong>Notes:</strong> ${booking.notes ? booking.notes : "No Notes"}
+            }</span><br>
+            <span><strong>Notes:</strong> ${booking.notes ? booking.notes : "No Notes"}</span>
           `;
           document.getElementById("bookingModal").classList.add("active");
         });

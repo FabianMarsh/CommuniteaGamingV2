@@ -261,6 +261,10 @@ table.bookings th, table.bookings td {
     min-width: clamp(100px, 10vw, 200px);
 }
 
+.booking-cell {
+    cursor: pointer;
+}
+
 .table_wrapper {
     width: 100%;
     overflow-x: auto;

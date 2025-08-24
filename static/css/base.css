@@ -572,13 +572,13 @@ footer {
 /* modal **********************************/
 
 .modal {
-    color: #333; /* Subtle dark text for contrast */
-    display: none;
+    color: var(--sec-col);
+    border: 5px solid var(--pri-bg-col);
     position: fixed;
     top: 60%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
+    transform: translate(-50%, 100%);
+    background: var(--sec-bg-col);
     padding: 30px;
     width: 90%;
     max-width: 450px;
@@ -587,12 +587,25 @@ footer {
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease-out; /* Smooth fade-in effect */
+
+    pointer-events: none;
+}
+
+.modal_content,
+#modalDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
 }
 
 /* Modal Active State (for transitions) */
 .modal.active {
     display: block;
     opacity: 1;
+    transform: translate(-50%, -50%);
+
+    pointer-events: all;
 }
 
 .modal span {
@@ -648,12 +661,12 @@ footer {
     cursor: pointer;
     background: none;
     border: none;
-    color: #555;
-    transition: color 0.3s ease;
+    color: inherit;
+    transition: transform 0.3s ease;
 }
 
 .close:hover {
-    color: #000;
+    transform: rotate(90deg);
 }
 
 .modal-overlay {

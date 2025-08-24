@@ -105,33 +105,33 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Add
+// Add - doesnt do anything?
 
-document.addEventListener("DOMContentLoaded", function () {
-  const addForm = document.getElementById("add-event-form");
+// document.addEventListener("DOMContentLoaded", function () {
+//   const addForm = document.getElementById("add-event-form");
 
-  if (addForm) {
-    addForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+//   if (addForm) {
+//     addForm.addEventListener("submit", function (event) {
+//       event.preventDefault();
 
-      const formData = new FormData(this);
+//       const formData = new FormData(this);
 
-      fetch("/events/add/", {
-        method: "POST",
-        body: formData,
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data.message);
-          closeAddModal(); // Optional: if you’re using a modal for adding
-          location.reload(); // Refresh calendar to show new event
-        })
-        .catch(error => console.error("Error adding event:", error));
-    });
-  } else {
-    console.error("Error: Add event form not found!");
-  }
-});
+//       fetch("/events/add/", {
+//         method: "POST",
+//         body: formData,
+//       })
+//         .then(response => response.json())
+//         .then(data => {
+//           console.log(data.message);
+//           closeAddModal(); // Optional: if you’re using a modal for adding
+//           location.reload(); // Refresh calendar to show new event
+//         })
+//         .catch(error => console.error("Error adding event:", error));
+//     });
+//   } else {
+//     console.error("Error: Add event form not found!");
+//   }
+// });
 
 
 // Delete
