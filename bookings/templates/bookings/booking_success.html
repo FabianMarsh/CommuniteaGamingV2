@@ -12,7 +12,7 @@
 {% block content %}
     <h1>Booking Success!</h1>
 
-    <div class="booking_success_header">
+    <div class="booking-success-header">
         <p><strong>Date:</strong> {{ booking_date }}</p>
         <p><strong>Time Slot:</strong> {{ timeslot }}</p>
         <p><strong>Table:</strong> {{ table_name }}</p>
@@ -22,7 +22,7 @@
     {% if price > 0 %}
         <p class="payment-link">Please go to <a href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank">Sumup</a> to make your payment</p>
         <a class="btn" id="sumup_link" href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank">Make Your Payment</a>
-        <a class="btn" id="book_another" href="{% url 'bookings:select_table' %}">Book Another Table</a>
+        <a class="btn" id="bookAnother" href="{% url 'bookings:select_table' %}">Book Another Table</a>
     {% else %}
         <a class="btn" href="{% url 'bookings:select_table' %}">Book Another Table</a>
     {% endif %}

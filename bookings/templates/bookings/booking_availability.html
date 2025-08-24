@@ -7,19 +7,19 @@
 
 {% block extra_js %}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
-        <script type="module" src="{% static 'js/booking_availability.js' %}"></script>    
+    <script type="module" src="{% static 'js/booking_availability.js' %}"></script>    
   
 {% endblock %}
 
 {% block content %}
-    <div class="booking_availability">
+    <div class="booking-availability">
         <h1>Booking Availability</h1>
         <div id="loadingOverlay">
             <img class="loading-meeple loading-meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
             <img class="loading-meeple loading-meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
             <img class="loading-meeple loading-meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
         </div>
-        <div class="booking_availability_header">
+        <div class="booking-availability-header">
             <button id="datePrev"><i class="fa-solid fa-chevron-left"></i></button>
             <input type="date" id="datePicker">
             <button id="dateNext"><i class="fa-solid fa-chevron-right"></i></button>
@@ -27,7 +27,7 @@
 
         <div id="availabilityTable"></div>
         
-        <div class="booking_availability_footer">
+        <div class="booking-availability-footer">
             <button id="saveChanges">Save Changes</button>
             <button id="blockDay">Block Day</button>
             <button id="unblockDay">Unblock Day</button>

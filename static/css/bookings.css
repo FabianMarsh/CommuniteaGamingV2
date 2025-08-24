@@ -63,7 +63,7 @@ h1 {
     text-align: center;
 }
 
-.select_date_time {
+.select-date-time {
     width: 100%;
     position: relative;
 
@@ -75,7 +75,7 @@ h1 {
     gap: clamp(20px, 4vw, 50px);
 }
 
-.tables_list {
+.tables-list {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,7 +84,7 @@ h1 {
     width: 100%;
 }
 
-.tables_list_item {
+.tables-list-item {
     border: 1px solid var(--ter-col);
     padding: 30px;
     display: flex;
@@ -114,19 +114,19 @@ h1 {
     }
 }
 
-.tables_list_item button:hover {
+.tables-list-item button:hover {
     color: var(--ter-bg-col);
 }
 
 
 @media (min-width: 960px) {
-    .tables_list_item {
+    .tables-list-item {
         width: 37%;
     }
 }
 
 @media (min-width: 1300px) {
-    .tables_list_item {
+    .tables-list-item {
         width: 27%;
     }
 }
@@ -165,14 +165,14 @@ h1 {
         background-color: #0000003a;
         
     }
-    li.no_times {
+    li.no-times {
         background-color: initial;
         color: var(--pri-col);
     }
 }
 
 @media all and (min-width: 1020px) {
-    .select_date_time {
+    .select-date-time {
         flex-direction: row;
         align-items: flex-start;
     }
@@ -180,35 +180,6 @@ h1 {
         width: 30%;
     }
 }
-
-/* commented out until can override full calendar overflow scroll 
-#available-times::-webkit-scrollbar {
-  width: 10px;
-}
-
-#available-times::-webkit-scrollbar-track {
-  background: var(--ter-col);
-  border-radius: 5px;
-}
-
-#available-times::-webkit-scrollbar-thumb {
-  background: var(--sec-bg-col);
-  border-radius: 5px;
-} */
-
-/* #available-times li::before {
-    content: "";
-    display: inline-block;
-    width: 35px;
-    height: 35px;
-    margin-right: 8px;
-    background-image: url('../images/meeple-svgrepo-com.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    opacity: 0.65;
-} */
 
 #available-times li:nth-child(3n - 2):before {  
     filter: var(--meeple-filter-red);
@@ -220,7 +191,7 @@ h1 {
     filter: var(--meeple-filter-yellow);
 }
 
-.booking_failure {
+.booking-failure-footer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -229,7 +200,7 @@ h1 {
     text-align: center;
 }
 
-.booking_failure_footer {
+.booking-failure {
     margin-top: 20px;
     
     display: flex;
@@ -237,14 +208,14 @@ h1 {
     flex-wrap: wrap;
 }
 
-.booking_success_header {
+.booking-success-header {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-#book_another {
+#bookAnother {
     display: none;
 }
 
@@ -261,7 +232,7 @@ table.bookings th, table.bookings td {
 }
 
 
-.booking_availability,
+.booking-availability,
 .view_bookings {
     width: 100%;
 
@@ -278,7 +249,7 @@ table.bookings th, table.bookings td {
     cursor: pointer;
 }
 
-.table_wrapper {
+.table-wrapper {
     width: 100%;
     overflow-x: auto;
 }

@@ -83,7 +83,7 @@ function loadAvailableTimes(selectedDate) {
             timesList.innerHTML = "";
 
             if (filteredTimes.length === 0) {
-                timesList.innerHTML = "<li class='no_times'>No available times for this date.</li>";
+                timesList.innerHTML = "<li class='no-times'>No available times for this date.</li>";
                 hide_loading()
                 return;
             }

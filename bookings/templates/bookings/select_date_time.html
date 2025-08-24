@@ -18,12 +18,12 @@
         <img class="loading-meeple loading-meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
         <img class="loading-meeple loading-meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
     </div>
-    <div class="select_date_time">
+    <div class="select-date-time">
         <div id="calendar"></div>
         <div id="time-slot-menu">
             <h3>Available Times</h3>
             <ul id="available-times">
-                <li class="no_times">Select a day and we'll let you know what tables are available</li>
+                <li class="no-times">Select a day and we'll let you know what tables are available</li>
             </ul>
             <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
                 {% csrf_token %}
