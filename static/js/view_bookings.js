@@ -1,6 +1,6 @@
 import { showLoading, hideLoading } from "./loading.js";
 
-
+// TODO pretty sure this can be made reusable
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("datePicker");
   const prevBtn = document.getElementById("datePrev");
