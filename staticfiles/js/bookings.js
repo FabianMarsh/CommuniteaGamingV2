@@ -1,4 +1,4 @@
-import { show_loading, hide_loading } from "./loading.js";
+import { showLoading, hideLoading } from "./loading.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const calendarEl = document.getElementById("calendar");
@@ -66,7 +66,7 @@ function loadAvailableTimes(selectedDate) {
         return;
     }
 
-    show_loading()
+    showLoading()
 
     fetch(`${baseUrl}/bookings/get_available_times/?date=${selectedDate}`)
         .then(response => response.json())
@@ -84,7 +84,7 @@ function loadAvailableTimes(selectedDate) {
 
             if (filteredTimes.length === 0) {
                 timesList.innerHTML = "<li class='no-times'>No available times for this date.</li>";
-                hide_loading()
+                hideLoading()
                 return;
             }
 
@@ -98,12 +98,12 @@ function loadAvailableTimes(selectedDate) {
                 };
                 timesList.appendChild(listItem);
             });
-            hide_loading()
+            hideLoading()
         })
         .catch(error => {
             console.error("Failed to fetch available times:", error);
             timesList.innerHTML = "<li>Failed to load times. Please try again.</li>";
-            hide_loading()
+            hideLoading()
         });
 }
 

@@ -1,4 +1,4 @@
-import { show_loading, hide_loading } from "./loading.js";
+import { showLoading, hideLoading } from "./loading.js";
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -52,7 +52,7 @@ function loadBookings() {
   const baseUrl = window.location.origin;
   const table = document.getElementById("bookingsTable");
 
-  show_loading();
+  showLoading();
 
   fetch(`${baseUrl}/bookings/view_bookings/by_date/?date=${date}`)
     .then(res => res.json())
@@ -64,7 +64,7 @@ function loadBookings() {
       table.innerHTML = "<p>Could not load bookings. Please try again.</p>";
     })
     .finally(() => {
-      hide_loading();
+      hideLoading();
     });
 }
 

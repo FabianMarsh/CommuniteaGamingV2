@@ -1,4 +1,4 @@
-import { show_loading, hide_loading } from "./loading";
+import { showLoading, hideLoading } from "./loading";
 
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("datePicker");
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const baseUrl = window.location.origin;
 
-    show_loading()
+    showLoading()
 
     fetch(`${baseUrl}/bookings/update_blocks/`, {
       method: "POST",
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Could not save changes. Please try again.");
     })
     .finally(() => {
-        hide_loading()
+        hideLoading()
     });
   });
 });

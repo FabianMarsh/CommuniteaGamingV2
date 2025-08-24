@@ -1,4 +1,4 @@
-import { show_loading, hide_loading } from "./loading.js";
+import { showLoading, hideLoading } from "./loading.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const calendarEl = document.getElementById("calendar");
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function loadAvailableTimes(selectedDate) {
-    const timesList = document.getElementById("available-times");
+    const timesList = document.getElementById("availableTimes");
     const today = new Date().toISOString().split("T")[0];
     const now = new Date();
     const currentTime = now.toTimeString().slice(0, 5) + ":00";
@@ -66,7 +66,7 @@ function loadAvailableTimes(selectedDate) {
         return;
     }
 
-    show_loading()
+    showLoading()
 
     fetch(`${baseUrl}/bookings/get_available_times/?date=${selectedDate}`)
         .then(response => response.json())
@@ -83,7 +83,7 @@ function loadAvailableTimes(selectedDate) {
 
             if (filteredTimes.length === 0) {
                 timesList.innerHTML = "<li class='no-times'>No available times for this date.</li>";
-                hide_loading()
+                hideLoading()
                 return;
             }
 
@@ -97,16 +97,16 @@ function loadAvailableTimes(selectedDate) {
                 };
                 timesList.appendChild(listItem);
             });
-            hide_loading()
+            hideLoading()
         })
         .catch(error => {
             console.error("Failed to fetch available times:", error);
             timesList.innerHTML = "<li>Failed to load times. Please try again.</li>";
-            hide_loading()
+            hideLoading()
         });
 }
 
-
+/* TODO redundant? */
 function enableTimeSlotSelection(calendar) {
     calendar.on('select', function(info) {
         const selectedDate = info.startStr.split("T")[0];

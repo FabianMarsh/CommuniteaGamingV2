@@ -1,4 +1,4 @@
-import { show_loading, hide_loading } from "./loading.js";
+import { showLoading, hideLoading } from "./loading.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("datePicker");
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const baseUrl = window.location.origin;
 
-    show_loading()
+    showLoading()
 
     fetch(`${baseUrl}/bookings/update_blocks/`, {
       method: "POST",
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Could not save changes. Please try again.");
     })
     .finally(() => {
-        hide_loading()
+        hideLoading()
     });
   });
 });
@@ -91,7 +91,7 @@ function loadAvailability() {
   const baseUrl = window.location.origin;
   const table = document.getElementById("availabilityTable");
 
-  show_loading();
+  showLoading();
 
   fetch(`${baseUrl}/bookings/availability_matrix/?date=${date}`)
     .then(res => res.json())
@@ -103,7 +103,7 @@ function loadAvailability() {
       table.innerHTML = "<p>Could not load availability. Please try again.</p>";
     })
     .finally(() => {
-      hide_loading();
+      hideLoading();
     });
 }
 
