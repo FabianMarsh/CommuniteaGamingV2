@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const sumupLink = document.getElementById("sumup_link");
+  const sumupLink = document.getElementById("sumupLink");
   const bookAnother = document.getElementById("bookAnother");
 
   if (sumupLink && bookAnother) {
