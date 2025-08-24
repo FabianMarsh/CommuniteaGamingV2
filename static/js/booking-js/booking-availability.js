@@ -1,4 +1,4 @@
-import { showLoading, hideLoading } from "./loading.js";
+import { showLoading, hideLoading } from "../loading.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("datePicker");
