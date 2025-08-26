@@ -1,4 +1,5 @@
-import { openModal, closeModal, bindOpenButton, bindCloseButton, bindDeleteButton, openEditModal, openViewModal } from "./modals/modal-utils.js";
+import { closeModal, bindOpenButton, bindCloseButton, bindDeleteButton, openEditModal, openViewModal } from "./modals/modal-utils.js";
+import { initCalendar } from "./calendar/calendar-init.js";
 import { fetchIsAdmin } from "./utils/user-access.js";
 
 let isAdmin = false
@@ -58,21 +59,16 @@ function setupEditForm() {
 }
 
 // TODO add loading
-function setupCalendar() {
+function setupCalendar(isAdmin) {
   const calendarEl = document.getElementById("calendar");
   if (!calendarEl) return;
 
-  const screenWidth = window.innerWidth;
-  const initialView = screenWidth >= 800 ? "timeGridWeek" : "dayGridDay";
-
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView,
-    slotMinTime: "12:00:00",
-    slotMaxTime: "22:00:00",
+  initCalendar(calendarEl, {
+    initialView: window.innerWidth >= 800 ? "timeGridWeek" : "dayGridDay",
     expandRows: true,
     contentHeight: "auto",
     events: "/events/json/",
-    eventClick: function (info) {
+    eventClick: info => {
       if (isAdmin) {
         if (info.event.id) {
           openEditModal({
@@ -95,11 +91,10 @@ function setupCalendar() {
         });
       }
     },
-    dateClick: function (info) {
+    dateClick: info => {
       console.log("Clicked date:", info.dateStr);
     }
   });
-
-  calendar.render();
 }
+
 

@@ -216,8 +216,13 @@ h1 {
     justify-content: center;
 }
 
-#bookAnother {
+#bookAnother,
+#sumupLink {
     display: none;
+}
+#bookAnother.active,
+#sumupLink.active {
+    display: flex;
 }
 
 table.availability,

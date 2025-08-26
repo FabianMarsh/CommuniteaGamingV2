@@ -1,12 +1,13 @@
-document.addEventListener("DOMContentLoaded", function () {
+function setupSumupToggle() {
   const sumupLink = document.getElementById("sumupLink");
   const bookAnother = document.getElementById("bookAnother");
 
-  if (sumupLink && bookAnother) {
-    sumupLink.addEventListener("click", function () {
-      sumupLink.style.display = "none";
+  if (!sumupLink || !bookAnother) return;
 
-      bookAnother.style.display = "flex";
-    });
-  }
-});
+  sumupLink.addEventListener("click", () => {
+    sumupLink.classList.remove("active");
+    bookAnother.classList.add("active");
+  });
+}
+
+document.addEventListener("DOMContentLoaded", setupSumupToggle);
