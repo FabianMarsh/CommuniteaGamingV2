@@ -79,7 +79,7 @@ def add_event(request):
         event = Event.objects.create(
             title=title, 
             description=description,
-            date=date,  # this might be a string initially
+            date=date,
             start_time=start_time,
             end_time=end_time,
             recurrence=recurrence
