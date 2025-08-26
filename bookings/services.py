@@ -102,8 +102,12 @@ def get_slot_availability_for_date(date, session_data=None):
     for slot in time_slots:
         # Get all availability records for this date and timeslot
         availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
+        
+        if availabilities.exists():
+            total_seats = sum(a.seats_available for a in availabilities)
+        else:
+            total_seats = settings.DEFAULT_AVAILABLE_SEATS
 
-        total_seats = sum(a.seats_available for a in availabilities)
         is_hired = any(a.is_blocked_for_hire for a in availabilities)
         is_blocked = any(a.is_blocked for a in availabilities)
 
@@ -151,7 +155,13 @@ def get_availability_matrix(request):
                 timeslot=slot
             )
 
-            total_seats = sum(a.seats_available for a in availabilities)
+            availabilities = SlotAvailability.objects.filter(date=selected_date, timeslot=slot)
+
+            if availabilities.exists():
+                total_seats = sum(a.seats_available for a in availabilities)
+            else:
+                total_seats = settings.DEFAULT_AVAILABLE_SEATS
+
             is_hired = any(a.is_blocked_for_hire for a in availabilities)
             is_blocked = any(a.is_blocked for a in availabilities)
 
