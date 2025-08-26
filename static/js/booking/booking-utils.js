@@ -7,7 +7,6 @@ export function loadBookingsByDate(dateStr) {
     .then(res => res.json());
 }
 
-// Optional: wrap loading + rendering if you want to centralise it
 export function loadAndRenderBookings(dateStr, renderFn) {
   showLoading();
   loadBookingsByDate(dateStr)
