@@ -22,7 +22,7 @@ export function setupSaveBlocks() {
 
     showLoading();
 
-    fetch(`${baseUrl}/bookings/update_blocks/`, {
+    fetch(`${baseUrl}/bookings/apply_update_blocks/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date, updates })

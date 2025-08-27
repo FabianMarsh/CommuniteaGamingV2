@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import select_table, select_date_time, enter_details, confirm_booking, booking_success, booking_failure, get_available_times, get_booked_times, booking_availability, update_blocks, view_bookings
-from .api_views import get_availability_matrix, bookings_for_date
+from .views import select_table, select_date_time, enter_details, confirm_booking, booking_success, booking_failure, get_available_times, get_booked_times, booking_availability, view_bookings
+from .api_views import get_availability_matrix, bookings_for_date, apply_update_blocks
 
 app_name = "bookings"
 
@@ -17,5 +17,5 @@ urlpatterns = [
     path("get_booked_times/", get_booked_times, name="get_booked_times"),
     path('availability_matrix/', get_availability_matrix, name='availability_matrix'),
     path("view_bookings/by_date/", bookings_for_date, name="bookings_by_date"),
-    path("update_blocks/", update_blocks, name="update_blocks"),
+    path("apply_update_blocks/", apply_update_blocks, name="apply_update_blocks"),
 ]

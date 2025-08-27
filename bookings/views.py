@@ -6,7 +6,7 @@ from django.db.models import Sum, Q
 from django.db import transaction
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
-from .services import update_block, update_seats, update_slot_blocks
+from .services import update_block, update_seats
 from .api_views import get_availability_matrix, get_available_times, get_booked_times, get_slot_availability_for_date
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
@@ -221,23 +221,7 @@ def booking_failure(request):
 
     return render(request, "bookings/booking-failure.html")
 
-@csrf_exempt
-@require_POST
-def update_blocks(request):
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError as e:
-        return JsonResponse({"error": "Invalid JSON"}, status=400)
 
-    date = data.get("date")
-    updates = data.get("updates", [])
-
-    try:
-        update_slot_blocks(date, updates)
-    except ValueError as e:
-        return JsonResponse({"error": str(e)}, status=400)
-
-    return JsonResponse({"status": "success"})
 
 # Admin views
 

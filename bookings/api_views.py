@@ -1,23 +1,31 @@
-from django.http import JsonResponse
-from django.views.decorators.http import require_GET
-from django.conf import settings
+import json
 import logging
 
-from bookings.models import Booking, TimeSlot, SlotAvailability
-from bookings.services import get_slot_availability_for_date, build_availability_matrix
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_POST
+
+from bookings.models import Booking, TimeSlot
+from bookings.services import (
+    get_slot_availability_for_date,
+    build_availability_matrix,
+    apply_slot_blocks,
+)
 from bookings.utils.helpers import (
     get_selected_date,
     get_private_table_ids,
     serialize_booking,
-    safe_json_view,
-    json_matrix_response
+    handle_json_errors,
+    json_matrix_response,
+    get_ordered_timeslots,
 )
 
 logger = logging.getLogger(__name__)
 
 
 @require_GET
-@safe_json_view
+@handle_json_errors
 def get_booked_times(request):
     selected_date = get_selected_date(request)
     selected_table = request.session.get("selected_table") or {}
@@ -38,7 +46,7 @@ def get_booked_times(request):
 
 
 @require_GET
-@safe_json_view
+@handle_json_errors
 def get_available_times(request):
     selected_date = get_selected_date(request)
     session_data = request.session.get("selected_table") or {}
@@ -47,7 +55,7 @@ def get_available_times(request):
 
 
 @require_GET
-@safe_json_view
+@handle_json_errors
 def get_availability_matrix(request):
     selected_date = get_selected_date(request)
     matrix = build_availability_matrix(selected_date)
@@ -55,12 +63,12 @@ def get_availability_matrix(request):
 
 
 @require_GET
-@safe_json_view
+@handle_json_errors
 def bookings_for_date(request):
     selected_date = get_selected_date(request)
     matrix = []
 
-    for slot in TimeSlot.objects.order_by("timeslot"):
+    for slot in get_ordered_timeslots():
         bookings = Booking.objects.filter(date=selected_date, timeslot=slot)
         matrix.append({
             "timeslot": str(slot.timeslot),
@@ -68,3 +76,25 @@ def bookings_for_date(request):
         })
 
     return json_matrix_response(selected_date, matrix)
+
+
+@csrf_exempt
+@require_POST
+@handle_json_errors
+def apply_update_blocks(request):
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        raise ValueError("Invalid JSON payload")
+
+    logger.debug(f"Received block update request: {data}")
+
+    date = data.get("date")
+    updates = data.get("updates", [])
+
+    if not date:
+        raise ValueError("Missing 'date' in payload")
+
+    apply_slot_blocks(date, updates)
+    return JsonResponse({"status": "success"})
+

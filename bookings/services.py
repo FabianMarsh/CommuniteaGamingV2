@@ -1,31 +1,26 @@
-from django.db import transaction
-from django.core.exceptions import ValidationError
-from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
 import logging
+from datetime import datetime
+
+from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.db import transaction
 
 from .models import SlotAvailability, TimeSlot
 from bookings.utils.helpers import (
-    get_ordered_timeslots
+    get_adjacent_slots,
+    get_ordered_timeslots,
+    parse_date_string,
+    parse_time_string,
+    set_slot_block,
+    summarize_availability,
 )
 
 logger = logging.getLogger(__name__)
 
 
-
 def update_seats(date, time_slot, seats_needed, delete=False):
-    time_slots = list(TimeSlot.objects.order_by("timeslot"))
-    current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
-
-    if current_index is None:
-        return
-
-    relevant_slots = [
-        time_slots[current_index - 1] if current_index > 0 else None,
-        time_slot,
-        time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
-    ]
+    time_slots = list(get_ordered_timeslots())
+    relevant_slots = get_adjacent_slots(time_slots, time_slot)
 
     with transaction.atomic():
         # slot = previous, current, next
@@ -46,21 +41,11 @@ def update_seats(date, time_slot, seats_needed, delete=False):
             avail.save()
 
 
-
 def update_block(date, time_slot, delete=False):
-    time_slots = list(TimeSlot.objects.order_by("timeslot"))
-    current_index = next((i for i, ts in enumerate(time_slots) if ts.id == time_slot.id), None)
+    time_slots = list(get_ordered_timeslots())
+    relevant_slots = get_adjacent_slots(time_slots, time_slot)
 
-    if current_index is None:
-        return
-
-    affected_slots = [
-        time_slots[current_index - 1] if current_index > 0 else None,
-        time_slot,
-        time_slots[current_index + 1] if current_index + 1 < len(time_slots) else None
-    ]
-
-    for slot in filter(None, affected_slots):
+    for slot in filter(None, relevant_slots):
         availability, _ = SlotAvailability.objects.get_or_create(
             date=date,
             timeslot=slot,
@@ -79,47 +64,53 @@ def get_slot_availability_for_date(date, session_data=None):
     is_private = session_data.get("private_hire", False)
     selected_seats = session_data.get("seats_required", settings.DEFAULT_AVAILABLE_SEATS)
 
-    time_slots = TimeSlot.objects.order_by("timeslot")
+    time_slots = get_ordered_timeslots()
     results = []
 
     for slot in time_slots:
         # Get all availability records for this date and timeslot
         availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
         
-        if availabilities.exists():
-            total_seats = sum(a.seats_available for a in availabilities)
-        else:
-            total_seats = settings.DEFAULT_AVAILABLE_SEATS
+        summary = summarize_availability(availabilities)
 
-        is_hired = any(a.is_blocked_for_hire for a in availabilities)
-        is_blocked = any(a.is_blocked for a in availabilities)
-
-        if is_private and is_hired:
+        if is_private and summary["is_hired"]:
             continue
         
-        if is_blocked:
+        if summary["is_blocked"]:
             continue
 
-        if not is_private or total_seats >= selected_seats:
+        if not is_private or summary["total_seats"] >= selected_seats:
             results.append({
                 "time": str(slot.timeslot),
-                "available_seats": total_seats,
-                "is_hired": is_hired,
-                "is_blocked": is_blocked
+                "available_seats": summary["total_seats"],
+                "is_hired": summary["is_hired"],
+                "is_blocked": summary["is_blocked"]
             })
 
     return results
 
 
-@csrf_exempt
-def update_slot_blocks(date_str, updates):
+def build_availability_matrix(date):
+    matrix = []
+    for slot in get_ordered_timeslots():
+        availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
+        summary = summarize_availability(availabilities)
+
+        matrix.append({
+            "time": str(slot.timeslot),
+            "available_seats": summary["total_seats"],
+            "is_hired": summary["is_hired"],
+            "is_blocked": summary["is_blocked"]
+        })
+
+    return matrix
+
+
+def apply_slot_blocks(date_str, updates):
     if not date_str or not isinstance(updates, list):
         raise ValueError("Invalid input")
 
-    try:
-        date = datetime.strptime(date_str, "%Y-%m-%d").date()
-    except ValueError:
-        raise ValueError("Invalid date format")
+    date = parse_date_string(date_str)
 
     for item in updates:
         time_str = item.get("time")
@@ -128,37 +119,5 @@ def update_slot_blocks(date_str, updates):
         if not time_str:
             continue
 
-        try:
-            time_obj = datetime.strptime(time_str, "%H:%M:%S").time()
-        except ValueError:
-            raise ValueError(f"Invalid time format: {time_str}")
-
-        try:
-            timeslot = TimeSlot.objects.get(timeslot=time_obj)
-        except TimeSlot.DoesNotExist:
-            raise ValueError(f"No TimeSlot found for {time_obj}")
-
-        availability, _ = SlotAvailability.objects.get_or_create(
-            date=date,
-            timeslot=timeslot,
-            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
-        )
-        availability.is_blocked = is_blocked
-        availability.save()
-
-
-def build_availability_matrix(date):
-    matrix = []
-    for slot in get_ordered_timeslots():
-        availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
-        total_seats = sum(a.seats_available for a in availabilities) if availabilities.exists() else settings.DEFAULT_AVAILABLE_SEATS
-        is_hired = any(a.is_blocked_for_hire for a in availabilities)
-        is_blocked = any(a.is_blocked for a in availabilities)
-
-        matrix.append({
-            "time": str(slot.timeslot),
-            "available_seats": total_seats,
-            "is_hired": is_hired,
-            "is_blocked": is_blocked
-        })
-    return matrix
+        time_obj = parse_time_string(time_str)
+        set_slot_block(date, time_obj, is_blocked)
