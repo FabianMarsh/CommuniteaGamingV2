@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import select_table, select_date_time, enter_details, confirm_booking, booking_success, booking_failure, get_available_times, get_booked_times, booking_availability, update_blocks, view_bookings
-from .services import get_availability_matrix, bookings_for_date
+from .api_views import get_availability_matrix, bookings_for_date
 
 app_name = "bookings"
 

@@ -6,7 +6,8 @@ from django.db.models import Sum, Q
 from django.db import transaction
 from decimal import Decimal
 from django.core.mail import send_mail, get_connection
-from .services import update_block, update_seats, get_available_times, get_booked_times, update_slot_blocks
+from .services import update_block, update_seats, update_slot_blocks
+from .api_views import get_availability_matrix, get_available_times, get_booked_times, get_slot_availability_for_date
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
