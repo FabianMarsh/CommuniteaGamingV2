@@ -6,6 +6,9 @@ from datetime import datetime
 import logging
 
 from .models import SlotAvailability, TimeSlot
+from bookings.utils.helpers import (
+    get_ordered_timeslots
+)
 
 logger = logging.getLogger(__name__)
 
@@ -143,3 +146,19 @@ def update_slot_blocks(date_str, updates):
         availability.is_blocked = is_blocked
         availability.save()
 
+
+def build_availability_matrix(date):
+    matrix = []
+    for slot in get_ordered_timeslots():
+        availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
+        total_seats = sum(a.seats_available for a in availabilities) if availabilities.exists() else settings.DEFAULT_AVAILABLE_SEATS
+        is_hired = any(a.is_blocked_for_hire for a in availabilities)
+        is_blocked = any(a.is_blocked for a in availabilities)
+
+        matrix.append({
+            "time": str(slot.timeslot),
+            "available_seats": total_seats,
+            "is_hired": is_hired,
+            "is_blocked": is_blocked
+        })
+    return matrix
