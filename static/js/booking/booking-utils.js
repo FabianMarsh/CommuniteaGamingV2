@@ -3,7 +3,7 @@ import { showLoading, hideLoading } from "../utils/loading.js";
 // Fetch bookings for a given date
 export function loadBookingsByDate(dateStr) {
   const baseUrl = window.location.origin;
-  return fetch(`${baseUrl}/bookings/view_bookings/by_date/?date=${dateStr}`)
+  return fetch(`${baseUrl}/bookings/bookings_by_date/?date=${dateStr}`)
     .then(res => res.json());
 }
 

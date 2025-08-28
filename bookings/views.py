@@ -1,40 +1,30 @@
-from .models import Table, TimeSlot, Booking, SlotAvailability
-from .forms import BookingDetailsForm
-from django.shortcuts import render, redirect
-from datetime import date
-from django.db.models import Sum, Q
-from django.db import transaction
-from decimal import Decimal
-from django.core.mail import send_mail, get_connection
-from .services import update_block, update_seats
-from .api_views import get_availability_matrix, get_available_times, get_booked_times, get_slot_availability_for_date
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-import json
 import logging
 
-logger = logging.getLogger(__name__)
-
+from decimal import Decimal
 from django.conf import settings
+from django.db import transaction
+from django.shortcuts import render, redirect
+
+from .models import Table, TimeSlot, Booking, SlotAvailability
+from .forms import BookingDetailsForm
+from .services import update_block, update_seats
+from .utils.helpers import safe_decimal, get_booking_session_data, is_private_hire
+
+logger = logging.getLogger(__name__)
 
 
 def select_table(request):
     if request.method == "POST":
-        table_id = request.POST.get("table") 
-        
+        table_id = request.POST.get("table")
         selected_table = Table.objects.get(id=table_id)
 
         request.session["selected_table"] = {
             "id": selected_table.id,
             "name": selected_table.name,
-            "price": float(selected_table.price),
+            "price": "{:.2f}".format(float(selected_table.price)),
             "seats_required": selected_table.seats_required,
-            "private_hire": selected_table.private_hire
+            "private_hire": selected_table.private_hire,
         }
-
-        request.session["selected_table"]["price"] = "{:.2f}".format(request.session["selected_table"]["price"])
 
         request.session.modified = True
         return redirect("bookings:select_date_time")
@@ -56,29 +46,20 @@ def select_date_time(request):
     selected_date = request.GET.get("date")
     selected_table = request.session.get("selected_table")
     selected_table_seats = selected_table.get("seats_required", 0) if selected_table else 0
-    is_private = selected_table.get("private_hire") in [True, "True", 1, "1"] if selected_table else False
+    is_private = is_private_hire(selected_table)
 
     available_times = []
 
     if selected_date:
-        time_slots = TimeSlot.objects.order_by("timeslot")
-
+        time_slots = get_ordered_timeslots()
         for slot in time_slots:
-            availability = SlotAvailability.objects.filter(
-                date=selected_date,
-                timeslot=slot
-            ).first()
-
+            availability = SlotAvailability.objects.filter(date=selected_date, timeslot=slot).first()
             if not availability:
-                continue  # No slot data yet—skip
-
-            # Check for blocked slots and minimum seat availability
-            if is_private:
-                if not availability.is_blocked_for_hire:
-                    continue
-            elif availability.seats_available < selected_table_seats:
                 continue
-
+            if is_private and not availability.is_blocked_for_hire:
+                continue
+            if not is_private and availability.seats_available < selected_table_seats:
+                continue
             available_times.append(slot.timeslot.strftime("%H:%M"))
 
     return render(request, "bookings/select-date-time.html", {
@@ -96,9 +77,8 @@ def enter_details(request):
                 "name": form.cleaned_data["name"],
                 "email": form.cleaned_data["email"],
                 "phone": form.cleaned_data["phone"],
-                "notes": form.cleaned_data["notes"]
+                "notes": form.cleaned_data["notes"],
             }
-
             return redirect("bookings:confirm_booking")
     else:
         form = BookingDetailsForm()
@@ -107,10 +87,7 @@ def enter_details(request):
 
 
 def confirm_booking(request):
-    selected_table = request.session.get("selected_table")
-    selected_time_id = request.session.get("selected_time")
-    selected_date = request.session.get("selected_date")
-    user_data = request.session.get("user_data")
+    selected_table, selected_time_id, selected_date, user_data = get_booking_session_data(request.session)
 
     if not selected_table or not selected_time_id or not user_data:
         logger.warning("Missing session data for booking")
@@ -137,7 +114,7 @@ def confirm_booking(request):
                         name=user_data.get("name"),
                         email=user_data.get("email"),
                         phone=user_data.get("phone"),
-                        notes=user_data.get("notes")
+                        notes=user_data.get("notes"),
                     )
 
                     if is_private:
@@ -152,12 +129,7 @@ def confirm_booking(request):
                 logger.error(f"Booking transaction failed: {e}", exc_info=True)
                 return redirect("bookings:booking_failure")
 
-        # Convert price from string to Decimal safely
-        try:
-            selected_table["price"] = Decimal(selected_table["price"])
-        except (KeyError, ValueError, TypeError) as e:
-            logger.warning(f"Price conversion failed: {e}")
-            selected_table["price"] = Decimal("0.00")
+        selected_table["price"] = safe_decimal(selected_table.get("price"))
 
         return render(request, "bookings/confirm-booking.html", {
             "selected_table": selected_table,
@@ -174,38 +146,14 @@ def confirm_booking(request):
         return redirect("bookings:booking_failure")
 
 
-
 def booking_success(request):
     booking_id = request.session.get("booking_id")
     if not booking_id:
         return redirect("bookings:select_table")
 
     booking = Booking.objects.get(id=booking_id)
-
-    # email = request.session["booking_email"] = booking.email
     selected_table = request.session.get("selected_table")
-    price = Decimal(selected_table["price"]).quantize(Decimal('0.01'))
-
-    # subject = "Your Booking Confirmation"
-    # message = (
-    # f"Hi!\n\n"
-    # f"Your booking for table '{booking.table.name}' on {booking.date} "
-    # f"at {booking.timeslot.timeslot} has been confirmed.\n\n"
-# )
-
-    # Include SumUp payment link if price > 0
-    # if price > 0:
-    #     message += (
-    #         f"A payment of £{price:.2f} is required.\n"
-    #         f"You can pay securely via SumUp here: https://pay.sumup.com/b2c/QKWSCH28\n\n"
-    #     )
-
-    # message += f"Thanks for choosing to hang with CommuniTea Gaming!"
-
-    # recipient = email
-    # sender = settings.EMAIL_HOST_USER
-
-    # send_mail(subject, message, sender, [recipient], fail_silently=False, connection=get_connection(timeout=10))
+    price = safe_decimal(selected_table.get("price")).quantize(Decimal("0.01"))
 
     request.session.flush()
 
@@ -218,24 +166,4 @@ def booking_success(request):
 
 
 def booking_failure(request):
-
     return render(request, "bookings/booking-failure.html")
-
-
-
-# Admin views
-
-def booking_availability(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        return render(request, "bookings/booking-availability.html")
-    else:
-        return redirect("bookings:select_table")
-
-def view_bookings(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        return render(request, "bookings/view-bookings.html")
-    else:
-        return redirect("bookings:select_table")
-
-
-

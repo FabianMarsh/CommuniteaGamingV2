@@ -19,6 +19,7 @@ from bookings.utils.helpers import (
     handle_json_errors,
     json_matrix_response,
     get_ordered_timeslots,
+    is_private_hire
 )
 
 logger = logging.getLogger(__name__)
@@ -29,7 +30,7 @@ logger = logging.getLogger(__name__)
 def get_booked_times(request):
     selected_date = get_selected_date(request)
     selected_table = request.session.get("selected_table") or {}
-    is_private = selected_table.get("private_hire") in [True, "True", 1, "1"]
+    is_private = is_private_hire(selected_table)
 
     logger.debug(f"Session data: {selected_table}")
     logger.debug(f"Selected date: {selected_date}")

@@ -192,21 +192,23 @@ h1 {
     filter: var(--meeple-filter-yellow);
 }
 
-.booking-failure-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-}
-
 .booking-failure {
     margin-top: 20px;
     
     display: flex;
+    justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+}
+
+.booking-failure-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
 }
 
 .booking-success-header {

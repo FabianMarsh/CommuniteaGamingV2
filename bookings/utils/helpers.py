@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from decimal import Decimal
 from functools import wraps
 
 from django.conf import settings
@@ -8,6 +9,15 @@ from django.http import JsonResponse
 from bookings.models import Table, TimeSlot, SlotAvailability
 
 logger = logging.getLogger(__name__)
+
+
+def format_slot_summary(slot, summary):
+    return {
+        "time": str(slot.timeslot),
+        "available_seats": summary["total_seats"],
+        "is_hired": summary["is_hired"],
+        "is_blocked": summary["is_blocked"]
+    }
 
 
 def get_adjacent_slots(time_slots, target_slot):
@@ -19,6 +29,15 @@ def get_adjacent_slots(time_slots, target_slot):
         target_slot,
         time_slots[index + 1] if index + 1 < len(time_slots) else None
     ]))
+
+
+def get_booking_session_data(session):
+    return (
+        session.get("selected_table"),
+        session.get("selected_time"),
+        session.get("selected_date"),
+        session.get("user_data"),
+    )
 
 
 def get_selected_date(request):
@@ -34,6 +53,23 @@ def get_private_table_ids():
 
 def get_ordered_timeslots():
     return TimeSlot.objects.order_by("timeslot")
+
+
+def handle_json_errors(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        try:
+            return view_func(request, *args, **kwargs)
+        except ValueError as e:
+            return JsonResponse({"error": str(e)}, status=400)
+        except Exception as e:
+            logger.error(f"Error in {view_func.__name__}: {e}")
+            return JsonResponse({"error": "Internal server error"}, status=500)
+    return wrapper
+
+
+def is_private_hire(table_data):
+    return table_data.get("private_hire") in [True, "True", 1, "1"]
 
 
 def json_matrix_response(date, matrix):
@@ -54,17 +90,12 @@ def parse_time_string(time_str):
         raise ValueError(f"Invalid time format: {time_str}")
 
 
-def handle_json_errors(view_func):
-    @wraps(view_func)
-    def wrapper(request, *args, **kwargs):
-        try:
-            return view_func(request, *args, **kwargs)
-        except ValueError as e:
-            return JsonResponse({"error": str(e)}, status=400)
-        except Exception as e:
-            logger.error(f"Error in {view_func.__name__}: {e}")
-            return JsonResponse({"error": "Internal server error"}, status=500)
-    return wrapper
+def safe_decimal(value, fallback="0.00"):
+    try:
+        return Decimal(value)
+    except (KeyError, ValueError, TypeError):
+        return Decimal(fallback)
+
 
 
 def serialize_booking(booking):

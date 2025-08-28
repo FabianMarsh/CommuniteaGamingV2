@@ -4,15 +4,18 @@ from datetime import datetime
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.http import JsonResponse
 
 from .models import SlotAvailability, TimeSlot
 from bookings.utils.helpers import (
+    format_slot_summary,
     get_adjacent_slots,
     get_ordered_timeslots,
     parse_date_string,
     parse_time_string,
     set_slot_block,
     summarize_availability,
+    is_private_hire
 )
 
 logger = logging.getLogger(__name__)
@@ -45,27 +48,26 @@ def update_block(date, time_slot, delete=False):
     time_slots = list(get_ordered_timeslots())
     relevant_slots = get_adjacent_slots(time_slots, time_slot)
 
-    for slot in filter(None, relevant_slots):
-        availability, _ = SlotAvailability.objects.get_or_create(
-            date=date,
-            timeslot=slot,
+    with transaction.atomic():
+        for slot in filter(None, relevant_slots):
+            availability, _ = SlotAvailability.objects.get_or_create(
+                date=date,
+                timeslot=slot,
 
-            defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
-        )
-        if delete:
-            availability.is_blocked_for_hire = False
-        else:
-            availability.is_blocked_for_hire = True
-
-        availability.save()
+                defaults={"seats_available": settings.DEFAULT_AVAILABLE_SEATS}
+            )
+            availability.is_blocked_for_hire = not delete
+            availability.save()
 
 
 def get_slot_availability_for_date(date, session_data=None):
-    is_private = session_data.get("private_hire", False)
+    session_data = session_data or {}
+    is_private = is_private_hire(session_data)
     selected_seats = session_data.get("seats_required", settings.DEFAULT_AVAILABLE_SEATS)
 
     time_slots = get_ordered_timeslots()
     results = []
+    logger.debug(f"Session data in get_available_times: {session_data}")
 
     for slot in time_slots:
         # Get all availability records for this date and timeslot
@@ -80,14 +82,9 @@ def get_slot_availability_for_date(date, session_data=None):
             continue
 
         if not is_private or summary["total_seats"] >= selected_seats:
-            results.append({
-                "time": str(slot.timeslot),
-                "available_seats": summary["total_seats"],
-                "is_hired": summary["is_hired"],
-                "is_blocked": summary["is_blocked"]
-            })
+            results.append(format_slot_summary(slot, summary))
 
-    return results
+    return results or []
 
 
 def build_availability_matrix(date):
@@ -96,12 +93,7 @@ def build_availability_matrix(date):
         availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
         summary = summarize_availability(availabilities)
 
-        matrix.append({
-            "time": str(slot.timeslot),
-            "available_seats": summary["total_seats"],
-            "is_hired": summary["is_hired"],
-            "is_blocked": summary["is_blocked"]
-        })
+        matrix.append(format_slot_summary(slot, summary))
 
     return matrix
 
