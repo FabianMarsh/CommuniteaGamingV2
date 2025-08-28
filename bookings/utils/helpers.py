@@ -76,13 +76,6 @@ def json_matrix_response(date, matrix):
     return JsonResponse({"date": date, "matrix": matrix})
 
 
-def parse_date_string(date_str):
-    try:
-        return datetime.strptime(date_str, "%Y-%m-%d").date()
-    except ValueError:
-        raise ValueError("Invalid date format")
-
-
 def parse_time_string(time_str):
     try:
         return datetime.strptime(time_str, "%H:%M:%S").time()

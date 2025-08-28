@@ -7,11 +7,11 @@ from django.db import transaction
 from django.http import JsonResponse
 
 from .models import SlotAvailability, TimeSlot
+from core.utils import parse_date_string
 from bookings.utils.helpers import (
     format_slot_summary,
     get_adjacent_slots,
     get_ordered_timeslots,
-    parse_date_string,
     parse_time_string,
     set_slot_block,
     summarize_availability,
