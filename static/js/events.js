@@ -26,7 +26,6 @@ function setupModals() {
 
 function setupEditForm() {
   if (!isAdmin) return;
-
   const editForm = document.getElementById("editEventForm");
   if (!editForm) {
     console.error("Error: Edit event form not found!");
@@ -59,7 +58,7 @@ function setupEditForm() {
 }
 
 // TODO add loading
-function setupCalendar(isAdmin) {
+function setupCalendar() {
   const calendarEl = document.getElementById("calendar");
   if (!calendarEl) return;
 

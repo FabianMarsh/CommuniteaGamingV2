@@ -128,8 +128,3 @@ def delete_event(request, event_id):
         except Event.DoesNotExist:
             return JsonResponse({"error": "Event not found"}, status=404)
     return JsonResponse({"error": "Invalid request method"}, status=400)
-
-
-
-
-
