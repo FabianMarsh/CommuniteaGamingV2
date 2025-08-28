@@ -273,13 +273,13 @@ header {
 }
 
 #navMobileIcon:hover {
-    .line__one {
+    .line-one {
         transform: scaleX(0.4);
     }
-    .line__two {
+    .line-two {
         transform: scaleX(0.8);
     }
-    .line__three {
+    .line-three {
         transform: scaleX(0.6);
     }
 }

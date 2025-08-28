@@ -1,27 +1,32 @@
-<ul class="nav_list">
-    <li class="nav_list_item">
-        <a href="{% url 'events' %}">What's on</a>
-    </li>
-    <li class="nav_list_item">
-        <a href="{% url 'bookings:select_table' %}">Book a table</a>
-        {% if request.user.is_authenticated and request.user.is_staff %}
-            <ul class="nav-list-sub-list">
-                <li class="nav-list-sub-list_item">
-                    <a href="{% url 'bookings:booking_availability' %}">Availability</a>
-                </li>
-                <li class="nav-list-sub-list_item">
-                    <a href="{% url 'bookings:view_bookings' %}">Bookings</a>
-                </li>
-            </ul>
-        {% endif %}
-    </li>
-    <li class="nav_list_item">
-        <a href="{% url 'about' %}">About us</a>
-    </li>
-    <li class="nav_list_item">
-        <a href="{% url 'blog:blog' %}">Blog</a>
-    </li>
-    <li class="nav_list_item">
-        <a href="{% url 'contact' %}">Contact Us</a>
-    </li>
+<ul class="nav-list" role="menubar" aria-label="Main navigation">
+  <li class="nav-list-item" role="none">
+    <a href="{% url 'events' %}" role="menuitem">What's on</a>
+  </li>
+
+  <li class="nav-list-item" role="none">
+    <a href="{% url 'bookings:select_table' %}" role="menuitem">Book a table</a>
+
+    {% if request.user.is_authenticated and request.user.is_staff %}
+      <ul class="nav-list-sub-list" role="menu" aria-label="Admin booking options">
+        <li class="nav-list-sub-list-item" role="none">
+          <a href="{% url 'bookings:booking_availability' %}" role="menuitem">Availability</a>
+        </li>
+        <li class="nav-list-sub-list-item" role="none">
+          <a href="{% url 'bookings:view_bookings' %}" role="menuitem">Bookings</a>
+        </li>
+      </ul>
+    {% endif %}
+  </li>
+
+  <li class="nav-list-item" role="none">
+    <a href="{% url 'about' %}" role="menuitem">About us</a>
+  </li>
+
+  <li class="nav-list-item" role="none">
+    <a href="{% url 'blog:blog' %}" role="menuitem">Blog</a>
+  </li>
+
+  <li class="nav-list-item" role="none">
+    <a href="{% url 'contact' %}" role="menuitem">Contact Us</a>
+  </li>
 </ul>

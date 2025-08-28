@@ -1,88 +1,93 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
-    {% block meta %}
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
 
-    {% block extra_meta %}
-    {% endblock %}
+  <title>CommuniTea Gaming {% block extra_title %}{% endblock %}</title>
 
-    <title>CommuniTea Gaming {% block extra_title %}{% endblock %}</title>
+  {% block meta %}{% endblock %}
+  {% block extra_meta %}{% endblock %}
 
-    {% block corecss %}
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    {% endblock %}
+  {% block corecss %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% endblock %}
+  {% block extra_css %}{% endblock %}
 
-    {% block extra_css %}
-    {% endblock %}
-
-    {% block corejs %}
-        <script src="https://kit.fontawesome.com/15fc65683f.js" crossorigin="anonymous"></script>
-        <script src="{% static 'js/site.js' %}" type="module"></script>
-    {% endblock %}
-
-    {% block extra_js %}
-    {% endblock %}
-    
+  {% block corejs %}
+    <script src="https://kit.fontawesome.com/15fc65683f.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/site.js' %}" type="module"></script>
+  {% endblock %}
+  {% block extra_js %}{% endblock %}
 </head>
+
 <body>
-    <header>
-        <div class="logo-container">
-            <a href="{% url 'home' %}">
-                <img class="logo-image" src="{% static 'images/logo/logo.svg' %}" alt="logo" aria-label="logo">
-                <img class="logo-text" src="{% static 'images/logo/textlogo-background-removed.png' %}" alt="communitea gaming">
-            </a>
-        </div>
-        <div id="navMobileIcon">
-            <span class="line__one"></span>
-            <span class="line__two"></span>
-            <span class="line__three"></span>
-        </div>
-        <nav id="mainNav">
-            <span id="navClose"><i class="fa-solid fa-xmark"></i></span>
-            {% include 'includes/main-nav.html' %}
-        </nav>
-        <div class="fade"></div>
-        <ul class="social-links">
-            <li>
-                <a class="facebook" href="https://www.facebook.com/profile.php?id=61573046213188" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-            </li>
-            <li>
-                <a class="instagram" href="https://www.instagram.com/communiteagaming/#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            </li>
-            <li>
-                <a class="discord" href="https://discord.com/invite/4pPpXcPvsE" target="_blank" disabled aria-disabled="true"><i class="fa-brands fa-discord"></i></a>
-            </li>
-        </ul>
-    </header>
-    
-    <main>
-        {% if messages %}
-            <div class="message_container"></div>
-        {% endif %}
+  <header role="banner">
+    <div class="logo-container">
+      <a href="{% url 'home' %}" aria-label="Go to homepage">
+        <img class="logo-image" src="{% static 'images/logo/logo.svg' %}" alt="CommuniTea Gaming logo">
+        <img class="logo-text" src="{% static 'images/logo/textlogo-background-removed.png' %}" alt="CommuniTea Gaming text logo">
+      </a>
+    </div>
 
-        {% block page_header %}
-        {% endblock %}
+    <button id="navMobileIcon" aria-label="Toggle navigation menu" aria-controls="mainNav" aria-expanded="false">
+      <span class="line-one"></span>
+      <span class="line-two"></span>
+      <span class="line-three"></span>
+    </button>
 
-        {% block content %}
-        {% endblock %}
+    <nav id="mainNav" role="navigation" aria-label="Main site navigation">
+      <button id="navClose" aria-label="Close navigation menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      {% include 'includes/main-nav.html' %}
+    </nav>
 
-        {% if request.path != '/' and request.path != '/blog/' %} <!-- if not homepage -->
-            <img class="cup" src="{% static  'images/coffee-cup-opt.svg' %}" alt="" role="presentation">
-        {% endif %}
+    <div class="fade" aria-hidden="true"></div>
 
-        {% block postloadjs %}
-        {% endblock %}
-    </main>
-    <footer>
-        <a href="#" disabled aria-disabled="true">© 2025 Maker in the Marsh. Created for CommuniTea Gaming Ltd. All rights reserved.</a>
-    </footer>
+    <ul class="social-links" aria-label="Social media links">
+      <li>
+        <a class="facebook" href="https://www.facebook.com/profile.php?id=61573046213188" target="_blank" rel="noopener noreferrer" aria-label="Visit our Facebook page">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+      </li>
+      <li>
+        <a class="instagram" href="https://www.instagram.com/communiteagaming/#" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram profile">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </li>
+      <li>
+        <a class="discord" href="https://discord.com/invite/4pPpXcPvsE" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord server" aria-disabled="true">
+          <i class="fa-brands fa-discord"></i>
+        </a>
+      </li>
+    </ul>
+  </header>
+
+  <main role="main">
+    {% if messages %}
+      <section class="message-container" aria-label="Site messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {% block page_header %}{% endblock %}
+    {% block content %}{% endblock %}
+
+    {% if request.path != '/' and request.path != '/blog/' %}
+      <img class="cup" src="{% static 'images/coffee-cup-opt.svg' %}" alt="" role="presentation">
+    {% endif %}
+
+    {% block postloadjs %}{% endblock %}
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 Maker in the Marsh. Created for CommuniTea Gaming Ltd. All rights reserved.</p>
+  </footer>
 </body>
-
 </html>

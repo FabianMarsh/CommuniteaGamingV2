@@ -1,19 +1,20 @@
+from datetime import datetime, timedelta
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
-from .models import Event
-from datetime import timedelta, datetime
+from django.views.decorators.csrf import csrf_exempt
 from dateutil.relativedelta import relativedelta
 
-from core.utils import parse_date_string
+from .models import Event
 from .utils import (
     serialize_event,
     get_event_or_404,
     generate_recurring_dates,
 )
+from core.utils import parse_date_string
 
 
 def events_view(request):
+    """Render the events page or return JSON if requested via AJAX."""
     events = Event.objects.all().order_by("date", "start_time")
 
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
@@ -32,17 +33,21 @@ def events_view(request):
 
 
 # READ functionality ------------------------------------------------
-
-# TODO add isadmin check for admin functionality
+# TODO: Add is_admin check for admin-only access
 
 def events_json(request):
+    """Return all events as JSON for calendar rendering."""
     events = Event.objects.all().order_by("date", "start_time")
-    events_list = [serialize_event(e, include_id=True, include_recurrence=True) for e in events]
-
+    events_list = [
+        serialize_event(event, include_id=True, include_recurrence=True)
+        for event in events
+    ]
     return JsonResponse(events_list, safe=False)
+
 
 @csrf_exempt
 def edit_event(request, event_id):
+    """Update an existing event."""
     if request.method == "POST":
         event = get_event_or_404(event_id)
         if not event:
@@ -59,9 +64,9 @@ def edit_event(request, event_id):
         return JsonResponse({"message": "Event updated successfully!"})
 
 
-
 @csrf_exempt
 def add_event(request):
+    """Create a new event and any recurring instances."""
     if request.method == "POST":
         title = request.POST["title"]
         description = request.POST.get("description", "")
@@ -77,10 +82,10 @@ def add_event(request):
             date=date,
             start_time=start_time,
             end_time=end_time,
-            recurrence=recurrence
+            recurrence=recurrence,
         )
 
-        # Generate and create recurring events
+        # Create recurring instances
         event_date = parse_date_string(date) if isinstance(date, str) else date
         future_dates = generate_recurring_dates(event_date, recurrence)
 
@@ -91,7 +96,7 @@ def add_event(request):
                 date=new_date,
                 start_time=start_time,
                 end_time=end_time,
-                recurrence=recurrence
+                recurrence=recurrence,
             )
 
         return redirect("events")
@@ -99,6 +104,7 @@ def add_event(request):
 
 @csrf_exempt
 def delete_event(request, event_id):
+    """Delete an event by ID."""
     if request.method == "DELETE":
         event = get_event_or_404(event_id)
         if not event:
@@ -108,5 +114,3 @@ def delete_event(request, event_id):
         return JsonResponse({"message": "Event deleted successfully!"})
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
-
-
