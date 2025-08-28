@@ -76,7 +76,7 @@ export function bindDeleteButton(buttonId, modalId, endpointBase) {
 export function openViewModal({ title, description, startTime, endTime }) {
   document.getElementById("title").textContent = title || "Untitled";
   document.getElementById("description").textContent = description || "No description";
-  document.getElementById("start_time").innerHTML = `<strong>Start Time: </strong>${startTime}`;
-  document.getElementById("end_time").innerHTML = `<strong>End Time: </strong>${endTime}`;
+  document.getElementById("startTime").innerHTML = `<strong>Start Time: </strong>${startTime}`;
+  document.getElementById("endTime").innerHTML = `<strong>End Time: </strong>${endTime}`;
   openModal("view-modal");
 }
