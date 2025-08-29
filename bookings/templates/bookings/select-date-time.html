@@ -7,26 +7,32 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
-    <script type="module" src="{% static 'js/booking/select-date-time.js' %}"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
+    <script type="module" src="{% static 'js/booking/select-date-time.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <h1>When are we thinking?</h1>
-    {% include "includes/loading-overlay.html" %}
-    <div class="select-date-time">
-        <div id="calendar"></div>
-        <div id="time-slot-menu">
-            <h3>Available Times</h3>
-            <ul id="availableTimes">
-                <li class="no-times">Select a day and we'll let you know what tables are available</li>
-            </ul>
-            <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" id="selected-table-seats" value="{{ selected_table_seats }}">
-                <input type="hidden" name="date" id="selected-date-field">
-                <input type="hidden" name="time" id="selected-time-field">
-            </form>
+    <section aria-labelledby="select-date-time-heading">
+        <h1 id="select-date-time-heading">When are we thinking?</h1>
+
+        {% include "includes/loading-overlay.html" %}
+
+        <div class="select-date-time">
+            <div id="calendar" role="region" aria-label="Booking calendar"></div>
+
+            <div id="time-slot-menu" role="region" aria-label="Available time slots">
+                <h2>Available Times</h2>
+                <ul id="availableTimes" role="list">
+                    <li class="no-times">Select a day and we'll let you know what tables are available</li>
+                </ul>
+
+                <form id="booking-form" action="{% url 'bookings:select_date_time' %}" method="POST" aria-label="Time selection form">
+                    {% csrf_token %}
+                    <input type="hidden" id="selected-table-seats" value="{{ selected_table_seats }}">
+                    <input type="hidden" name="date" id="selected-date-field">
+                    <input type="hidden" name="time" id="selected-time-field">
+                </form>
+            </div>
         </div>
-    </div>
+    </section>
 {% endblock %}

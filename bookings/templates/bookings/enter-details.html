@@ -7,15 +7,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="details">
+    <section class="details" aria-labelledby="details-heading">
         <div class="headings">
-            <h1>Your Details</h1>
+            <h1 id="details-heading">Your Details</h1>
             <h2>We just need a couple of bits</h2>
         </div>
-        <form method="post">
+
+        <form method="post" aria-label="Booking details form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <fieldset>
+                <legend class="sr-only">Enter your contact details</legend>
+                {{ form.as_p }}
+            </fieldset>
             <button type="submit">Continue to Confirmation</button>
         </form>
-    </div>
+    </section>
 {% endblock %}
