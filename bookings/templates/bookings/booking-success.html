@@ -6,24 +6,47 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/booking/bookings-success.js' %}"></script>    
+    <script src="{% static 'js/booking/bookings-success.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <h1>Booking Success!</h1>
+    <section aria-labelledby="booking-success-heading">
+        <h1 id="booking-success-heading">Booking Success!</h1>
 
-    <div class="booking-success-header">
-        <p><strong>Date:</strong> {{ booking_date }}</p>
-        <p><strong>Time Slot:</strong> {{ timeslot }}</p>
-        <p><strong>Table:</strong> {{ table_name }}</p>
-    </div>
-    <p>We've reserved your slot! Feel free to screenshot this for your records.</p>
-    <p>If you need to change or cancel, please contact us via <a href="/contact">the contact page</a>.</p>
-    {% if price > 0 %}
-        <p class="payment-link">Please go to <a href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank">Sumup</a> to make your payment</p>
-        <a class="btn active" id="sumupLink" href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank">Make Your Payment</a>
-        <a class="btn" id="bookAnother" href="{% url 'bookings:select_table' %}">Book Another Table</a>
-    {% else %}
-        <a class="btn" href="{% url 'bookings:select_table' %}">Book Another Table</a>
-    {% endif %}
+        <div class="booking-success-header" role="region" aria-label="Booking details">
+            <p><strong>Date:</strong> {{ booking_date }}</p>
+            <p><strong>Time Slot:</strong> {{ timeslot }}</p>
+            <p><strong>Table:</strong> {{ table_name }}</p>
+        </div>
+
+        <p>We've reserved your slot! Feel free to screenshot this for your records.</p>
+        <p>
+            If you need to change or cancel, please contact us via
+            <a href="{% url 'contact' %}">the contact page</a>.
+        </p>
+
+        {% if price > 0 %}
+            <p class="payment-link">
+                Please go to
+                <a href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank" rel="noopener noreferrer">
+                    Sumup
+                </a>
+                to make your payment.
+            </p>
+            <nav aria-label="Payment options">
+                <a class="btn active" id="sumupLink" href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank" rel="noopener noreferrer">
+                    Make Your Payment
+                </a>
+                <a class="btn" id="bookAnother" href="{% url 'bookings:select_table' %}">
+                    Book Another Table
+                </a>
+            </nav>
+        {% else %}
+            <nav aria-label="Next steps">
+                <a class="btn" href="{% url 'bookings:select_table' %}">
+                    Book Another Table
+                </a>
+            </nav>
+        {% endif %}
+    </section>
 {% endblock %}
