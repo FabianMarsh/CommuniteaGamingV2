@@ -6,30 +6,39 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
-    <script type="module" src="{% static 'js/booking/view-bookings.js' %}"></script>    
-  
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
+    <script type="module" src="{% static 'js/booking/view-bookings.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="view_bookings">
-        <h1>Bookings</h1>
+    <section class="view_bookings" aria-labelledby="view-bookings-heading">
+        <h1 id="view-bookings-heading">Bookings</h1>
+
         {% include "includes/loading-overlay.html" %}
-        <div class="bookings_header">
-            <button id="datePrev"><i class="fa-solid fa-chevron-left"></i></button>
+
+        <div class="bookings_header" role="group" aria-label="Date navigation">
+            <button id="datePrev" aria-label="Previous date">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <label for="datePicker" class="sr-only">Select date</label>
             <input type="date" id="datePicker">
-            <button id="dateNext"><i class="fa-solid fa-chevron-right"></i></button>
+            <button id="dateNext" aria-label="Next date">
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
         </div>
-        <div class="table-wrapper">
+
+        <div class="table-wrapper" role="region" aria-label="Bookings table">
             <div id="bookingsTable"></div>
         </div>
-        <div id="bookingModal" class="modal">
+
+        <div id="bookingModal" class="modal" role="dialog" aria-labelledby="modal-heading" aria-modal="true">
             <div class="modal-content">
-                <span class="close"><i class="fa-solid fa-xmark"></i></span>
-                <h2>Booking Details</h2>
+                <button class="close" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+                <h2 id="modal-heading">Booking Details</h2>
                 <div id="modalDetails"></div>
             </div>
         </div>
-
-  </div>
+    </section>
 {% endblock %}

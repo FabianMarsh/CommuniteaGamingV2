@@ -6,35 +6,37 @@
 {% endblock %}
 
 {% block content %}
-    <div class="headings">
-        <h1>Booking a Table</h1>
-        <h2>Really needing a table?</h2>
-        <h3>We've got you covered! Just pick a table and we'll guide you through our process</h3>
-    </div>
-    {% if tables %}
-        <ul class="tables-list">
-            {% for table in tables %}
-                <li class="tables-list-item">
-                    
-                    <h2>{{ table.name }} 
-                        <span>
-                            {% if table.price > 0 %}
-                                £{{ table.price }}
-                            {% endif %}
-                        </span>
-                    </h2>
-                    <hr>
-                    <span>{{ table.amount_of_time_hours }} hr</span>
-                    <form method="POST" action="{% url 'bookings:select_table' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="table" value="{{ table.id }}">
-                        <button type="submit">Book Now</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    
-    {% else %}
-        <p>No tables available.</p>
-    {% endif %}
+    <section aria-labelledby="booking-heading">
+        <div class="headings">
+            <h1 id="booking-heading">Booking a Table</h1>
+            <h2>Really needing a table?</h2>
+            <h3>We've got you covered! Just pick a table and we'll guide you through our process</h3>
+        </div>
+
+        {% if tables %}
+            <ul class="tables-list" role="list">
+                {% for table in tables %}
+                    <li class="tables-list-item" role="listitem">
+                        <h2>{{ table.name }}
+                            <span>
+                                {% if table.price > 0 %}
+                                    £{{ table.price }}
+                                {% endif %}
+                            </span>
+                        </h2>
+                        <hr>
+                        <span>{{ table.amount_of_time_hours }} hr</span>
+
+                        <form method="POST" action="{% url 'bookings:select_table' %}" aria-label="Book {{ table.name }}">
+                            {% csrf_token %}
+                            <input type="hidden" name="table" value="{{ table.id }}">
+                            <button type="submit">Book Now</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tables available.</p>
+        {% endif %}
+    </section>
 {% endblock %}
