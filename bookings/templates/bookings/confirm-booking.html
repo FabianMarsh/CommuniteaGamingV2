@@ -6,39 +6,46 @@
 {% endblock %}
 
 {% block content %}
-    <div class="headings">
-        <h1>Confirm Your Booking</h1>
-        <h2>Did we get it all?</h2>
-    </div>
+    <section aria-labelledby="confirm-booking">
+        <div class="headings">
+            <h1 id="confirm-booking-heading">Confirm Your Booking</h1>
+            <h2>Did we get it all?</h2>
+        </div>
 
-    <form method="POST" action="{% url 'bookings:confirm_booking' %}">
-        {% csrf_token %}
+        <form method="POST" action="{% url 'bookings:confirm_booking' %}">
+            {% csrf_token %}
+            <fieldset>
+                <legend class="sr-only">Booking Details</legend>
 
-        <p><strong>Name:</strong> {{ user_data.name }}</p>
-        <p><strong>Email:</strong> {{ user_data.email }}</p>
-        {% if user_data.phone %}
-            <p><strong>Phone:</strong> {{ user_data.phone }}</p>
-        {% endif %}
+                <p><strong>Name:</strong> {{ user_data.name }}</p>
+                <p><strong>Email:</strong> {{ user_data.email }}</p>
 
-        {% if user_data.notes %}
-            <p><strong>Notes:</strong> {{ user_data.notes }}</p>
-        {% else %}
-            <p><strong>Notes:</strong> Nothing to specify</p>
-        {% endif %}
+                {% if user_data.phone %}
+                    <p><strong>Phone:</strong> {{ user_data.phone }}</p>
+                {% endif %}
 
-        <p><strong>Table:</strong> {{ selected_table.name }}</p>
-        <p><strong>Time Slot:</strong> {{ selected_time_slot.timeslot|time:"H:i" }}</p>
-        <p><strong>Date:</strong> {{ selected_date }}</p>
-        <p><strong>Price:</strong> 
-            {% if selected_table.price > 0 %}
-                £{{ selected_table.price }}
-            {% else %}
-                No Charge
-            {% endif %}
-        </p>
-        <input type="hidden" name="selected_table" value="{{ selected_table }}">
-        <input type="hidden" name="selected_time" value="{{ selected_time_slot.id }}">
+                {% if user_data.notes %}
+                    <p><strong>Notes:</strong> {{ user_data.notes }}</p>
+                {% else %}
+                    <p><strong>Notes:</strong> Nothing to specify</p>
+                {% endif %}
 
-        <button type="submit">Confirm Booking</button>
-    </form>
+                <p><strong>Table:</strong> {{ selected_table.name }}</p>
+                <p><strong>Time Slot:</strong> {{ selected_time_slot.timeslot|time:"H:i" }}</p>
+                <p><strong>Date:</strong> {{ selected_date }}</p>
+                <p><strong>Price:</strong>
+                    {% if selected_table.price > 0 %}
+                        £{{ selected_table.price }}
+                    {% else %}
+                        No Charge
+                    {% endif %}
+                </p>
+
+                <input type="hidden" name="selected_table" value="{{ selected_table }}">
+                <input type="hidden" name="selected_time" value="{{ selected_time_slot.id }}">
+            </fieldset>
+
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </section>
 {% endblock %}
