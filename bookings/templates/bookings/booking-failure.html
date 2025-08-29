@@ -6,15 +6,19 @@
 {% endblock %}
 
 {% block content %}
-  <div class="booking-failure">
-    <div class="headings">
-        <h1>Booking Unsuccessful</h1>
-        <h2>So sorry!</h2>
-    </div>
-    <p>It looks like something didn't go quite right. We've logged the issue, and you're welcome to try again or select a different slot.</p>
-    <div class="booking-failure-footer">
-      <a class="btn" href="{% url 'bookings:select_table' %}">Try Again</a>
-      <a class="btn" href="{% url 'contact' %}">Contact Support</a>
-    </div>
-  </div>
+    <section class="booking-failure" aria-labelledby="booking-failure-heading">
+        <div class="headings">
+            <h1 id="booking-failure-heading">Booking Unsuccessful</h1>
+            <h2>So sorry!</h2>
+        </div>
+
+        <p>
+            It looks like something didn't go quite right. We've logged the issue, and you're welcome to try again or select a different slot.
+        </p>
+
+        <nav class="booking-failure-footer" aria-label="Recovery options">
+            <a class="btn" href="{% url 'bookings:select_table' %}">Try Again</a>
+            <a class="btn" href="{% url 'contact' %}">Contact Support</a>
+        </nav>
+    </section>
 {% endblock %}
