@@ -8,4 +8,4 @@ def blog_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'blog/blog_list.html', {'page_obj': page_obj})
+    return render(request, 'blog/blog-list.html', {'page_obj': page_obj})
