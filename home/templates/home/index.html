@@ -2,28 +2,48 @@
 {% load static %}
 
 {% block content %}
-    <div class="welcome">
-        <img class="welcome-image" src="{% static 'images/logo/textlogo-background-removed.png' %}" alt="communitea gaming">
-        <ul class="welcome-links">
-            <li class="welcome-links_item">
-                <a href="{% url 'events' %}">What's on</a>
+    <section class="welcome" aria-labelledby="welcome-heading">
+        <h1 id="welcome-heading" class="sr-only">Welcome to Communitea Gaming</h1>
+        <img class="welcome-image" src="{% static 'images/logo/textlogo-background-removed.png' %}" alt="Communitea Gaming logo">
+
+        <nav aria-label="Quick links">
+            <ul class="welcome-links" role="list">
+                <li class="welcome-links-item">
+                    <a href="{% url 'events' %}">What's on</a>
+                </li>
+                <li class="welcome-links-item">
+                    <a href="{% url 'bookings:select_table' %}">Book a table</a>
+                </li>
+                <li class="welcome-links-item">
+                    <a href="{% url 'about' %}">About us</a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+    <section class="find-us" aria-labelledby="find-us">
+        <h2 id="find-us-heading">Find us</h2>
+        <ul class="contact-list" role="list">
+            <li>
+                <a href="mailto:{{ contact_info.email }}">
+                    <strong>Email:</strong> {{ contact_info.email }}
+                </a>
             </li>
-            <li class="welcome-links_item">
-                <a href="{% url 'bookings:select_table' %}">Book a table</a>
+            <li>
+                <a href="{{ contact_info.what_three_words_link }}" target="_blank" rel="noopener noreferrer">
+                    <strong>What3Words:</strong> {{ contact_info.what_three_words }}
+                </a>
             </li>
-            <li class="welcome-links_item">
-                <a href="{% url 'about' %}">About us</a>
+            <li>
+                <a href="{{ contact_info.address_link }}" target="_blank" rel="noopener noreferrer">
+                    <strong>Address:</strong> {{ contact_info.address }}
+                </a>
+            </li>
+            <li>
+                <a href="tel:{{ contact_info.phone_number }}">
+                    <strong>Phone:</strong> {{ contact_info.phone_number }}
+                </a>
             </li>
         </ul>
-    </div>
-    <div class="find-us">
-        <h1>Find us</h1>
-        <ul class="contact-list">
-            <li><a href="mailto:{{ contact_info.email }}"><strong>Email:</strong> {{ contact_info.email }}</a></li>
-            <li><a href="{{ contact_info.what_three_words_link }}" target="_blank"><strong>What3Words:</strong> {{ contact_info.what_three_words }}</a></li>
-            <li><a href="{{ contact_info.address_link }}" target="_blank"><strong>Address:</strong> {{ contact_info.address }}</a></li>
-            <li><a href="tel:{{ contact_info.phone_number }}"><strong>Phone:</strong> {{ contact_info.phone_number }}</a></li>
-        </ul>
-      
-    </div>
+    </section>
 {% endblock %}
