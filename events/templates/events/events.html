@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>What's on in store</h1>
+    <h1 id="events-heading">What's on in store</h1>
     {% if request.user.is_staff %}
         <button id="addEventBtn">Add Event</button>
     {% endif %}
