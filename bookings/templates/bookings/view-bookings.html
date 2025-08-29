@@ -14,11 +14,7 @@
 {% block content %}
     <div class="view_bookings">
         <h1>Bookings</h1>
-        <div id="loadingOverlay">
-            <img class="loading-meeple loading-meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
-            <img class="loading-meeple loading-meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
-            <img class="loading-meeple loading-meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
-        </div>
+        {% include "includes/loading-overlay.html" %}
         <div class="bookings_header">
             <button id="datePrev"><i class="fa-solid fa-chevron-left"></i></button>
             <input type="date" id="datePicker">

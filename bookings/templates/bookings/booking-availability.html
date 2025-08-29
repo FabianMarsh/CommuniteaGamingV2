@@ -6,32 +6,33 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js" ></script>
-    <script type="module" src="{% static 'js/booking/booking-availability.js' %}"></script>    
-  
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js"></script>
+    <script type="module" src="{% static 'js/booking/booking-availability.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="booking-availability">
-        <h1>Booking Availability</h1>
-        <div id="loadingOverlay">
-            <img class="loading-meeple loading-meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
-            <img class="loading-meeple loading-meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
-            <img class="loading-meeple loading-meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
-        </div>
-        <div class="booking-availability-header">
-            <button id="datePrev"><i class="fa-solid fa-chevron-left"></i></button>
+    <section class="booking-availability" aria-labelledby="booking-heading">
+        <h1 id="booking-heading">Booking Availability</h1>
+
+        {% include "includes/loading-overlay.html" %}
+
+        <div class="booking-availability-header" role="group" aria-label="Date navigation">
+            <button id="datePrev" aria-label="Previous date">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <label for="datePicker" class="sr-only">Select date</label>
             <input type="date" id="datePicker">
-            <button id="dateNext"><i class="fa-solid fa-chevron-right"></i></button>
+            <button id="dateNext" aria-label="Next date">
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
         </div>
 
-        <div id="availabilityTable"></div>
-        
-        <div class="booking-availability-footer">
+        <div id="availabilityTable" role="region" aria-label="Availability table"></div>
+
+        <div class="booking-availability-footer" role="group" aria-label="Availability actions">
             <button id="saveChanges">Save Changes</button>
             <button id="blockDay">Block Day</button>
             <button id="unblockDay">Unblock Day</button>
         </div>
-
-  </div>
+    </section>
 {% endblock %}

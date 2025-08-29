@@ -13,11 +13,7 @@
 
 {% block content %}
     <h1>When are we thinking?</h1>
-    <div id="loadingOverlay">
-        <img class="loading-meeple loading-meeple--red" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple red">
-        <img class="loading-meeple loading-meeple--blue" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple blue">
-        <img class="loading-meeple loading-meeple--yellow" src="{% static 'images/meeple-svgrepo-com.svg' %}" alt="meeple yellow">
-    </div>
+    {% include "includes/loading-overlay.html" %}
     <div class="select-date-time">
         <div id="calendar"></div>
         <div id="time-slot-menu">
