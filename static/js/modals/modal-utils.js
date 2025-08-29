@@ -4,11 +4,13 @@ export function openModal(id) {
   if (modal) modal.classList.add("active");
 }
 
+
 // Close a modal by ID
 export function closeModal(id) {
   const modal = document.getElementById(id);
   if (modal) modal.classList.remove("active");
 }
+
 
 // Bind open button and Modal
 export function bindOpenButton(buttonId, modalId) {
@@ -17,6 +19,7 @@ export function bindOpenButton(buttonId, modalId) {
     btn.addEventListener("click", () => openModal(modalId));
   }
 }
+
 
 // Bind a close button inside a modal
 export function bindCloseButton(modalId, closeSelector = ".close") {
@@ -28,6 +31,7 @@ export function bindCloseButton(modalId, closeSelector = ".close") {
     closeBtn.addEventListener("click", () => closeModal(modalId));
   }
 }
+
 
 // Inject data and open the edit modal
 export function openEditModal({ id, title, description, date, startTime, endTime }) {
@@ -48,6 +52,7 @@ export function openEditModal({ id, title, description, date, startTime, endTime
 
   openModal("editModal");
 }
+
 
 // Inject data and open the view modal
 export function bindDeleteButton(buttonId, modalId, endpointBase) {

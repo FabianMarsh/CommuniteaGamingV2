@@ -67,7 +67,7 @@ p {
         flex-direction: column;
         gap: 7px;
 
-        .team-members_name {
+        .team-members-name {
             font-size: clamp(25px, 6vw, 40px);
         }
 

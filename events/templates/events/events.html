@@ -72,37 +72,37 @@
                 <h2>Edit Event</h2>
                 <form id="editEventForm" method="POST">
                 {% csrf_token %}
-                <fieldset>
-                    <legend>Edit Event</legend>
+                    <fieldset>
+                        <legend>Edit Event</legend>
 
-                    <input type="hidden" id="editEventId" name="event_id">
+                        <input type="hidden" id="editEventId" name="event_id">
 
-                    <label for="editTitle">Title:</label>
-                    <input type="text" id="editTitle" name="title" required>
+                        <label for="editTitle">Title:</label>
+                        <input type="text" id="editTitle" name="title" required>
 
-                    <label for="editDescription">Description:</label>
-                    <textarea id="editDescription" name="description"></textarea>
+                        <label for="editDescription">Description:</label>
+                        <textarea id="editDescription" name="description"></textarea>
 
-                    <label for="editDate">Date:</label>
-                    <input type="date" id="editDate" name="date" required>
+                        <label for="editDate">Date:</label>
+                        <input type="date" id="editDate" name="date" required>
 
-                    <label for="editStartTime">Start Time:</label>
-                    <input type="time" id="editStartTime" name="start-time" required>
+                        <label for="editStartTime">Start Time:</label>
+                        <input type="time" id="editStartTime" name="start-time" required>
 
-                    <label for="editEndTime">End Time:</label>
-                    <input type="time" id="editEndTime" name="end-time" required>
+                        <label for="editEndTime">End Time:</label>
+                        <input type="time" id="editEndTime" name="end-time" required>
 
-                    <label for="editRecurrence" class="sr-only">Recurrence:</label>
-                    <select id="editRecurrence" name="recurrence" aria-hidden="true" tabindex="-1">
-                    <option value="none">None</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    </select>
+                        <label for="editRecurrence" class="sr-only">Recurrence:</label>
+                        <select id="editRecurrence" name="recurrence" aria-hidden="true" tabindex="-1">
+                        <option value="none">None</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        </select>
 
-                    <button type="submit">Save Changes</button>
-                    <button type="button" id="deleteEventBtn">Delete Event</button>
-                </fieldset>
+                        <button type="submit">Save Changes</button>
+                        <button type="button" id="deleteEventBtn">Delete Event</button>
+                    </fieldset>
                 </form>
             </div>
             </div>
