@@ -1,145 +1,150 @@
+/* === Main Layout === */
 main {
-    background: var(--ter-bg-col);
-    color: var(--pri-col);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    padding: 200px clamp(1rem, 10vw, 15%);
-
-    h1 {
-        text-align: center;
-    }
+  background: var(--ter-bg-col);
+  color: var(--pri-col);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 200px clamp(1rem, 10vw, 15%);
 }
 
-.article-container {
-    display: flex;
+main h1 {
+  text-align: center;
 }
 
-.article-container:nth-of-type(odd) {
-    .blog-post {
-        border-radius: 60px 60px 60px 0;
-    }
-    .blog-post-img {
-        border-radius: 30px 30px 30px 0;
-    }
-}
-
+/* === Blog Container === */
 .blog {
-    position: relative;
-    z-index: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 50px;
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
 }
 
+/* === Article Layout === */
+.article-container {
+  display: flex;
+}
+
+.article-container:nth-of-type(odd) .blog-post {
+  border-radius: 60px 60px 60px 0;
+}
+
+.article-container:nth-of-type(odd) .blog-post-img {
+  border-radius: 30px 30px 30px 0;
+}
+
+/* === Blog Post === */
 .blog-post {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
-    max-width: 1020px;
-
-    padding: 30px;
-    border: 3px solid var(--pri-col);
-    background-color: var(--pri-bg-col);
-
-    border-radius: 60px 60px 0 60px;
-
-
-    h2 {
-        font-size: clamp(20px, 6vw, 50px);
-    }
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1020px;
+  width: 100%;
+  padding: 30px;
+  border: 3px solid var(--pri-col);
+  background-color: var(--pri-bg-col);
+  border-radius: 60px 60px 0 60px;
 }
 
-.blog-post:hover {
-    .blog-post-meeple--red {
-        transform: translateX(40px) translateY(-0px) rotate(-10deg);
-    }
-    .blog-post-meeple--yellow {
-        transform: translateY(-7px);
-    }
-    .blog-post-meeple--green {
-        transform: translateX(-40px) translateY(-2px) rotate(10deg);
-    }
-} 
-
-.blog-post-meeple {
-    position: absolute;
-    top: -45px;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    display: flex
-;
-    justify-content: center;
-    img {
-        height: 75px;
-        width: 75px;
-
-        transition: all .7s ease;
-    }
-}
-
-/* TODO this can just be meeple--red etc make reusable classes */
-.blog-post-meeple--red {
-    filter: var(--meeple-filter-red-dropshadow);
-    transform: translateX(40px) translateY(5px) rotate(-10deg);
-}
-.blog-post-meeple--yellow {
-    filter: var(--meeple-filter-yellow-dropshadow);
-    z-index: -1;
-}
-.blog-post-meeple--green {
-    filter: var(--meeple-filter-green-dropshadow);
-    transform: translateX(-40px) translateY(5px) rotate(10deg);
+.blog-post h2 {
+  font-size: clamp(20px, 6vw, 50px);
 }
 
 .blog-post-date {
-    font-size: 17px;
+  font-size: 17px;
 }
 
 .blog-post-content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .blog-post-img {
-    width: 100%;
-    min-height: 250px;
-    max-height: 400px;
-    object-fit: cover;
-
-    border-radius: 30px 30px 0 30px;
+  width: 100%;
+  min-height: 250px;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 30px 30px 0 30px;
 }
 
+/* === Meeple Decorations === */
+.blog-post-meeple {
+  position: absolute;
+  top: -45px;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.blog-post-meeple img {
+  height: 75px;
+  width: 75px;
+  transition: all 0.7s ease;
+}
+
+/* TODO: this can just be .meeple--red etc — make reusable classes */
+.blog-post-meeple--red {
+  filter: var(--meeple-filter-red-dropshadow);
+  transform: translateX(40px) translateY(5px) rotate(-10deg);
+}
+
+.blog-post-meeple--yellow {
+  filter: var(--meeple-filter-yellow-dropshadow);
+  z-index: -1;
+}
+
+.blog-post-meeple--green {
+  filter: var(--meeple-filter-green-dropshadow);
+  transform: translateX(-40px) translateY(5px) rotate(10deg);
+}
+
+/* Hover Animations */
+.blog-post:hover .blog-post-meeple--red {
+  transform: translateX(40px) translateY(0) rotate(-10deg);
+}
+
+.blog-post:hover .blog-post-meeple--yellow {
+  transform: translateY(-7px);
+}
+
+.blog-post:hover .blog-post-meeple--green {
+  transform: translateX(-40px) translateY(-2px) rotate(10deg);
+}
+
+/* === Pagination === */
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-
-    a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        padding: 0;
-        width: 44px;
-        height: 44px;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
 }
 
+.pagination a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+}
+
+/* === Responsive Layout === */
 @media all and (min-width: 768px) {
-    .article-container:nth-of-type(even) {
-        flex-direction: row-reverse;
-    }
-    .blog-post {
-        width: 85%;
-    }
+  .article-container:nth-of-type(even) {
+    flex-direction: row-reverse;
+  }
+
+  .blog-post {
+    width: 85%;
+  }
 }

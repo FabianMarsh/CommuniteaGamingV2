@@ -1,27 +1,30 @@
+/* === Main Layout === */
 main {
-    color: var(--pri-col);
-    background-color: var(--ter-bg-col);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 200px clamp(1rem, 10vw, 15%);
+  color: var(--pri-col);
+  background-color: var(--ter-bg-col);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 200px clamp(1rem, 10vw, 15%);
 }
 
+/* === Contact Section === */
 .contact {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    text-align: center;
-    font-size: clamp(16px, 6vw, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  text-align: center;
+  font-size: clamp(16px, 6vw, 22px);
 }
 
+/* === Contact List === */
 .contact-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-    li a {
-        color: var(--pri-col);
-    }
+.contact-list li a {
+  color: var(--pri-col);
 }

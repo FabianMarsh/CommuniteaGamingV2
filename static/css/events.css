@@ -1,21 +1,29 @@
+/* === Main Layout === */
 main {
-    background: var(--ter-bg-col);
-    color: var(--pri-col);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: clamp(20px, 6vw, 50px);
-    padding: 200px clamp(1rem, 10vw, 15%);
+  background: var(--ter-bg-col);
+  color: var(--pri-col);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(20px, 6vw, 50px);
+  padding: 200px clamp(1rem, 10vw, 15%);
 }
 
+/* === Edit Event Button === */
 .edit-event-btn {
-    width: 100px;
-    height: 100px;
-    background: green;
-    color: white;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    display: block;
+  width: 100px;
+  height: 100px;
+  background-color: green;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px; /* Optional: adds polish */
+  cursor: pointer;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.edit-event-btn:hover {
+  background-color: darkgreen;
 }
