@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <section aria-labelledby="booking-success-heading">
+    <section class="booking-success" aria-labelledby="booking-success-heading">
         <h1 id="booking-success-heading">Booking Success!</h1>
 
         <div class="booking-success-header" role="region" aria-label="Booking details">
@@ -33,7 +33,7 @@
                 </a>
                 to make your payment.
             </p>
-            <nav aria-label="Payment options">
+            <nav class="booking-success-footer" aria-label="Payment options">
                 <a class="btn active" id="sumupLink" href="https://pay.sumup.com/b2c/QKWSCH28" target="_blank" rel="noopener noreferrer">
                     Make Your Payment
                 </a>
@@ -42,7 +42,7 @@
                 </a>
             </nav>
         {% else %}
-            <nav aria-label="Next steps">
+            <nav class="booking-success-footer" aria-label="Next steps">
                 <a class="btn" href="{% url 'bookings:select_table' %}">
                     Book Another Table
                 </a>

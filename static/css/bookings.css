@@ -11,27 +11,27 @@ main {
   padding: 200px clamp(1rem, 10vw, 15%);
 }
 
-main form {
+main fieldset {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 15px;
-  margin-top: 15px;
+  margin: 15px 0;
 }
 
-main form input,
-main form textarea {
+main fieldset input,
+main fieldset textarea {
   background: none;
   border: none;
   border-bottom: 1px solid black;
 }
 
-main form input::placeholder,
-main form textarea::placeholder {
+main fieldset input::placeholder,
+main fieldset textarea::placeholder {
   color: rgba(0, 0, 0, 0.386);
 }
 
-main form p {
+main fieldset p {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,7 +147,7 @@ button a {
   transition: all 0.3s ease;
 }
 
-#time-slot-menu h3 {
+#time-slot-menu h2 {
   margin-bottom: clamp(10px, 6vw, 20px);
 }
 
@@ -208,11 +208,24 @@ button a {
   text-align: center;
 }
 
+.booking-success {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 .booking-success-header {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.booking-success-footer {
+    background: none;
+    display: flex;
 }
 
 #bookAnother,

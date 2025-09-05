@@ -474,6 +474,10 @@ nav ul li:hover .nav-list-sub-list {
 }
 
 /* === Welcome Links === */
+.welcome-links-container {
+    background: none;
+}
+
 .welcome-links {
   display: flex;
   flex-wrap: wrap;
@@ -487,6 +491,7 @@ nav ul li:hover .nav-list-sub-list {
 .welcome-links li a {
   font-size: clamp(20px, 3vw, 30px);
   background: var(--pri-bg-col);
+  color: var(--pri-col);
   border-radius: 15px;
   padding: 10px 30px;
   display: flex;
@@ -512,7 +517,7 @@ nav ul li:hover .nav-list-sub-list {
   font-weight: 700;
 }
 
-.find-us h1 {
+.find-us h2 {
   font-size: clamp(30px, 6vw, 60px);
   margin-bottom: clamp(20px, 6vw, 50px);
 }
@@ -618,7 +623,7 @@ footer a {
   outline: none;
 }
 
-.modal button {
+/* .modal button {
   padding: 12px 16px;
   background: #007bff;
   color: #fff;
@@ -626,7 +631,7 @@ footer a {
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s ease;
-}
+} */
 
 /* === Modal Close Button === */
 .close {
@@ -643,6 +648,8 @@ footer a {
 
 .close:hover {
   transform: rotate(90deg);
+  color: inherit;
+  background: none;
 }
 
 /* === Modal Overlay === */

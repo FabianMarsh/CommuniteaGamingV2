@@ -6,35 +6,33 @@
 {% endblock %}
 
 {% block content %}
-    <section aria-labelledby="contact">
+    <section class="contact aria-labelledby="contact">
         <h1 id="contact-heading">Find Us</h1>
 
         {% if contact_info %}
             {% for contact in contact_info %}
-                <div class="contact">
-                    <ul class="contact-list" role="list">
-                        <li>
-                            <a href="mailto:{{ contact.email }}">
-                                <strong>Email:</strong> {{ contact.email }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ contact.what_three_words_link }}" target="_blank" rel="noopener noreferrer">
-                                <strong>What3Words:</strong> {{ contact.what_three_words }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ contact.address_link }}" target="_blank" rel="noopener noreferrer">
-                                <strong>Address:</strong> {{ contact.address }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="tel:{{ contact.phone_number }}">
-                                <strong>Phone:</strong> {{ contact.phone_number }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <ul class="contact-list" role="list">
+                    <li>
+                        <a href="mailto:{{ contact.email }}">
+                            <strong>Email:</strong> {{ contact.email }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ contact.what_three_words_link }}" target="_blank" rel="noopener noreferrer">
+                            <strong>What3Words:</strong> {{ contact.what_three_words }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ contact.address_link }}" target="_blank" rel="noopener noreferrer">
+                            <strong>Address:</strong> {{ contact.address }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tel:{{ contact.phone_number }}">
+                            <strong>Phone:</strong> {{ contact.phone_number }}
+                        </a>
+                    </li>
+                </ul>
             {% endfor %}
         {% else %}
             <p>Contact details are not available at the moment.</p>

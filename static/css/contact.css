@@ -11,9 +11,6 @@ main {
 
 /* === Contact Section === */
 .contact {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
   text-align: center;
   font-size: clamp(16px, 6vw, 22px);
 }
