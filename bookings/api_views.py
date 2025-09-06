@@ -51,7 +51,7 @@ def get_booked_times(request):
 def get_available_times(request):
     selected_date = get_selected_date(request)
     session_data = request.session.get("selected_table") or {}
-    results = get_slot_availability_for_date(selected_date, session_data)
+    results = get_slot_availability_for_date(selected_date, session_data) or []
     return JsonResponse({"times": results})
 
 

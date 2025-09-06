@@ -73,8 +73,8 @@ def get_slot_availability_for_date(date, session_data=None):
         # Get all availability records for this date and timeslot
         availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
         
-        summary = summarize_availability(availabilities)
-
+        summary = summarize_availability(availabilities, date)
+        
         if is_private and summary["is_hired"]:
             continue
         
@@ -91,7 +91,7 @@ def build_availability_matrix(date):
     matrix = []
     for slot in get_ordered_timeslots():
         availabilities = SlotAvailability.objects.filter(date=date, timeslot=slot)
-        summary = summarize_availability(availabilities)
+        summary = summarize_availability(availabilities, date)
 
         matrix.append(format_slot_summary(slot, summary))
 

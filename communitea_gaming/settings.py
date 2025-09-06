@@ -118,6 +118,11 @@ LOGGING = {
         'bookings': {  # Your app name
             'handlers': ['console'],
             'level': 'DEBUG',
+            'propagate': True,
+        },
+        'bookings.services': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
             'propagate': False,
         },
     },

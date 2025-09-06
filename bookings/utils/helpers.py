@@ -119,9 +119,40 @@ def set_slot_block(date, time_obj, is_blocked):
     availability.save()
 
 
-def summarize_availability(availabilities):
-    return {
-        "total_seats": sum(a.seats_available for a in availabilities) if availabilities.exists() else settings.DEFAULT_AVAILABLE_SEATS,
-        "is_hired": any(a.is_blocked_for_hire for a in availabilities),
-        "is_blocked": any(a.is_blocked for a in availabilities)
-    }
+def summarize_availability(availabilities, date=None):
+    if isinstance(date, str):
+        try:
+            date = datetime.strptime(date, "%Y-%m-%d").date()
+        except ValueError:
+            logger.warning(f"Invalid date format passed to summarize_availability: {date}")
+            date = None
+
+    # Extract date from first availability object if not passed
+    first = None
+    if not date and availabilities and hasattr(availabilities, '__iter__'):
+        first = next(iter(availabilities), None)
+    if first and hasattr(first, 'date'):
+        date = first.date
+
+    # Calculate base summary
+    if not availabilities.exists():
+        summary = {
+            "total_seats": settings.DEFAULT_AVAILABLE_SEATS,
+            "is_hired": False,
+            "is_blocked": False
+        }
+    else:
+        summary = {
+            "total_seats": sum(a.seats_available for a in availabilities),
+            "is_hired": any(a.is_blocked_for_hire for a in availabilities),
+            "is_blocked": any(a.is_blocked for a in availabilities)
+        }
+
+    # 🚫 Apply Thursday override
+    if date and date.weekday() == 3:
+        logger.debug(f"Blocking all slots for {date} (Thursday)")
+        summary["is_blocked"] = True
+
+    return summary
+
+
