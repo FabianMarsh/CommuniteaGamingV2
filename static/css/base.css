@@ -29,6 +29,12 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 
+article, section, nav {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+
 /* === Base Typography === */
 body {
   line-height: 1;
